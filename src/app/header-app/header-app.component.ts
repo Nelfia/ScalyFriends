@@ -9,11 +9,11 @@ export class HeaderAppComponent implements OnInit {
   public menuItems = [
     {
       label: 'Les animaux',
-      path: '/animals'
+      path: '/animal'
     },
     {
       label: 'Le matériel',
-      path: '/stuff'
+      path: '/material'
     },
     {
       label: 'L\'alimentation',

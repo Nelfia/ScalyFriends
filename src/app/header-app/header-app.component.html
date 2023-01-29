@@ -15,7 +15,7 @@
 
   <ul class="menu">
     <li *ngFor="let item of menuItems">
-      <a [routerLink]="item.path">{{ item.label }}</a>
+      <a [routerLink]="item.path" routerLinkActive="active-link">{{ item.label }}</a>
     </li>
   </ul>
 </div>

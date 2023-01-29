@@ -1,0 +1,46 @@
+<div class="container" *ngIf="product">
+  <div class="details-product">
+    <div class="img">
+      <img [src]=" product.img" alt="image du produit">
+    </div>
+    <div class="infos">
+      <h2 class="merienda">{{ product.name | titlecase }}</h2>
+      <div class="price">{{ product.price | currency: 'EUR' }}</div>
+      <input type="number" name="quantity" id="quantity" min=0 [max]="product.stock" [defaultValue]="0"/>
+      <button type="submit">Ajoutez-le à votre panier</button>
+      <div class="conditions">Satisfait ou échangé...</div>
+      <div class="description">
+        <p>{{ product.description }}</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Taille</th>
+              <th>{{ product.specification | titlecase }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ product.type | titlecase}}</td>
+              <td>{{ product.dimensionsMax + ' ' + product.dimensionsUnit }}</td>
+              <td>{{ product.specificationValue + ' ' + product.specificationUnit }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="recommendations">
+<!--    <ul class="products-list">-->
+<!--      <li class="product-card">-->
+<!--        <div class="img">-->
+<!--          <img [src]="recommendation.img" alt="" />-->
+<!--        </div>-->
+<!--        <button class="show-product">-->
+<!--          <a [routerLink]="apiBaseUrl + '/' + recommendation.idProduct"> > </a>-->
+<!--        </button>-->
+<!--        <p>{{product.name}}</p>-->
+<!--      </li>-->
+<!--    </ul>-->
+  </div>
+</div>
