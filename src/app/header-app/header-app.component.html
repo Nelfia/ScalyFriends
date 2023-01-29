@@ -1,0 +1,21 @@
+<div class="container">
+  <header>
+    <div class="logo">
+      <img src="assets/img/logo3.png" alt="logo scalyfriends"/>
+      <p class="logo-name merienda">ScalyFriends</p>
+    </div>
+    <div class="buttons">
+      <button class="account-button">Mon compte</button>
+      <button class="cart-button">
+        <img src="assets/img/sac.png" alt="logo panier" />
+      </button>
+    </div>
+  </header>
+
+
+  <ul class="menu">
+    <li *ngFor="let item of menuItems">
+      <a [routerLink]="item.path">{{ item.label }}</a>
+    </li>
+  </ul>
+</div>
