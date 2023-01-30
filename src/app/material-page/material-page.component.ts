@@ -12,6 +12,7 @@ import {API_BASE_URL} from "../shared/constants/constants";
 export class MaterialPageComponent implements OnInit {
 
   public product : ProductInterface|null = null;
+  public descriptionTab : string[]|undefined = [];
   public apiBaseUrl = API_BASE_URL;
   constructor(private router: Router, private route: ActivatedRoute, private productsService: ProductsService) { }
 
@@ -20,8 +21,9 @@ export class MaterialPageComponent implements OnInit {
       const idProduct = params['id'];
       this.product = await this.productsService.getProductsById(idProduct).toPromise() ?? null;
       this.product?.img ? this.product.img = `${this.apiBaseUrl}${this.product?.img}` : null;
+      this.descriptionTab = this.product?.description.split('\r\n\r\n');
 
-      console.log(this.product)
+      console.log()
     })
   }
 

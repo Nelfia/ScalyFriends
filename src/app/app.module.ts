@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,6 +9,9 @@ import { ProductsComponent } from './products/products.component';
 import {SharedModule} from "./shared/shared.module";
 import {HttpClientModule} from '@angular/common/http';
 import { MaterialPageComponent } from './material-page/material-page.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -24,7 +27,12 @@ import { MaterialPageComponent } from './material-page/material-page.component';
     SharedModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: LOCALE_ID,
+      useValue: 'fr'
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

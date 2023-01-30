@@ -1,39 +1,91 @@
 @import "~src/assets/variables";
 
-.container{
+.container {
   display: flex;
   padding: 2rem;
+  margin: 0 auto;
+  width: 70%;
 
-  .details-product{
+  .details-product {
     display: flex;
     gap: 4rem;
 
-    .img{
+    .img {
       position: relative;
       display: inline-block;
       width: 220px;
       height: 220px;
       transform: rotateZ(-9.96deg);
-      box-shadow: -2px 2px 5px lightgrey;
+      box-shadow: -2px 2px 5px $shadows;
       margin: 3rem 0 0 2rem;
 
-      img{
+      img {
         width: 220px;
         height: 220px;
         object-fit: contain;
       }
+
       &:before {
         content: "";
         position: absolute;
         width: 100%;
         height: 100%;
         top: -3px;
-        left:-3px;
+        left: -3px;
         transform: rotateZ(6deg);
         border: 3px solid $primary;
-        box-shadow: -6px 4px 4px lightgrey;
+        box-shadow: -3px 4px 4px $shadows, inset -4px 4px 4px $shadows;
       }
     }
 
+    .infos {
+      .price-container {
+        display: flex;
+        gap: 2rem;
+        padding: 1rem 0;
+        .price {
+          text-align: center;
+          padding: 0.75rem 2rem;
+          background-color: $lightGrey;
+          box-shadow: -3px 4px 5px $shadows;
+          font-size: 1.5rem;
+          color: rgba(0, 0, 0, 0.85);
+        }
+        #quantity{
+          cursor: pointer;
+          width: 70px;
+          padding: 0.5rem;
+          border: none;
+        }
+        button{
+          cursor: pointer;
+          text-align: center;
+          padding: 0.75rem 2rem;
+          background-color: #FBCE2E;
+          box-shadow: -3px 4px 5px $shadows;
+          font-size: 1.5rem;
+          color: rgba(0, 0, 0, 0.85);
+          border: none;
+        }
+      }
+    }
+
+    .description {
+      ul {
+        margin-top: 0;
+        li {
+          width: 40vw;
+          list-style-type: none;
+        }
+      }
+      table{
+        table-layout: fixed;
+        width: 70%;
+        border-collapse: collapse;
+        th, td {
+          text-align: center;
+        }
+      }
+    }
   }
 }
