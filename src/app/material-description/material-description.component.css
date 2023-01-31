@@ -1,0 +1,17 @@
+.description ul {
+  margin-top: 0;
+}
+.description ul li {
+  width: 40vw;
+  list-style-type: none;
+}
+.description table {
+  table-layout: fixed;
+  width: 70%;
+  border-collapse: collapse;
+}
+.description table th, .description table td {
+  text-align: center;
+}
+
+/*# sourceMappingURL=material-description.component.css.map */

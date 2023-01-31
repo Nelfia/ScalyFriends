@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 import {ProductsComponent} from "./products/products.component";
 import {AnimalsResolver} from "./shared/resolvers/animals.resolver";
 import {StuffResolver} from "./shared/resolvers/stuff.resolver";
 import {FeedingResolver} from "./shared/resolvers/feeding.resolver";
-import {MaterialPageComponent} from "./material-page/material-page.component";
+import {ProductsPageComponent} from "./products-page/products-page.component";
 
 const routes: Routes = [
   {
@@ -24,8 +24,10 @@ const routes: Routes = [
       products: AnimalsResolver
     }
   },
-
-
+  {
+    path: 'animal/:id',
+    component: ProductsPageComponent
+  },
   {
     path: 'material',
     component: ProductsComponent,
@@ -35,10 +37,8 @@ const routes: Routes = [
   },
   {
     path: 'material/:id',
-    component: MaterialPageComponent
+    component: ProductsPageComponent
   },
-
-
   {
     path: 'feeding',
     component: ProductsComponent,
@@ -46,7 +46,10 @@ const routes: Routes = [
       products: FeedingResolver
     },
   },
-
+  {
+    path: 'feeding/:id',
+    component: ProductsPageComponent
+  },
 ];
 
 @NgModule({

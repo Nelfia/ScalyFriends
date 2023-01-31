@@ -8,9 +8,12 @@ import { HeaderAppComponent } from './header-app/header-app.component';
 import { ProductsComponent } from './products/products.component';
 import {SharedModule} from "./shared/shared.module";
 import {HttpClientModule} from '@angular/common/http';
-import { MaterialPageComponent } from './material-page/material-page.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { ProductsPageComponent } from './products-page/products-page.component';
+import { AnimalDescriptionComponent } from './animal-description/animal-description.component';
+import { MaterialDescriptionComponent } from './material-description/material-description.component';
+import { FeedingDescriptionComponent } from './feeding-description/feeding-description.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -19,7 +22,10 @@ registerLocaleData(localeFr);
     HomeComponent,
     HeaderAppComponent,
     ProductsComponent,
-    MaterialPageComponent
+    ProductsPageComponent,
+    AnimalDescriptionComponent,
+    MaterialDescriptionComponent,
+    FeedingDescriptionComponent
   ],
   imports: [
     BrowserModule,

@@ -69,23 +69,5 @@
         }
       }
     }
-
-    .description {
-      ul {
-        margin-top: 0;
-        li {
-          width: 40vw;
-          list-style-type: none;
-        }
-      }
-      table{
-        table-layout: fixed;
-        width: 70%;
-        border-collapse: collapse;
-        th, td {
-          text-align: center;
-        }
-      }
-    }
   }
 }
