@@ -2,12 +2,12 @@
 
 .container {
   display: flex;
-  padding: 2rem;
-  margin: 0 auto;
-  width: 70%;
+  justify-content: center;
+  padding-top: 2rem;
 
   .details-product {
     display: flex;
+    justify-content: center;
     gap: 4rem;
 
     .img {
@@ -39,8 +39,17 @@
     }
 
     .infos {
+      width: 50vw;
+      h2 {
+        margin-bottom: 0;
+      }
+      p.ref{
+        margin-top: 0;
+        padding-left: .5rem;
+      }
       .price-container {
         display: flex;
+        flex-wrap: wrap;
         gap: 2rem;
         padding: 1rem 0;
         .price {
@@ -50,6 +59,7 @@
           box-shadow: -3px 4px 5px $shadows;
           font-size: 1.5rem;
           color: rgba(0, 0, 0, 0.85);
+          user-select: none;
         }
         #quantity{
           cursor: pointer;
@@ -61,13 +71,14 @@
           cursor: pointer;
           text-align: center;
           padding: 0.75rem 2rem;
-          background-color: #FBCE2E;
+          background-color: $yellow;
           box-shadow: -3px 4px 5px $shadows;
           font-size: 1.5rem;
           color: rgba(0, 0, 0, 0.85);
           border: none;
         }
       }
+
     }
   }
 }

@@ -1,0 +1,18 @@
+.container {
+  width: 50vw;
+
+  .description {
+    button.display-text{
+      cursor: pointer;
+      font-style: italic;
+      border: none;
+      background-color: transparent;
+    }
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+    text-align: left;
+  }
+}

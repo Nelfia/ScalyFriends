@@ -1,3 +1,16 @@
-
+.container {
+  width: 50vw;
+}
+.container .description button.display-text {
+  cursor: pointer;
+  font-style: italic;
+  border: none;
+  background-color: transparent;
+}
+.container table {
+  table-layout: fixed;
+  width: 100%;
+  text-align: left;
+}
 
 /*# sourceMappingURL=feeding-description.component.css.map */

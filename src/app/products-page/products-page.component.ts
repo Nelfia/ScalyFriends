@@ -21,7 +21,6 @@ export class ProductsPageComponent implements OnInit {
       this.product = await this.productsService.getProductsById(idProduct).toPromise() ?? null;
       this.product?.img ? this.product.img = `${this.apiBaseUrl}${this.product?.img}` : null;
       this.activeRoute = this.router.url;
-      console.log(this.product?.description)
     })
   }
 }

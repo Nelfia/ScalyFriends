@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":[],"names":[],"mappings":"","file":"animal-description.component.css"}
+{"version":3,"sourceRoot":"","sources":["animal-description.component.scss"],"names":[],"mappings":"AAAA;EACE;;AAGE;EACE;;AAEA;EACE;;AAKN;EACE;EACA;EACA","file":"animal-description.component.css"}

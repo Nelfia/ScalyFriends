@@ -1,0 +1,19 @@
+.container {
+  width: 40vw;
+
+  .description {
+    ul {
+      margin-top: 0;
+
+      li {
+        list-style-type: none;
+      }
+    }
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+    text-align: left;
+  }
+}

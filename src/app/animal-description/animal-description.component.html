@@ -1,1 +1,25 @@
-<p>animal-description works!</p>
+<div class="container">
+  <p class="description">{{ product?.description }}</p>
+  <table>
+    <thead>
+    <tr>
+      <th>Type</th>
+      <th>Espèce</th>
+      <th>Race</th>
+      <th>Sexe</th>
+      <th>Naissance</th>
+      <th>Taille adulte</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{ product?.type | titlecase}}</td>
+      <td>{{ product?.species | titlecase}}</td>
+      <td>{{ product?.race | titlecase}}</td>
+      <td>{{ product?.gender === "F" ? 'femelle': 'mâle' | titlecase}}</td>
+      <td>{{ product?.birth }}</td>
+      <td>{{ product?.dimensionsMax + ' ' + product?.dimensionsUnit }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

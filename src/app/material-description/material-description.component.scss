@@ -1,17 +1,22 @@
-.description {
-  ul {
-    margin-top: 0;
-    li {
-      width: 40vw;
-      list-style-type: none;
+
+.container {
+  .description {
+  width: 40vw;
+    ul {
+      margin-top: 0;
+
+      li {
+        list-style-type: none;
+      }
     }
   }
-  table{
+  table {
     table-layout: fixed;
-    width: 70%;
-    border-collapse: collapse;
-    th, td {
-      text-align: center;
-    }
+    width: 100%;
+    text-align: left;
   }
+
+
+
 }
+

@@ -5,14 +5,16 @@
     </div>
     <div class="infos">
       <h2 class="merienda">{{ product.name | titlecase }}</h2>
+      <p class="ref"><small>{{ product?.ref | uppercase }}</small></p>
       <div class="price-container">
         <div class="price">{{ product.price | currency: 'EUR'}}</div>
         <input class="price" type="number" name="quantity" id="quantity" min=1 [max]="product.stock" [defaultValue]="1" />
         <button type="submit">Ajoutez-le à votre panier</button>
       </div>
+      <div class="stock"><small>{{ product.stock <= 10 ? "Plus que " : "" }}{{ product.stock }} en stock</small></div>
       <div class="conditions">
         <svg width="687" height="45" viewBox="0 0 687 45" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <rect width="687" height="45" fill="url(#pattern0)"/>
+          <rect width="600" height="45" fill="url(#pattern0)"/>
           <defs>
             <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
               <use xlink:href="#image0_12_910" transform="matrix(0.0014556 0 0 0.0222222 -0.0131004 0)"/>
@@ -21,10 +23,12 @@
           </defs>
         </svg>
       </div>
-      <app-material-description *ngIf="product.category === 'material'"></app-material-description>
-      <app-animal-description *ngIf="product.category === 'animal'"></app-animal-description>
-      <app-feeding-description *ngIf="product.category === 'feeding'"></app-feeding-description>
-    </div>
+      <div class="description">
+        <app-material-description *ngIf="product.category === 'material'"></app-material-description>
+        <app-animal-description *ngIf="product.category === 'animal'"></app-animal-description>
+        <app-feeding-description *ngIf="product.category === 'feeding'"></app-feeding-description>
+      </div>
+      </div>
   </div>
   <div class="recommendations">
     <!--    <ul class="products-list">-->
