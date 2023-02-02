@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ProductsService} from "../shared/products.service";
-import {ProductInterface} from "../shared/interfaces/product.interface";
+import {ProductsService} from "../../shared/services/products/products.service";
+import {ProductInterface} from "../../shared/interfaces/product.interface";
 import {ActivatedRoute, Router} from '@angular/router';
-import {API_BASE_URL} from "../shared/constants/constants";
+import {API_BASE_URL} from "../../shared/constants/constants";
 
 @Component({
   selector: 'app-products',

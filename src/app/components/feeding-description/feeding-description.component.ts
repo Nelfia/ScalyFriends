@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsPageComponent } from "../products-page/products-page.component";
-import {ProductInterface} from "../shared/interfaces/product.interface";
+import {ProductInterface} from "../../shared/interfaces/product.interface";
 
 @Component({
   selector: 'app-feeding-description',
