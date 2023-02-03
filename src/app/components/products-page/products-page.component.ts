@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProductsService} from "../../shared/services/products/products.service";
+import {ProductsService} from "../../shared/products.service";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
 import {API_BASE_URL} from "../../shared/constants/constants";
 

@@ -1,6 +1,5 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -14,9 +13,8 @@ import { ProductsPageComponent } from './components/products-page/products-page.
 import { AnimalDescriptionComponent } from './components/animal-description/animal-description.component';
 import { MaterialDescriptionComponent } from './components/material-description/material-description.component';
 import { FeedingDescriptionComponent } from './components/feeding-description/feeding-description.component';
-import { LoginComponent } from './components/login/login.component';
-import { MyAccountComponent } from './components/my-account/my-account.component';
 import {FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { LoginComponent } from './components/login/login.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -29,8 +27,7 @@ registerLocaleData(localeFr);
     AnimalDescriptionComponent,
     MaterialDescriptionComponent,
     FeedingDescriptionComponent,
-    LoginComponent,
-    MyAccountComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,

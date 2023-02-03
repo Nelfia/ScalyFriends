@@ -1,4 +1,4 @@
-@import "../../../assets/variables";
+@import "~src/assets/variables";
 
 .container{
   display: flex;
@@ -43,14 +43,11 @@
       .account-button {
         cursor: pointer;
         background-color: #D98A14;
+        color: $secondary;
+        font-size: 1.2rem;
         height: fit-content;
         border: none;
         padding: 0.75rem 2rem;
-        a {
-          font-size: 1.2rem;
-          color: $secondary;
-          text-decoration: none;
-        }
       }
       .account-button:hover {
       }
