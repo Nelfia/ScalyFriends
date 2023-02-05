@@ -2,25 +2,25 @@
   <aside class="products-filters">Products filters</aside>
 
   <div class="products-container">
-    <div *ngIf="activeRoute === '/animal'" class="products-introduction">
+    <div *ngIf="router.url === '/animal'" class="products-introduction">
       <h1 class="products-title merienda">Nos animaux</h1>
       <p class="products-introduction-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, possimus, ullam! Adipisci asperiores blanditiis cum deserunt esse ipsa laboriosam, magnam minus, necessitatibus quibusdam quisquam repudiandae totam voluptates. Perspiciatis quaerat, vitae.</p>
     </div>
-    <div *ngIf="activeRoute === '/material'" class="products-introduction">
+    <div *ngIf="router.url === '/material'" class="products-introduction">
       <h1 class="products-title merienda">Le matériel</h1>
       <p class="products-introduction-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, possimus, ullam! Adipisci asperiores blanditiis cum deserunt esse ipsa laboriosam, magnam minus, necessitatibus quibusdam quisquam repudiandae totam voluptates. Perspiciatis quaerat, vitae.</p>
     </div>
-    <div *ngIf="activeRoute === '/feeding'" class="products-introduction">
+    <div *ngIf="router.url === '/feeding'" class="products-introduction">
       <h1 class="products-title merienda">L'alimentation</h1>
       <p class="products-introduction-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, possimus, ullam! Adipisci asperiores blanditiis cum deserunt esse ipsa laboriosam, magnam minus, necessitatibus quibusdam quisquam repudiandae totam voluptates. Perspiciatis quaerat, vitae.</p>
     </div>
     <ul class="products-list">
-      <li class="product-card" *ngFor="let product of this.products">
+      <li class="product-card" *ngFor="let product of (route.data | async )?.['products']">
         <div class="img">
-          <img [src]="product.img" alt="" />
+          <img [src]="apiBaseUrl + product.img" alt="" />
         </div>
         <button class="show-product">
-          <a [routerLink]="activeRoute + '/' + product.idProduct"> > </a>
+          <a [routerLink]="router.url + '/' + product?.['idProduct']"> > </a>
         </button>
         <p>{{product.name}}</p>
       </li>

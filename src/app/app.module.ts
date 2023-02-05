@@ -15,7 +15,8 @@ import { MaterialDescriptionComponent } from './components/material-description/
 import { FeedingDescriptionComponent } from './components/feeding-description/feeding-description.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LoginComponent } from './components/login/login.component';
-import { CartComponent } from './cart/cart.component';
+import { CartComponent } from './components/cart/cart.component';
+import {httpInterceptorProviders} from "./shared/interceptors";
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -40,10 +41,8 @@ registerLocaleData(localeFr);
     ReactiveFormsModule
   ],
   providers: [
-    {
-      provide: LOCALE_ID,
-      useValue: 'fr'
-    }
+    { provide: LOCALE_ID, useValue: 'fr' },
+    ...httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

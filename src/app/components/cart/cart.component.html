@@ -1,3 +1,4 @@
+<script src="cart.component.ts"></script>
 <div class="container">
   <h2 class="merienda">Votre panier</h2>
   <table class="cart">
@@ -13,7 +14,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><div class="img"><img src="#"></div></td>
+        <td><div class="img"><img [src]=""></div></td>
         <td>Nom + Référence produit</td>
         <td>290.00€</td>
         <td><input type="number" name="quantity" id="quantity" min="1" max="" [defaultValue]="1"></td>
@@ -22,4 +23,6 @@
       </tr>
     </tbody>
   </table>
+
+  <li>{{ (cart$ | async)?.lastChange }}</li>
 </div>
