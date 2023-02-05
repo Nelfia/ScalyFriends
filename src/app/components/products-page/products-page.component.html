@@ -5,11 +5,11 @@
     </div>
     <div class="infos">
       <h2 class="merienda">{{ product.name | titlecase }}</h2>
-      <p class="ref"><small>{{ product?.ref | uppercase }}</small></p>
+      <p class="ref"><small>{{ product.ref | uppercase }}</small></p>
       <div class="price-container">
         <div class="price">{{ product.price | currency: 'EUR'}}</div>
         <input class="price" type="number" name="quantity" id="quantity" min=1 [max]="product.stock" [defaultValue]="1" />
-        <button type="submit">Ajoutez-le à votre panier</button>
+        <button (click)="addLine()">Ajoutez-le à votre panier</button>
       </div>
       <div class="stock"><small>{{ product.stock <= 10 ? "Plus que " : "" }}{{ product.stock }} en stock</small></div>
       <div class="conditions">

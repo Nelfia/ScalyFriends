@@ -1,0 +1,28 @@
+<script src="cart.component.ts"></script>
+<div class="container">
+  <h2 class="merienda">Votre panier</h2>
+  <table class="cart">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Produit</th>
+        <th>Prix unitaire</th>
+        <th>Quantité</th>
+        <th>Montant</th>
+        <th>Supprimer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="img"><img [src]=""></div></td>
+        <td>Nom + Référence produit</td>
+        <td>290.00€</td>
+        <td><input type="number" name="quantity" id="quantity" min="1" max="" [defaultValue]="1"></td>
+        <td>= PU * quantity</td>
+        <td class="supprimer">X</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <li>{{ (cart$ | async)?.lastChange }}</li>
+</div>
