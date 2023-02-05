@@ -3,7 +3,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
 import {shareReplay, tap} from "rxjs";
-import * as moment from "moment";
 
 
 @Injectable({
@@ -14,7 +13,6 @@ export class AuthService {
     'Access-Control-Allow-Origin':'*',
     'Content-Type': 'application/x-www-form-urlencoded'
   });
-
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -30,22 +28,22 @@ export class AuthService {
   private setSession(res: any) {
     localStorage.setItem('id_token', JSON.parse(res.idToken));
     localStorage.setItem('expires_at', res.expires);
-
+    localStorage.setItem('user', JSON.stringify(res.user));
+    localStorage.setItem('id_cart', res.user.idCart);
   }
   logout() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
+    localStorage.removeItem('user');
+    localStorage.removeItem('id_cart');
   }
   public isLoggedIn() {
-    return moment().isBefore(this.getExpiration());
-  }
-
-  isLoggedOut() {
-    return !this.isLoggedIn();
+    let expiresAt = Number(this.getExpiration());
+    console.log((Date.now()/1000) < expiresAt)
+    return (Date.now()/1000) < expiresAt;
   }
 
   getExpiration() {
-    const expiresAt = localStorage.getItem("expires_at");
-    return moment(expiresAt);
+    return localStorage.getItem("expires_at");
   }
 }

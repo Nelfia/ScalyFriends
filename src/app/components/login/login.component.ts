@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../shared/services/auth/auth.service";
-import {UserInterface} from "../../shared/interfaces/user.interface";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +18,6 @@ export class LoginComponent implements OnInit {
     });
   }
   login() {
-    // const { username, pwd } = this.form.value;
     const val = this.form.value;
     // TODO: Hacher le pwd & corriger le pendant côté serveur
     console.log(val.username)

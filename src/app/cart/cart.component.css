@@ -1,0 +1,30 @@
+.container {
+  width: 70%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.container h2 {
+  text-align: center;
+  color: #DB962E;
+}
+.container table {
+  table-layout: fixed;
+  text-align: left;
+}
+.container .img {
+  width: 50px;
+  height: 50px;
+}
+.container .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.container .supprimer {
+  font-family: "Imprima", sans-serif;
+  font-size: 0.75rem;
+}
+
+/*# sourceMappingURL=cart.component.css.map */

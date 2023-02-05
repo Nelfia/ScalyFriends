@@ -5,9 +5,13 @@
       <p class="logo-name merienda">ScalyFriends</p>
     </div>
     <div class="buttons">
-      <button class="account-button">Mon compte</button>
+      <!-- TODO: Gérer l'affichage du bouton de connexion  + style -->
+      <button class="account-button"><a routerLink="/login" id="account-link"> Mon compte</a></button>
+      <!-- TODO: Ajouter l'affichage du nombre d'articles dans le panier + style -->
       <button class="cart-button">
-        <img src="../../../assets/img/sac.png" alt="logo panier" />
+        <a routerLink="/cart">
+          <img src="../../../assets/img/sac.png" alt="logo panier" />
+        </a>
       </button>
     </div>
   </header>

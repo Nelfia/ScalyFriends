@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserInterface} from "../../shared/interfaces/user.interface";
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  public loggedUser : UserInterface | null;
 
-  constructor() { }
+  constructor() {
+    this.loggedUser = null;
+  }
 
   ngOnInit(): void {
+    let user : string | null = localStorage.getItem('user');
+    this.loggedUser = user ? JSON.parse(user) : null;
   }
 
 }

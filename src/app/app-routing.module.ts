@@ -7,6 +7,7 @@ import {StuffResolver} from "./shared/resolvers/stuff.resolver";
 import {FeedingResolver} from "./shared/resolvers/feeding.resolver";
 import {ProductsPageComponent} from "./components/products-page/products-page.component";
 import {LoginComponent} from "./components/login/login.component";
+import {CartComponent} from "./cart/cart.component";
 
 const routes: Routes = [
   {
@@ -54,6 +55,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'cart',
+    component: CartComponent
   }
 ];
 

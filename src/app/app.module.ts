@@ -15,6 +15,7 @@ import { MaterialDescriptionComponent } from './components/material-description/
 import { FeedingDescriptionComponent } from './components/feeding-description/feeding-description.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LoginComponent } from './components/login/login.component';
+import { CartComponent } from './cart/cart.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -27,7 +28,8 @@ registerLocaleData(localeFr);
     AnimalDescriptionComponent,
     MaterialDescriptionComponent,
     FeedingDescriptionComponent,
-    LoginComponent
+    LoginComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
