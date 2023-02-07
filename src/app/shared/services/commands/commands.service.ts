@@ -13,6 +13,7 @@ export class CommandsService {
    * Headers HTTP envoyés avec la requête.
    */
   headers = new HttpHeaders({
+    'Access-Control-Allow-Origin' : '*',
     'Content-Type': 'application/x-www-form-urlencoded'
   });
   idCart : number | null = null;
@@ -25,5 +26,8 @@ export class CommandsService {
   }
   addLine(formData: LineInterface) : Observable<any> {
     return this.http.post(API_BASE_URL + "api/orders/" + this.idCart + "/lines", formData ,{headers: this.headers});
+  }
+  removeLine(id: Number) {
+    return this.http.delete(API_BASE_URL + 'api/orders/' + this.idCart + '/lines/' + id, { headers : this.headers }).subscribe(() => "Delete successful");
   }
 }

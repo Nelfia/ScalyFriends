@@ -22,7 +22,7 @@
         <td>{{ line.price | currency : "EUR" }}</td>
         <td><input type="number" name="quantity" id="quantity" min="1" max="{{ line.product.stock }}" [(ngModel)]="line.quantity" [defaultValue]="line.quantity"></td>
         <td>{{ (line.price * line.quantity) | currency : "EUR" }}</td>
-        <td class="supprimer"><button (click)="removeLine()">X</button></td>
+        <td class="supprimer"><button (click)="removeLine( line.idLine )">X</button></td>
       </tr>
     </tbody>
   </table>

@@ -19,9 +19,11 @@ export class CartComponent implements OnInit {
     // TODO: Enregistrer et récupérer les éléments du panier ds LS.
       this.cart$ = this.commandsService.getCart();
   }
-  removeLine(): void {
-    if(confirm("Etes-vous sûr de vouloir retirer cet élément de votre panier?"))
+  removeLine(id: Number): void {
+    if(confirm("Etes-vous sûr de vouloir retirer cet élément de votre panier?")) {
+      this.commandsService.removeLine(id);
       console.log('Ligne supprimée!')
+    }
   }
 
 }
