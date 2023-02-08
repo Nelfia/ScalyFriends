@@ -19,7 +19,6 @@ export class CommandsService {
   idCart : number | null = null;
   constructor(private http: HttpClient) {
     this.idCart = Number(localStorage.getItem('id_cart')) ??  null;
-    console.log(this.idCart)
   }
   getCart(): Observable<CommandInterface> {
     return this.http.get<CommandInterface> (API_BASE_URL + "api/orders/cart");
@@ -28,6 +27,6 @@ export class CommandsService {
     return this.http.post(API_BASE_URL + "api/orders/" + this.idCart + "/lines", formData ,{headers: this.headers});
   }
   removeLine(id: Number) {
-    return this.http.delete(API_BASE_URL + 'api/orders/' + this.idCart + '/lines/' + id, { headers : this.headers }).subscribe(() => "Delete successful");
+    return this.http.delete(API_BASE_URL + "api/orders/" + this.idCart + "/lines/" + id, { headers : this.headers }).subscribe(() => "Delete successful");
   }
 }
