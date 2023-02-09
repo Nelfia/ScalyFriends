@@ -16,6 +16,7 @@ export class CommandsService {
     'Access-Control-Allow-Origin' : '*',
     'Content-Type': 'application/x-www-form-urlencoded'
   });
+  cart : CommandInterface | null = null;
   idCart : number | null = null;
   constructor(private http: HttpClient) {
     this.idCart = Number(localStorage.getItem('id_cart')) ??  null;
@@ -24,7 +25,10 @@ export class CommandsService {
   createCart(): Observable<any>{
     return this.http.post(API_BASE_URL + "api/orders/" ,{headers: this.headers}).pipe(
       tap((res) => {
+        this.cart = JSON.parse(JSON.stringify(res));
+        localStorage.setItem('id_cart', JSON.stringify(this.cart?.idCommand));
         console.log(res);
+        console.log(this.cart?.idCommand);
       })
     );
   }

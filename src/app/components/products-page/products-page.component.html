@@ -9,7 +9,7 @@
       <div [formGroup]="form">
         <div class="price-container">
           <div class="price">{{ product.price | currency: 'EUR'}}</div>
-          <input [max]="product.stock" class="price quantity" formControlName="quantity" type="number"/>
+          <input [max]="product.stock" class="price quantity" formControlName="quantity" type="number" min="1"/>
           <button (click)="addLine(form)">Ajoutez-le à votre panier</button>
         </div>
       </div>
