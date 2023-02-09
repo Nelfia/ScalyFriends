@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
 import {Observable, shareReplay, tap} from "rxjs";
+import {UserInterface} from "../../interfaces/user.interface";
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class AuthService {
   headers = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
   });
-
+  private static loggedUser : UserInterface;
   constructor(private http: HttpClient, private router: Router) { }
 
   /**
@@ -84,5 +85,12 @@ export class AuthService {
    */
   getExpiration() {
     return localStorage.getItem("expires_at");
+  }
+
+  getLoggedUser() : UserInterface {
+    if (!AuthService.loggedUser){
+      AuthService.loggedUser = JSON.parse(localStorage.getItem('user') ?? '');
+    }
+    return AuthService.loggedUser;
   }
 }
