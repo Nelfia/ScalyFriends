@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, shareReplay, tap} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {CommandInterface} from "../../interfaces/command.interface";
 import {API_BASE_URL} from "../../constants/constants";
 import {LineInterface} from "../../interfaces/Line.interface";
@@ -23,14 +23,7 @@ export class CommandsService {
   }
 
   createCart(): Observable<any>{
-    return this.http.post(API_BASE_URL + "api/orders/" ,{headers: this.headers}).pipe(
-      tap((res) => {
-        this.cart = JSON.parse(JSON.stringify(res));
-        localStorage.setItem('id_cart', JSON.stringify(this.cart?.idCommand));
-        console.log(res);
-        console.log(this.cart?.idCommand);
-      })
-    );
+    return this.http.post(API_BASE_URL + "api/orders/" ,{headers: this.headers});
   }
   getCart(): Observable<CommandInterface> {
     return this.http.get<CommandInterface> (API_BASE_URL + "api/orders/cart");

@@ -36,10 +36,8 @@ export class HeaderAppComponent implements OnInit {
   ngOnInit(): void {
     let user : string | null = localStorage.getItem('user');
     this.loggedUser = user ? JSON.parse(user) : null;
-    console.log(this.loggedUser);
     if(!this.authService.isLoggedIn())
       this.authService.logout();
-    console.log(this.authService.isLoggedIn())
   }
 
 }

@@ -76,7 +76,6 @@ export class AuthService {
    */
   isLoggedIn() : boolean {
     let expiresAt = Number(this.getExpiration());
-    console.log((Date.now()/1000) < expiresAt)
     return (Date.now()/1000) < expiresAt;
   }
 
