@@ -39,45 +39,105 @@ export class ProductsPageComponent implements OnInit {
   }
 
   addLine(form: FormGroup) {
+    let idCart : number;
+    let lines : LineInterface[];
+    let line : LineInterface | Partial<LineInterface>;
+    // Récupérer les valeurs du formulaire
     const val = form.value;
-    // Récupérer l'idCart du LS.
-    let idCart = Number(localStorage.getItem('id_cart')) ?? null;
-    // Si l'utilisateur est logué.
-    let user = this.authService.getLoggedUser();
-    if (user){
-      if (!idCart || idCart == 0) // Et qu'il n'a pas de panier
-      { // Créer le panier & le récupérer.
-        this.commandsService.createCart().subscribe(cart => {
-          this.cart = cart;
-          localStorage.setItem('id_cart', JSON.stringify(cart.idCommand));
-          localStorage.setItem('cart', JSON.stringify(cart));
-          let newLine = this.constructLineToSend(cart.idCommand, val.quantity);
+    let user = this.authService.getLoggedUser() ?? null;
+    console.log(user);
+    // Si utilisateur logué
+    if (user !== null) {
+      // Si idPanier ds LS: récupérer panier existant.
+      idCart = Number(JSON.parse(localStorage.getItem('id_cart')?? '0')) ?? null;
+      console.log(idCart);
+      if (idCart && idCart > 0)
+        this.getCart();
+      // Sinon, créer panier en DB.
+      else this.cart = this.createCart()
+      console.log(this.cart);
+      // Si panier, récupérer les lignes du panier
+      if(this.cart){
+        let cart : CommandInterface = this.cart;
+        lines = cart.lines ?? [];
+        console.log(lines)
+        // Si lignes[] ds panier: vérifier si une ligne contient l'id du produit à ajouter
+        if (lines && lines.length > 0) {
+          lines.forEach(lineInCart => {
+            // Si oui, ajouter nouvelle quantité à quantité existante et vérifier stock produit
+            if (lineInCart.idProduct === this.product?.idProduct) {
+              let totalQuantity = lineInCart.quantity + val.quantity;
+              // Vérifier quantité de produits ajoutés par rapport à stock produit.
+              if (totalQuantity > this.product.stock) {
+                lineInCart.quantity = this.product.stock;
+                console.log("Pas suffisament de produit en stock. Stock max inséré: " + this.product.stock);
+              } else
+                lineInCart.quantity = totalQuantity;
+              console.log("this.commandsService.addLine(lineInCart)");
+            }
+          });
+        }
+        console.log("Aucune ligne dans le panier ou aucun produit correspondant")
 
-          console.log("idCart :" + this.cart?.idCommand);
-          console.log(this.cart);
-          console.log(this.cart);
-        })
+        // Si pas de ligne dans panier ou pas de ligne correspondant à produit, la créer.
+        line = this.constructLine(this.cart.idCommand, val.quantity);
+        console.log(line);
+          // Ajouter nouvelle ligne au panier
+        let newLine ;
+        // Mettre à jour panier en BD et ds LS
 
-        //     // console.log(this.cart);
-        //     // console.log(this.cart?.idCommand);
-        //   })
-        // );
-        // console.log(JSON.parse(JSON.stringify(newCart)))
-        // idCart = JSON.parse(JSON.stringify(newCart)).idCommand;
       }
+      console.log("Aucun panier")
+
+    } else {
+      console.log("Aucun utilisateur logué")
+    // Si utilisateur non logué
+      // Si 'temp_cart' ds LS, le récupérer
+        // Récupérer les lignes du panier en LS
+        // Si lignes[] ds panier: vérifier si une ligne contient l'id du produit à ajouter
+          // Si oui, ajouter nouvelle quantité à quantité existante et vérifier stock produit
+      // Si pas de 'temp_cart' ds LS, le créer.
+      // Si pas de ligne dans 'temp_cart' ou pas de ligne correspondant à produit
+        // Créer nouvelle ligne
+        // Ajouter nouvelle ligne au panier
+      // Mettre à jour le 'temp_cart' ds LS
+
     }
-    // // Construire la nouvelle ligne à insérer.
-    // let cartLines;
-    // if(user) {
-    //   cartLines = JSON.parse(localStorage.getItem("cart")?? "").lines ?? [];
-    // } else {
-    //   cartLines = JSON.parse(localStorage.getItem("temp_lines")?? "")?? [];
-    // }
 
-    // console.log(newLine);
+    console.log("Utilisateur logué ou non - fin addLine")
 
 
-    console.log("quantité :" + val.quantity)
+
+    // let newLine = this.constructLineToSend(this.cart?.idCommand, val.quantity);
+
+
+  }
+
+
+  /**
+   * Créer un nouveau panier en DB pour l'utilisateur logué.
+   * @private
+   */
+  private createCart(): CommandInterface | null {
+    this.commandsService.createCart().subscribe(cart => {
+      localStorage.setItem('id_cart', JSON.stringify(cart.idCommand));
+      localStorage.setItem('cart', JSON.stringify(cart));
+      return cart;
+    })
+    return null;
+  }
+  private getCart(): void {
+    if( localStorage.getItem('cart'))
+      this.cart = JSON.parse(localStorage.getItem('cart')??"");
+    else {
+      this.commandsService.getCart().subscribe(cart => {
+        this.cart = cart;
+        localStorage.setItem('id_cart', JSON.stringify(cart.idCommand));
+        localStorage.setItem('cart', JSON.stringify(cart));
+        this.cart = cart;
+        return cart;
+      })
+    }
   }
 
   /**
@@ -87,23 +147,18 @@ export class ProductsPageComponent implements OnInit {
    * @private
    * @return Partial<LineInterface>
    */
-  private constructLineToSend(idCart: number, quantity: number) : Partial<LineInterface> {
+  private constructLine(idCart: number, quantity: number) : LineInterface | Partial<LineInterface> {
     return {
+      idLine: this.line?.idLine,
       idCommand: idCart,
       price: this.product?.price,
       idProduct: this.product?.idProduct,
       quantity,
-      product: this.product?? undefined
+      product: this.product ?? undefined
     };
   }
 
-  private constructReceivedCart(idUser : number) : Partial<CommandInterface> {
-    return {
-      idCommand: this.cart?.idCommand,
-      idCustomer: idUser,
-      lines: undefined
-    };
-  }
+
 }
 
 

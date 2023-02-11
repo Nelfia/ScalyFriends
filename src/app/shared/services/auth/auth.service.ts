@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
@@ -19,7 +19,7 @@ export class AuthService {
   headers = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
   });
-  private static loggedUser : UserInterface;
+  private static loggedUser : UserInterface | null;
   constructor(private http: HttpClient, private router: Router) { }
 
   /**
@@ -68,6 +68,7 @@ export class AuthService {
     localStorage.removeItem("expires_at");
     localStorage.removeItem('user');
     localStorage.removeItem('id_cart');
+    localStorage.removeItem('cart');
   }
 
   /**
@@ -86,10 +87,17 @@ export class AuthService {
     return localStorage.getItem("expires_at");
   }
 
-  getLoggedUser() : UserInterface {
-    if (!AuthService.loggedUser){
-      AuthService.loggedUser = JSON.parse(localStorage.getItem('user') ?? '');
-    }
+  getLoggedUser() : UserInterface | null {
+    if (this.isLoggedIn()) {
+      console.log('logged in')
+      if (!AuthService.loggedUser){
+        let userLS = JSON.parse(localStorage.getItem('user') ?? '');
+        if (userLS && userLS !== '')
+          AuthService.loggedUser = userLS ?? null;
+      }
+    } else
+      console.log('logged out')
+
     return AuthService.loggedUser;
   }
 }

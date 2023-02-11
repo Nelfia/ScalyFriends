@@ -28,8 +28,17 @@ export class CommandsService {
   getCart(): Observable<CommandInterface> {
     return this.http.get<CommandInterface> (API_BASE_URL + "api/orders/cart");
   }
-  addLine(formData: LineInterface) : Observable<any> {
-    return this.http.post(API_BASE_URL + "api/orders/" + this.idCart + "/lines", formData ,{headers: this.headers});
+  addLine(line: LineInterface | Partial<LineInterface>) : Observable<LineInterface> {
+    return this.http.post<LineInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines", line ,{headers: this.headers});
+  }
+
+  createLine(line : Partial<LineInterface>) : Observable<LineInterface> {
+    return this.http.post<LineInterface>(API_BASE_URL + "api/orders/" + line.idCommand + "/lines", {headers: this.headers})
+  }
+  updateLine(line : LineInterface ) : LineInterface {
+    console.log("Prêt à MAJ !");
+    console.log(line);
+    return line;
   }
   removeLine(id: Number) {
     return this.http.delete(API_BASE_URL + "api/orders/" + this.idCart + "/lines/" + id, { headers : this.headers }).subscribe(() => "Delete successful");
