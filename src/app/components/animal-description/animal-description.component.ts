@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsPageComponent } from "../products-page/products-page.component";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-animal-description',
@@ -8,12 +9,10 @@ import {ProductInterface} from "../../shared/interfaces/product.interface";
   styleUrls: ['./animal-description.component.scss']
 })
 export class AnimalDescriptionComponent implements OnInit {
-  public product: ProductInterface|null = null;
-  constructor(private parent: ProductsPageComponent) {
-    this.product = this.parent.product ?? null;
-  }
-
+  product$!: Observable<ProductInterface>;
+  constructor(private parent: ProductsPageComponent) {}
   ngOnInit(): void {
+    this.product$ = this.parent.product$;
   }
 
 }

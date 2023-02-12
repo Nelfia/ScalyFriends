@@ -15,13 +15,11 @@
       <p class="products-introduction-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, possimus, ullam! Adipisci asperiores blanditiis cum deserunt esse ipsa laboriosam, magnam minus, necessitatibus quibusdam quisquam repudiandae totam voluptates. Perspiciatis quaerat, vitae.</p>
     </div>
     <ul class="products-list">
-      <li class="product-card" *ngFor="let product of (route.data | async )?.['products']">
+      <li class="product-card" *ngFor="let product of (route.data | async )?.['products']" >
         <div class="img">
           <img [src]="apiBaseUrl + product.img" alt="" />
         </div>
-        <button class="show-product">
-          <a [routerLink]="router.url + '/' + product?.['idProduct']"> > </a>
-        </button>
+        <button class="show-product" (click)="onShowProduct(product?.['idProduct'])"><span>></span></button>
         <p>{{product.name}}</p>
       </li>
     </ul>

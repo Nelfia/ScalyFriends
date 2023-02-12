@@ -12,7 +12,7 @@ import {API_BASE_URL} from "../../shared/constants/constants";
 })
 export class CartComponent implements OnInit {
   apiBaseUrl = API_BASE_URL;
-  public cart$: Observable<CommandInterface> | null = null;
+  cart$!: Observable<CommandInterface>;
   constructor(private router: Router, private route: ActivatedRoute, private commandsService: CommandsService) { }
 
   ngOnInit(): void {
