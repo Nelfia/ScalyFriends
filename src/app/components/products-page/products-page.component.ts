@@ -6,24 +6,26 @@ import {API_BASE_URL} from "../../shared/constants/constants";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../shared/services/auth/auth.service";
 import {CommandsService} from "../../shared/services/commands/commands.service";
-import {Observable, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {CommandInterface} from "../../shared/interfaces/command.interface";
 import {LineInterface} from "../../shared/interfaces/Line.interface";
-import {LinesService} from "../../shared/services/lines/lines.service";
 
 @Component({
   selector: 'app-products-page',
   templateUrl: './products-page.component.html',
   styleUrls: ['./products-page.component.scss']
 })
-export class ProductsPageComponent implements OnInit {
+export class ProductsPageComponent implements OnInit{
   form: FormGroup;
-  product : ProductInterface | null = null;
+  product$: Observable<ProductInterface> | null = null;
   cart : CommandInterface | null = null;
+  cart$: Observable<CommandInterface> | null = null;
   line: LineInterface | null = null;
+  line$: Observable<LineInterface> | null = null;
   public activeRoute: string = '';
 
   constructor(private fb:FormBuilder, private router: Router, private route: ActivatedRoute, private productsService: ProductsService, private authService: AuthService, private commandsService : CommandsService, ) {
+    this.cart$ = this.getCart();
     this.form = this.fb.group({
       quantity: [1, Validators.min(1)],
     });
@@ -37,22 +39,21 @@ export class ProductsPageComponent implements OnInit {
       this.activeRoute = this.router.url;
     })
   }
-
-  addLine(form: FormGroup) {
+  addProduct(form: FormGroup) {
     let idCart : number;
     let lines : LineInterface[];
     let line : LineInterface | Partial<LineInterface>;
     // Récupérer les valeurs du formulaire
     const val = form.value;
     let user = this.authService.getLoggedUser() ?? null;
+    console.log("user :")
     console.log(user);
     // Si utilisateur logué
-    if (user !== null) {
+    if (user) {
       // Si idPanier ds LS: récupérer panier existant.
       idCart = Number(JSON.parse(localStorage.getItem('id_cart')?? '0')) ?? null;
       console.log(idCart);
-      if (idCart && idCart > 0)
-        this.getCart();
+      if (idCart && idCart > 0) this.getCart();
       // Sinon, créer panier en DB.
       else this.cart = this.createCart()
       console.log(this.cart);
@@ -83,12 +84,11 @@ export class ProductsPageComponent implements OnInit {
         line = this.constructLine(this.cart.idCommand, val.quantity);
         console.log(line);
           // Ajouter nouvelle ligne au panier
-        let newLine ;
+        this.addLine(line);
+        console.log(cart);
         // Mettre à jour panier en BD et ds LS
 
       }
-      console.log("Aucun panier")
-
     } else {
       console.log("Aucun utilisateur logué")
     // Si utilisateur non logué
@@ -121,23 +121,17 @@ export class ProductsPageComponent implements OnInit {
   private createCart(): CommandInterface | null {
     this.commandsService.createCart().subscribe(cart => {
       localStorage.setItem('id_cart', JSON.stringify(cart.idCommand));
-      localStorage.setItem('cart', JSON.stringify(cart));
       return cart;
     })
     return null;
   }
-  private getCart(): void {
-    if( localStorage.getItem('cart'))
-      this.cart = JSON.parse(localStorage.getItem('cart')??"");
-    else {
-      this.commandsService.getCart().subscribe(cart => {
+  private getCart(): any {
+    return this.commandsService.getCart().subscribe(cart => {
         this.cart = cart;
         localStorage.setItem('id_cart', JSON.stringify(cart.idCommand));
-        localStorage.setItem('cart', JSON.stringify(cart));
         this.cart = cart;
         return cart;
       })
-    }
   }
 
   /**
@@ -157,7 +151,17 @@ export class ProductsPageComponent implements OnInit {
       product: this.product ?? undefined
     };
   }
-
+  private addLine(line: LineInterface | Partial<LineInterface>) {
+    this.commandsService.addLine(line).subscribe(line => {
+      console.log(line)
+      this.getCart();
+      let linesCartLS = this.cart?.lines;
+      console.log(this.cart?.lines)
+      linesCartLS?.push(line);
+      return line;
+    });
+    return null;
+  }
 
 }
 

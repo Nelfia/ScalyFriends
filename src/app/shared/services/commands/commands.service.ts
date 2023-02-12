@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, tap} from "rxjs";
+import {Observable, of, tap, share, finalize} from "rxjs";
 import {CommandInterface} from "../../interfaces/command.interface";
 import {API_BASE_URL} from "../../constants/constants";
 import {LineInterface} from "../../interfaces/Line.interface";
@@ -16,8 +16,9 @@ export class CommandsService {
     'Access-Control-Allow-Origin' : '*',
     'Content-Type': 'application/x-www-form-urlencoded'
   });
-  cart : CommandInterface | null = null;
-  idCart : number | null = null;
+  private cart : CommandInterface | null = null;
+  private cart$ : Observable<CommandInterface> | null = null;
+  private idCart : number | null = null;
   constructor(private http: HttpClient) {
     this.idCart = Number(localStorage.getItem('id_cart')) ??  null;
   }
@@ -25,16 +26,32 @@ export class CommandsService {
   createCart(): Observable<any>{
     return this.http.post(API_BASE_URL + "api/orders/" ,{headers: this.headers});
   }
-  getCart(): Observable<CommandInterface> {
-    return this.http.get<CommandInterface> (API_BASE_URL + "api/orders/cart");
-  }
   addLine(line: LineInterface | Partial<LineInterface>) : Observable<LineInterface> {
-    return this.http.post<LineInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines", line ,{headers: this.headers});
+    console.log("dans addLine")
+    return this.http.post<LineInterface>(API_BASE_URL + "api/orders/" + line.idCommand + "/lines", line ,{headers: this.headers});
   }
 
-  createLine(line : Partial<LineInterface>) : Observable<LineInterface> {
-    return this.http.post<LineInterface>(API_BASE_URL + "api/orders/" + line.idCommand + "/lines", {headers: this.headers})
+  /**
+   * Récupère le panier en lazy loading.
+   */
+  getCart(): Observable<CommandInterface> {
+    let observable: Observable<CommandInterface>;
+    if (this.cart)
+      observable = of(this.cart);
+    else if (this.cart$)
+      observable = this.cart$;
+    else {
+      this.cart$ = this.http.get<CommandInterface> (API_BASE_URL + "api/orders/cart")
+        .pipe(
+          tap( (res : CommandInterface) => this.cart = res),
+          share(),
+          finalize(() => this.cart$ = null)
+        );
+      observable = this.cart$;
+    }
+    return observable;
   }
+
   updateLine(line : LineInterface ) : LineInterface {
     console.log("Prêt à MAJ !");
     console.log(line);

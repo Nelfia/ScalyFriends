@@ -34,6 +34,7 @@ export class AuthService {
     return this.http.post<any>(API_BASE_URL + 'api/users/login', {username, pwd}, {headers: this.headers})
       .pipe(
         tap((res) => {
+
           this.setSession(res);
         }),
         shareReplay(1)
@@ -66,9 +67,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
-    localStorage.removeItem('user');
-    localStorage.removeItem('id_cart');
-    localStorage.removeItem('cart');
+    localStorage.removeItem("user");
+    localStorage.removeItem("id_cart");
   }
 
   /**

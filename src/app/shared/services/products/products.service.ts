@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {ProductInterface} from "../../interfaces/product.interface";
 
@@ -7,11 +7,7 @@ import {ProductInterface} from "../../interfaces/product.interface";
   providedIn: 'root'
 })
 export class ProductsService {
-
-  constructor(private http: HttpClient) { }
-  public getAll(): Observable<ProductInterface[]> {
-    return this.http.get<ProductInterface[]>('http://api-scalyfriends/api/products')
-  }
+  constructor(private http: HttpClient) {}
   public getAnimals(): Observable<ProductInterface[]> {
     return this.http.get<ProductInterface[]>('http://api-scalyfriends/api/products/animal')
   }
