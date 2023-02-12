@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CommandInterface} from "../../shared/interfaces/command.interface";
 import {CommandsService} from "../../shared/services/commands/commands.service";
-import {config, Observable} from "rxjs";
+import {config, Observable, tap} from "rxjs";
 import {API_BASE_URL} from "../../shared/constants/constants";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {LineInterface} from "../../shared/interfaces/Line.interface";
 
 @Component({
   selector: 'app-cart',
@@ -11,19 +13,20 @@ import {API_BASE_URL} from "../../shared/constants/constants";
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  apiBaseUrl = API_BASE_URL;
+
+  cartForm!: FormGroup;
   cart$!: Observable<CommandInterface>;
-  constructor(private router: Router, private route: ActivatedRoute, private commandsService: CommandsService) { }
+
+  constructor(private commandsService: CommandsService, private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     // TODO: Enregistrer et récupérer les éléments du panier ds LS.
-      this.cart$ = this.commandsService.getCart();
+    this.cart$ = this.commandsService.getCart();
+    // this.cartForm = this.fb.group({
+    //   quantity: [null, [Validators.required, Validators.min(1)]]
+    // })
   }
-  removeLine(id: Number): void {
-    if(confirm("Etes-vous sûr de vouloir retirer cet élément de votre panier?")) {
-      this.commandsService.removeLine(id);
-      console.log('Ligne supprimée!')
-    }
-  }
+
 
 }

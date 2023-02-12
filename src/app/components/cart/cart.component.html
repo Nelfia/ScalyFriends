@@ -1,29 +1,7 @@
-<div class="container">
+<div class="container" *ngIf="(cart$ | async) as cart">
   <h2 class="merienda">Votre panier</h2>
-  <table class="cart">
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Produit</th>
-        <th>Prix unitaire</th>
-        <th>Quantité</th>
-        <th>Montant</th>
-        <th>Supprimer</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let line of (cart$ | async)?.lines">
-        <td><div class="img"><img [src]="apiBaseUrl + line.product.img" alt="image du produit"></div></td>
-        <td>
-          <p>{{ line.product.name | titlecase }}</p>
-          <p><small>{{ line.product.ref }}</small></p>
-        </td>
-        <td>{{ line.price | currency : "EUR" }}</td>
-        <td><input type="number" name="quantity" id="quantity" min="1" max="{{ line.product.stock }}" [(ngModel)]="line.quantity" [defaultValue]="line.quantity"></td>
-        <td>{{ (line.price * line.quantity) | currency : "EUR" }}</td>
-        <td class="supprimer"><button (click)="removeLine( line.idLine )">X</button></td>
-      </tr>
-    </tbody>
+  <table>
+    <app-cart-line *ngFor="let line of cart.lines" [line]="line"></app-cart-line>
   </table>
   <!-- TODO: éditer le style du cart + simuler paiement commande -->
   <button type="submit">Je paie ma commande</button>

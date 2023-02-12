@@ -17,6 +17,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LoginComponent } from './components/login/login.component';
 import { CartComponent } from './components/cart/cart.component';
 import {httpInterceptorProviders} from "./shared/interceptors";
+import { CartLineComponent } from './components/cart-line/cart-line.component';
 registerLocaleData(localeFr);
 
 @NgModule({
@@ -30,7 +31,8 @@ registerLocaleData(localeFr);
     MaterialDescriptionComponent,
     FeedingDescriptionComponent,
     LoginComponent,
-    CartComponent
+    CartComponent,
+    CartLineComponent
   ],
   imports: [
     BrowserModule,
