@@ -1,14 +1,18 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, of, share, tap} from "rxjs";
+import {BehaviorSubject, Observable, of, share, take, tap} from "rxjs";
 import {CommandInterface} from "../../interfaces/command.interface";
 import {API_BASE_URL} from "../../constants/constants";
 import {LineInterface} from "../../interfaces/Line.interface";
+import {UserInterface} from "../../interfaces/user.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommandsService {
+
+  public idCart: number | null = null;
+  public cart$: BehaviorSubject<CommandInterface | null>;
   /**
    * Headers HTTP envoyés avec la requête.
    */
@@ -17,36 +21,97 @@ export class CommandsService {
     'Content-Type': 'application/x-www-form-urlencoded'
   });
   private cart!: CommandInterface;
-  private idCart!: number;
+
   constructor(private http: HttpClient) {
+    this.cart$ = new BehaviorSubject<CommandInterface | null>(this.getLsCart());
     this.idCart = Number(localStorage.getItem('id_cart')) ??  null;
   }
 
-  createCart(): Observable<any>{
-    return this.http.post(API_BASE_URL + "api/orders/" ,{headers: this.headers});
-  }
-  addLine(line: LineInterface | Partial<LineInterface>) : Observable<LineInterface> {
+  // createCart(): Observable<any>{
+  //   return this.http.post(API_BASE_URL + "api/orders/" ,{headers: this.headers});
+  // }
+  addLine(line: LineInterface, loggdUser: UserInterface | null) : Observable<CommandInterface | null> {
     console.log("dans addLine")
-    return this.http.post<LineInterface>(API_BASE_URL + "api/orders/" + line.idCommand + "/lines", line ,{headers: this.headers});
+    // if (loggdUser) {
+      return this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines", line, {headers: this.headers}).pipe(
+        tap(cart => {
+          this.cart = cart;
+          this.cart$.next(this.cart)
+        })
+      );
+    // }
+
+    // check ls cart
+    // update cart
+    // enregitrer ds ls
+    // this.cart$.next(newCart)
+
   }
 
   /**
    * Récupère le panier en lazy loading.
    * @return Observable<CommandInterface>
    */
-  getCart(): Observable<CommandInterface> {
-    let observable: Observable<CommandInterface>;
-    if (this.cart)
-      observable = of(this.cart);
-    else {
-      observable = this.http.get<CommandInterface>(API_BASE_URL + "api/orders/cart").pipe(
-        tap((res: CommandInterface) => this.cart = res),
-        share()
-      )
-    }
-    return observable;
+  getCart(isLogged : boolean) {
+    // if (this.cart)
+    //   observable = of(this.cart);
+    // else if (localStorage.getItem('cart'))
+    //   observable = of(JSON.parse(localStorage.getItem('cart')??''));
+    // else {
+    //   observable = this.http.get<CommandInterface>(API_BASE_URL + "api/orders/cart").pipe(
+    //     tap((res: CommandInterface) => {
+    //       this.cart = res
+    //       this.cart$.next(this.cart)
+    //     }),
+    //     share()
+    //   )
+    // }
+
+
+    // si loggué,
+    if(isLogged){}
+        // recupérer le panier de user
+        // si panier present ds ls
+          // recupérer le panier ds le localstorage
+          // aggreger les paniers en un
+          // mettre a juor bdd
+          // emettre panier via behavior
+
+    // si pas loggué
+        // si panier present ds ls
+        // recupérer le panier ds le localstorage
+        // emettre panier via behavior
   }
-  removeLine(id: Number) {
-    return this.http.delete(API_BASE_URL + "api/orders/" + this.idCart + "/lines/" + id, { headers : this.headers }).subscribe(() => "Delete successful");
+  removeLine(id: Number) : Observable<CommandInterface> {
+    // if (loggdUser) {
+
+    return this.http.delete<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines/" + id, { headers : this.headers }).pipe(
+      take(1),
+      tap(cart => {
+        this.cart = cart;
+        this.cart$.next(this.cart)
+      })
+    );
+
+
+    // check ls cart
+    // update cart
+    // enregitrer ds ls
+    // this.cart$.next(newCart)
+  }
+
+  getLsCart(): CommandInterface | null {
+    const lsCart = localStorage.getItem('cart');
+    return lsCart ? JSON.parse(lsCart) : null;
+  }
+
+  agregateCarts(cart: CommandInterface) {
+    const lsCart = this.getLsCart();
+    // agreger les deux carts
+    const newCart = null;
+    localStorage.removeItem('cart');
+
+    this.cart$.next(cart);
+
   }
 }

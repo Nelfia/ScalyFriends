@@ -4,6 +4,7 @@ import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
 import {Observable, shareReplay, tap} from "rxjs";
 import {UserInterface} from "../../interfaces/user.interface";
+import {CommandsService} from "../commands/commands.service";
 
 
 @Injectable({
@@ -20,7 +21,7 @@ export class AuthService {
     'Content-Type': 'application/x-www-form-urlencoded'
   });
   private static loggedUser : UserInterface | null;
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
 
   /**
    * Tente de loguer le user.
@@ -31,11 +32,14 @@ export class AuthService {
    * @return Observable<string>
    */
   login(username:string, pwd: string) : Observable<string> {
+    if (this.isLoggedIn()) this.logout();
     return this.http.post<any>(API_BASE_URL + 'api/users/login', {username, pwd}, {headers: this.headers})
       .pipe(
         tap((res) => {
-
+          console.log('Logged in')
+          console.log('res')
           this.setSession(res);
+          this.commandeService.agregateCarts(res.cart);
         }),
         shareReplay(1)
     );
@@ -50,7 +54,6 @@ export class AuthService {
     localStorage.setItem('id_token', JSON.parse(res.idToken));
     localStorage.setItem('expires_at', res.expires);
     localStorage.setItem('user', JSON.stringify(res.user));
-    localStorage.setItem('id_cart', res.user.idCart);
   }
 
   /**
@@ -69,6 +72,7 @@ export class AuthService {
     localStorage.removeItem("expires_at");
     localStorage.removeItem("user");
     localStorage.removeItem("id_cart");
+    localStorage.removeItem('cart_lines');
   }
 
   /**
