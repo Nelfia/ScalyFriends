@@ -33,7 +33,7 @@ export class ProductsPageComponent implements OnInit{
     let newLine = this.createLine(product);
     let loggedUser = this.authService.getLoggedUser();
     console.log(loggedUser)
-    this.commandsService.addLine(newLine, loggedUser).pipe(
+    this.commandsService.addLine(newLine, loggedUser)?.pipe(
       take(1),
       tap(cart => {
         console.log(cart)
