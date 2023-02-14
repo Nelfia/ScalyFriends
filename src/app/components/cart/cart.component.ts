@@ -23,10 +23,10 @@ export class CartComponent implements OnInit, OnDestroy {
     // TODO: Enregistrer et récupérer les éléments du panier ds LS.
     this.commandsService.cart$.pipe(takeUntil(this.destoy$)).subscribe(cart => {
       console.log(cart);
-    })
+    });
     this.cart$ = this.commandsService.cart$.pipe(
       map(cart => cart)
-    )
+    );
   }
 
   ngOnDestroy() {
