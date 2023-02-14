@@ -23,9 +23,9 @@ export class CartLineComponent implements OnInit, OnDestroy {
     this.quantity = this.line.quantity;
     console.log(this.line.quantity)
   }
-  removeLine(idLine: number): void {
+  removeLine(idLine: number, idProduct: number): void {
     if (confirm("Etes-vous sûr de vouloir retirer cet élément de votre panier?")) {
-      this.commandsService.removeLine(idLine).pipe(
+      this.commandsService.removeLine(idLine, idProduct).pipe(
         tap(cart => {
           localStorage.setItem('cart', JSON.stringify(cart))
           console.log('Ligne supprimée!')

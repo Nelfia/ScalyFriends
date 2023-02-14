@@ -8,6 +8,7 @@ import {UserInterface} from "../../shared/interfaces/user.interface";
 })
 export class HomeComponent implements OnInit {
   public loggedUser : UserInterface | null;
+  public idCart!: number;
 
   constructor() {
     this.loggedUser = null;
@@ -16,6 +17,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     let user : string | null = localStorage.getItem('user');
     this.loggedUser = user ? JSON.parse(user) : null;
+    this.idCart = Number(localStorage.getItem('id_cart'));
   }
 
 }

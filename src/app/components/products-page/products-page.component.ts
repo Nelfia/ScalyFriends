@@ -7,7 +7,6 @@ import {API_BASE_URL} from "../../shared/constants/constants";
 import {LineInterface} from "../../shared/interfaces/Line.interface";
 import {AuthService} from "../../shared/services/auth/auth.service";
 import {CommandsService} from "../../shared/services/commands/commands.service";
-import {CommandInterface} from "../../shared/interfaces/command.interface";
 
 @Component({
   selector: 'app-products-page',

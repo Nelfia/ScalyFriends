@@ -40,6 +40,7 @@ export class AuthService {
           console.log('res')
           this.setSession(res);
           this.commandeService.agregateCarts(res.cart);
+          console.log(res.cart.idCommand)
         }),
         shareReplay(1)
     );
@@ -54,6 +55,7 @@ export class AuthService {
     localStorage.setItem('id_token', JSON.parse(res.idToken));
     localStorage.setItem('expires_at', res.expires);
     localStorage.setItem('user', JSON.stringify(res.user));
+    localStorage.setItem('id_cart', JSON.stringify(res.idCart));
   }
 
   /**
