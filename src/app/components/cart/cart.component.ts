@@ -1,29 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {CommandInterface} from "../../shared/interfaces/command.interface";
 import {CommandsService} from "../../shared/services/commands/commands.service";
-import {config, Observable} from "rxjs";
+import {config, map, Observable, Subject, takeUntil, tap} from "rxjs";
 import {API_BASE_URL} from "../../shared/constants/constants";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {LineInterface} from "../../shared/interfaces/Line.interface";
 
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit {
-  apiBaseUrl = API_BASE_URL;
-  public cart$: Observable<CommandInterface> | null = null;
-  constructor(private router: Router, private route: ActivatedRoute, private commandsService: CommandsService) { }
+export class CartComponent implements OnInit, OnDestroy {
+  cart$!: Observable<CommandInterface | null>;
+  destoy$ = new Subject<boolean>()
+
+  constructor(private commandsService: CommandsService, private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     // TODO: Enregistrer et récupérer les éléments du panier ds LS.
-      this.cart$ = this.commandsService.getCart();
+    this.commandsService.cart$.pipe(takeUntil(this.destoy$)).subscribe(cart => {
+      console.log(cart);
+    });
+    this.cart$ = this.commandsService.cart$.pipe(
+      map(cart => cart)
+    );
   }
-  removeLine(id: Number): void {
-    if(confirm("Etes-vous sûr de vouloir retirer cet élément de votre panier?")) {
-      this.commandsService.removeLine(id);
-      console.log('Ligne supprimée!')
-    }
+
+  ngOnDestroy() {
+    this.destoy$.next(true);
+  }
+
+  removeCartLine(idLine : number) {
+
   }
 
 }

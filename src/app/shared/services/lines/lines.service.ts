@@ -7,7 +7,5 @@ export class LinesService {
 
   constructor() { }
 
-  addLSLine(idProduct: Number) {
 
-  }
 }

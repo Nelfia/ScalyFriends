@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
 import {Observable, shareReplay, tap} from "rxjs";
 import {UserInterface} from "../../interfaces/user.interface";
+import {CommandsService} from "../commands/commands.service";
 
 
 @Injectable({
@@ -19,8 +20,8 @@ export class AuthService {
   headers = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
   });
-  private static loggedUser : UserInterface;
-  constructor(private http: HttpClient, private router: Router) { }
+  private static loggedUser : UserInterface | null;
+  constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
 
   /**
    * Tente de loguer le user.
@@ -31,10 +32,14 @@ export class AuthService {
    * @return Observable<string>
    */
   login(username:string, pwd: string) : Observable<string> {
+    if (this.isLoggedIn()) this.logout();
     return this.http.post<any>(API_BASE_URL + 'api/users/login', {username, pwd}, {headers: this.headers})
       .pipe(
         tap((res) => {
+          console.log('Logged in')
+          console.log('res')
           this.setSession(res);
+          this.commandeService.agregateCarts(res.cart);
         }),
         shareReplay(1)
     );
@@ -49,7 +54,6 @@ export class AuthService {
     localStorage.setItem('id_token', JSON.parse(res.idToken));
     localStorage.setItem('expires_at', res.expires);
     localStorage.setItem('user', JSON.stringify(res.user));
-    localStorage.setItem('id_cart', res.user.idCart);
   }
 
   /**
@@ -66,8 +70,9 @@ export class AuthService {
   logout() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
-    localStorage.removeItem('user');
-    localStorage.removeItem('id_cart');
+    localStorage.removeItem("user");
+    localStorage.removeItem("id_cart");
+    localStorage.removeItem('cart_lines');
   }
 
   /**
@@ -76,7 +81,6 @@ export class AuthService {
    */
   isLoggedIn() : boolean {
     let expiresAt = Number(this.getExpiration());
-    console.log((Date.now()/1000) < expiresAt)
     return (Date.now()/1000) < expiresAt;
   }
 
@@ -87,10 +91,17 @@ export class AuthService {
     return localStorage.getItem("expires_at");
   }
 
-  getLoggedUser() : UserInterface {
-    if (!AuthService.loggedUser){
-      AuthService.loggedUser = JSON.parse(localStorage.getItem('user') ?? '');
-    }
+  getLoggedUser() : UserInterface | null {
+    if (this.isLoggedIn()) {
+      console.log('logged in')
+      if (!AuthService.loggedUser){
+        let userLS = JSON.parse(localStorage.getItem('user') ?? '');
+        if (userLS && userLS !== '')
+          AuthService.loggedUser = userLS ?? null;
+      }
+    } else
+      console.log('logged out')
+
     return AuthService.loggedUser;
   }
 }

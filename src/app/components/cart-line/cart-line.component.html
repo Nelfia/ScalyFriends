@@ -1,0 +1,18 @@
+<form >
+  <tr>
+    <td>
+      <div class="img"><img [src]="apiBaseUrl + line.product.img" alt="image du produit"></div>
+    </td>
+    <td>
+      <p>{{ line.product.name | titlecase }} <br/>
+        <small>{{ line.product.ref }}</small>
+      </p>
+    </td>
+    <td>{{ line.price | currency : "EUR" }}</td>
+    <td><input type="number" name="quantity" class="quantity" min="1" max="{{ line.product.stock }}" [(ngModel)]="quantity" (change)="doThat()"></td>
+    <td>{{ (line.price * quantity) | currency : "EUR" }}</td>
+    <td class="supprimer">
+      <button (click)="removeLine( line.idLine )">X</button>
+    </td>
+  </tr>
+</form>
