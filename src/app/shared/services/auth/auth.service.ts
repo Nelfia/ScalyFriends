@@ -70,6 +70,7 @@ export class AuthService {
    * Supprime toutes les données de l'utilisateur du LS.
    */
   logout() {
+    AuthService.loggedUser = null;
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
     localStorage.removeItem("user");

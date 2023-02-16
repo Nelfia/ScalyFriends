@@ -5,7 +5,6 @@ import {CommandInterface} from "../../interfaces/command.interface";
 import {API_BASE_URL} from "../../constants/constants";
 import {LineInterface} from "../../interfaces/Line.interface";
 import {UserInterface} from "../../interfaces/user.interface";
-import {AuthService} from "../auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +24,6 @@ export class CommandsService {
     this.idCart = Number(localStorage.getItem('id_cart')) ?? null;
   }
 
-  // createCart(): Observable<any>{
-  //   return this.http.post(API_BASE_URL + "api/orders/" ,{headers: this.headers});
-  // }
-
   /**
    * Ajouter une nouvelle line dans le panier.
    * Si user logué -> envoi en DB. Sinon -> enregistré ds LS
@@ -43,24 +38,16 @@ export class CommandsService {
         tap(cart => this.cart$.next(cart))
       );
     }
-    // Si pas d'utilisateur logué, check cart LS
-    let cartLS = this.getLsCart();
+    // Si aucun utilisateur logué, récupérer/créer cart ds LS
+    const cartLS = this.getLsCart();
     let cartLines: LineInterface[] = [];
-    if (cartLS?.lines)
+    if (cartLS.lines)
       cartLines = this.updateLine(cartLS.lines, line);
-    let newCart: CommandInterface;
-    newCart = {
-      lastChange: Date(),
-      lines: cartLines,
-      orderDate: "",
-      ref: "",
-      status: "",
-      idCommand: 0,
-      idAgent: 0,
-      idCustomer: 0
-    };
-    localStorage.setItem('cart', JSON.stringify(newCart));
-    this.cart$.next(newCart);
+    else cartLines.push(line);
+    cartLS.lines = cartLines;
+
+    localStorage.setItem('cart', JSON.stringify(cartLS));
+    this.cart$.next(cartLS);
     return this.cart$.asObservable();
   }
 
@@ -74,10 +61,13 @@ export class CommandsService {
       lines.push(newLine);
     } else { // Si lignes dans tableau de lignes, vérifier si une ligne contient déjà le produit à ajouter.
       let isLineWithProduct: boolean = false;
+      console.log("quantité à ajouter:" + newLine.quantity)
       lines.forEach(line => {
         if (line.idProduct === newLine.idProduct && !isLineWithProduct) {
+          console.log("quantité actuelle:" + line.quantity)
           isLineWithProduct = true;
           line.quantity += newLine.quantity;
+          console.log("quantité après update:" + line.quantity)
           line.quantity = (line.quantity <= newLine.product.stock) ? line.quantity : newLine.product.stock;
         }
       })
@@ -112,12 +102,8 @@ export class CommandsService {
         })
       )
     } else {  // si pas loggué
-      let cartLS : CommandInterface | null;
-      // si panier present ds ls, le récupérer
-      cartLS = this.getLsCart();
-      if(cartLS)
-        // emettre panier via behavior
-        this.cart$.next(cartLS);
+      // emettre lsCart via behavior
+      this.cart$.next(this.getLsCart());
     }
   }
 
@@ -154,11 +140,24 @@ export class CommandsService {
 
   /**
    * Récupère le panier enregistré dans le LS.
+   * Si inexistant, le construire, l'insérer ds LS et le retourner.
    * @return CommandInterface
    */
-  getLsCart(): CommandInterface | null {
-    const lsCart = localStorage.getItem('cart');
-    return lsCart ? JSON.parse(lsCart) : null;
+  getLsCart(): CommandInterface {
+    let lsCart : CommandInterface = JSON.parse(localStorage.getItem('cart') ?? "");
+    if(!lsCart) {
+      lsCart = {
+        lastChange: "",
+        lines: [],
+        orderDate: "",
+        ref: "",
+        status: "",
+        idCommand: 0,
+        idAgent: 0,
+        idCustomer: 0
+      };
+    }
+    return lsCart;
   }
 
   /**

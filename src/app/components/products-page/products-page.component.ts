@@ -42,7 +42,7 @@ export class ProductsPageComponent implements OnInit{
 
   private createLine(product : ProductInterface): LineInterface {
     return {
-      idCommand: (this.idCart && this.idCart !== 0) ?this.idCart : 0,
+      idCommand: (this.idCart && this.idCart !== 0) ? this.idCart : 0,
       idLine: 0,
       idProduct: product.idProduct,
       price: product.price,
