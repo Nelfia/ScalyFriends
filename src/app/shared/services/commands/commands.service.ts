@@ -86,7 +86,16 @@ export class CommandsService {
    */
   getCart(isLogged: boolean) {
     let cart: CommandInterface | null;
-    // si loggué
+    // TODO
+    //  si user logué
+    //  Si cart présent en ls: update cart en db
+    //  récupérer cart en db
+    //  émettre panier via behavior
+    //  Si non logué: émettre cartLS ds behavior.
+
+
+
+    // si user loggué
     if (isLogged) {
       // recupérer le panier de user
       cart = this.cart$.getValue();
@@ -113,6 +122,7 @@ export class CommandsService {
    * @param idProduct
    */
   removeLine(idLine: Number, idProduct: number): Observable<CommandInterface | null> {
+    // Si logué, supprimer ligne en db.
     if (this.idCart) {
       return this.http.delete<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines/" + idLine, {headers: this.headers}).pipe(
         take(1),
@@ -122,19 +132,17 @@ export class CommandsService {
         })
       );
     }
-    let cartLS : CommandInterface | null = this.getLsCart();
-    // check ls cart
-    if(cartLS) {
-      // update cart
-      cartLS.lines.forEach((line, index) => {
-        if(line.idProduct === idProduct)
-          cartLS?.lines.splice(index, 1);
-      })
-      // enregitrer ds ls
-      localStorage.setItem('cart', JSON.stringify(cartLS));
+    // Si non logué, supprimer ligne ds ls cart.
+    let cartLS : CommandInterface = this.getLsCart();
+    // update ls cart
+    cartLS.lines.forEach((line, index) => {
+      if(line.idProduct === idProduct)
+        cartLS?.lines.splice(index, 1);
+    })
+    // enregitrer ds ls
+    localStorage.setItem('cart', JSON.stringify(cartLS));
     console.log(cartLS)
     this.cart$.next(cartLS);
-    }
     return this.cart$?.asObservable() ?? null;
   }
 
