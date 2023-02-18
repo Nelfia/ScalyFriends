@@ -40,11 +40,11 @@ export class AuthService {
           console.log('Logged in')
           console.log('res')
           this.setSession(res);
-          this.commandeService.agregateCarts(res.cart);
+          this.commandeService.agregateCarts(res.cart, res.user);
           console.log(res.cart.idCommand);
         }),
         shareReplay(1)
-    );
+      );
   }
 
   /**

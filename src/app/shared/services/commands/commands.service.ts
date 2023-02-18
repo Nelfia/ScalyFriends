@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {BehaviorSubject, map, Observable, pipe, take, tap} from "rxjs";
+import {BehaviorSubject, Observable, take, tap} from "rxjs";
 import {CommandInterface} from "../../interfaces/command.interface";
 import {API_BASE_URL} from "../../constants/constants";
 import {LineInterface} from "../../interfaces/Line.interface";
@@ -29,13 +29,13 @@ export class CommandsService {
    * Si user logué -> envoi en DB.
    * Sinon -> enregistré ds LS
    * @param line
-   * @param loggdUser
+   * @param loggedUser
    */
-  addLine(line: LineInterface, loggdUser: UserInterface | null): Observable<CommandInterface | null> {
+  addLine(line: LineInterface, loggedUser: UserInterface | null): Observable<CommandInterface | null> {
     console.log("dans addLine")
     // Si un utilisateur est logué, ajouter ligne en BD.
-    if (loggdUser) {
-      return this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines", line, {headers: this.headers}).pipe(
+    if (loggedUser) {
+      return this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + (loggedUser.idCart ?? this.idCart) + "/lines", line, {headers: this.headers}).pipe(
         tap(cart => this.cart$.next(cart))
       );
     }
@@ -43,7 +43,7 @@ export class CommandsService {
     let cartLS = this.getLsCart() ?? this.newCartInterface();
     let cartLines: LineInterface[] = [];
     if (cartLS.lines)
-      cartLines = this.updateLine(cartLS.lines, line);
+      cartLines = this.updateLsCartLine(cartLS.lines, line);
     else cartLines.push(line);
     cartLS.lines = cartLines;
 
@@ -52,10 +52,7 @@ export class CommandsService {
     return this.cart$.asObservable();
   }
 
-  private updateLine(lines: LineInterface[], newLine: LineInterface, idCart?: number): LineInterface[] {
-    // Si l'idCommand du cart a été transmis
-    if(idCart)
-      newLine.idCommand = idCart
+  private updateLsCartLine(lines: LineInterface[], newLine: LineInterface): LineInterface[] {
     // Si aucune ligne dans tableau de lignes, créer tableau vide + insérer nouvelle ligne
     if (lines === null) {
       lines = [];
@@ -68,15 +65,13 @@ export class CommandsService {
           console.log("quantité actuelle:" + line.quantity)
           isLineWithProduct = true;
           line.quantity += newLine.quantity;
-          console.log("quantité après update:" + line.quantity)
           line.quantity = (line.quantity <= newLine.product.stock) ? line.quantity : newLine.product.stock;
+          console.log("quantité après update:" + line.quantity)
         }
       })
       // Si le produit n'exite pas déjà dans les lignes du LS, l'ajouter
-      if (!isLineWithProduct) {
-        newLine.idCommand = idCart ?? 0;
+      if (!isLineWithProduct)
         lines.push(newLine);
-      }
     }
     return lines;
   }
@@ -88,21 +83,8 @@ export class CommandsService {
   getCart(isLogged: boolean) : CommandInterface | null{
     // si user non logué
     if(!isLogged) {
-      // emettre lsCart via behavior
-      this.cart$.next(this.getLsCart());
       return this.getLsCart();
-    } else {    //  si user logué
-      // Si cart présent en ls
-      const cartLS = this.getLsCart();
-      // Et si user n'a pas de cart => updateCart en DB + insertion cartLS
-      if(cartLS) {
-        this.http.post<CommandInterface>(API_BASE_URL + '/api/orders/', {cartLS}, {headers: this.headers}).pipe(
-          tap(cart => {
-            // emettre panier via behavior
-            this.cart$.next(cart);
-          })
-        )
-      }
+    } else {
       this.http.get<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart, {headers: this.headers}).pipe(
         tap(cart => {
             // emettre panier via behavior
@@ -112,28 +94,7 @@ export class CommandsService {
       ).subscribe();
       console.log('ici')
       return this.cart$.getValue();
-
-
-
-    // //  récupérer cart en db
-    // //  émettre panier via behavior
-    //
-    //   if(this.getLsCart())
-    //     // recupérer le panier de user
-    //     cart = this.cart$.getValue();
-    //   // aggreger les 2 paniers en un (ls + db)
-    //   if(cart)
-    //     cart = this.agregateCarts(cart)
-    //   // mettre a jour bdd
-    //   this.http.put<CommandInterface>(API_BASE_URL + '/api/orders/' + cart?.idCommand , cart, {headers: this.headers}).pipe(
-    //     tap(cart => {
-    //       // emettre panier via behavior
-    //       this.cart$.next(cart);
-    //       console.log(cart);
-    //     })
-    //   )
     }
-
   }
 
   /**
@@ -144,6 +105,7 @@ export class CommandsService {
   removeLine(idLine: Number, idProduct: number): Observable<CommandInterface | null> {
     // Si logué, supprimer ligne en db.
     if (this.idCart) {
+      console.log(this.idCart)
       return this.http.delete<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines/" + idLine, {headers: this.headers}).pipe(
         take(1),
         tap(cart => {
@@ -173,7 +135,7 @@ export class CommandsService {
    */
   getLsCart(): CommandInterface {
     const lsCart = localStorage.getItem('cart');
-    return lsCart ? JSON.parse(lsCart) : this.newCartInterface();
+    return lsCart ? JSON.parse(lsCart) : null;
   }
 
   /**
@@ -196,16 +158,20 @@ export class CommandsService {
   /**
    * Fusionne les 2 paniers pour n'en retourner qu'un.
    * @param cart
+   * @param user
    * @return CommandInterface
    */
-  agregateCarts(cart: CommandInterface): CommandInterface {
+  agregateCarts(cart: CommandInterface, user: UserInterface): CommandInterface {
     let cartLS = this.getLsCart();
     // agreger les deux carts
     let newCart: CommandInterface;
     let newLines: LineInterface[] = [];
     if(cartLS) {
+      console.log(cartLS.lines)
       cartLS.lines.forEach(line => {
-        newLines = this.updateLine(cart.lines, line, cart.idCommand);
+        this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines", line, {headers: this.headers}).pipe(
+          tap(cart => this.cart$.next(cart))
+        ).subscribe();
       })
     }
     newCart = {
