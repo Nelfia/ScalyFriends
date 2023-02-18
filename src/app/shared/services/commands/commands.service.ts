@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {BehaviorSubject, Observable, take, tap} from "rxjs";
+import {BehaviorSubject, map, Observable, pipe, take, tap} from "rxjs";
 import {CommandInterface} from "../../interfaces/command.interface";
 import {API_BASE_URL} from "../../constants/constants";
 import {LineInterface} from "../../interfaces/Line.interface";
@@ -26,7 +26,8 @@ export class CommandsService {
 
   /**
    * Ajouter une nouvelle line dans le panier.
-   * Si user logué -> envoi en DB. Sinon -> enregistré ds LS
+   * Si user logué -> envoi en DB.
+   * Sinon -> enregistré ds LS
    * @param line
    * @param loggdUser
    */
@@ -39,7 +40,7 @@ export class CommandsService {
       );
     }
     // Si aucun utilisateur logué, récupérer/créer cart ds LS
-    const cartLS = this.getLsCart();
+    let cartLS = this.getLsCart() ?? this.newCartInterface();
     let cartLines: LineInterface[] = [];
     if (cartLS.lines)
       cartLines = this.updateLine(cartLS.lines, line);
@@ -86,34 +87,44 @@ export class CommandsService {
    */
   getCart(isLogged: boolean) {
     let cart: CommandInterface | null;
-    // TODO
-    //  si user logué
-    //  Si cart présent en ls: update cart en db
-    //  récupérer cart en db
-    //  émettre panier via behavior
-    //  Si non logué: émettre cartLS ds behavior.
-
-
-
-    // si user loggué
-    if (isLogged) {
-      // recupérer le panier de user
-      cart = this.cart$.getValue();
-      // aggreger les 2 paniers en un (ls + db)
-      if(cart)
-        cart = this.agregateCarts(cart)
-      // mettre a jour bdd
-      this.http.put<CommandInterface>(API_BASE_URL + '/api/orders/' + cart?.idCommand , cart, {headers: this.headers}).pipe(
-        tap(cart => {
-          // emettre panier via behavior
-          this.cart$.next(cart);
-          console.log(cart);
-        })
-      )
-    } else {  // si pas loggué
+    // si user non logué
+    if(!isLogged) {
       // emettre lsCart via behavior
       this.cart$.next(this.getLsCart());
+    } else {    //  si user logué
+      // Si cart présent en ls
+      const cartLS = this.getLsCart();
+      // Et si user n'a pas de cart => updateCart en DB + insertion cartLS
+      if(cartLS) {
+        this.http.post<CommandInterface>(API_BASE_URL + '/api/orders/', {cartLS}, {headers: this.headers}).pipe(
+          tap(cart => {
+            // emettre panier via behavior
+            this.cart$.next(cart);
+          })
+        )
+      }
+
+
+
+    // //  récupérer cart en db
+    // //  émettre panier via behavior
+    //
+    //   if(this.getLsCart())
+    //     // recupérer le panier de user
+    //     cart = this.cart$.getValue();
+    //   // aggreger les 2 paniers en un (ls + db)
+    //   if(cart)
+    //     cart = this.agregateCarts(cart)
+    //   // mettre a jour bdd
+    //   this.http.put<CommandInterface>(API_BASE_URL + '/api/orders/' + cart?.idCommand , cart, {headers: this.headers}).pipe(
+    //     tap(cart => {
+    //       // emettre panier via behavior
+    //       this.cart$.next(cart);
+    //       console.log(cart);
+    //     })
+    //   )
     }
+
   }
 
   /**
@@ -152,20 +163,25 @@ export class CommandsService {
    * @return CommandInterface
    */
   getLsCart(): CommandInterface {
-    let lsCart : CommandInterface = JSON.parse(localStorage.getItem('cart') ?? "");
-    if(!lsCart) {
-      lsCart = {
-        lastChange: "",
-        lines: [],
-        orderDate: "",
-        ref: "",
-        status: "",
-        idCommand: 0,
-        idAgent: 0,
-        idCustomer: 0
-      };
-    }
-    return lsCart;
+    const lsCart = localStorage.getItem('cart');
+    return lsCart ? JSON.parse(lsCart) : this.newCartInterface();
+  }
+
+  /**
+   * Créé une nouvelle CommandInterface 'vierge'.
+   * @private
+   */
+  private newCartInterface(): CommandInterface {
+    return {
+      lastChange: "",
+      lines: [],
+      orderDate: "",
+      ref: "",
+      status: "",
+      idCommand: 0,
+      idAgent: 0,
+      idCustomer: 0
+    };
   }
 
   /**
