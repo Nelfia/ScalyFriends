@@ -20,12 +20,9 @@ export class AuthService {
   headers = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
   });
-  public isLogged$ = new BehaviorSubject<boolean>(false);
+  public isLogged$ = new BehaviorSubject<boolean>(this.isLoggedIn());
   private loggedUser! : UserInterface | null ;
-  public user$!: BehaviorSubject<UserInterface | null >;
-  constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) {
-    this.user$ = new BehaviorSubject<UserInterface | null>(this.loggedUser);
-  }
+  constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
 
   /**
    * Tente de loguer le user.
@@ -45,7 +42,6 @@ export class AuthService {
           this.setSession(res);
           this.commandeService.agregateCarts(res.cart);
           console.log(res.cart.idCommand);
-          this.user$.next(this.loggedUser)
         }),
         shareReplay(1)
     );
@@ -62,6 +58,7 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(res.user));
     localStorage.setItem('id_cart', JSON.stringify(res.idCart));
     this.isLogged$.next(true);
+    this.getLoggedUser();
   }
 
   /**
@@ -83,7 +80,6 @@ export class AuthService {
     localStorage.removeItem("id_cart");
     localStorage.removeItem('cart_lines');
     this.isLogged$.next(false);
-    this.user$.next(this.loggedUser)
   }
 
   /**

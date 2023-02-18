@@ -46,6 +46,7 @@ export class HeaderAppComponent implements OnInit {
 
   onLogout(): void {
     this.authService.logout();
+    this.commandeService.cart$.next(this.commandeService.getLsCart());
   }
 
 }

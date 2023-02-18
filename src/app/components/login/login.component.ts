@@ -12,7 +12,7 @@ import {CommandsService} from "../../shared/services/commands/commands.service";
 })
 export class LoginComponent implements OnInit {
   form:FormGroup;
-  constructor(private fb:FormBuilder, private authService: AuthService, private router: Router, private commandeServuce: CommandsService) {
+  constructor(private fb:FormBuilder, private authService: AuthService, private router: Router, private commandeService: CommandsService) {
 
     this.form = this.fb.group({
       username: ['',Validators.required],
@@ -28,8 +28,9 @@ export class LoginComponent implements OnInit {
     if (val.username && val.pwd) {
       this.authService.login(val.username, val.pwd).pipe(
         tap((res: any) => {
-          this.commandeServuce.idCart = res.idCart;
+          this.commandeService.idCart = res.idCart;
           this.router.navigateByUrl('/');
+          this.commandeService.cart$.next(this.commandeService.getCart(this.authService.isLogged$.getValue()))
         })
       ).subscribe()
     }

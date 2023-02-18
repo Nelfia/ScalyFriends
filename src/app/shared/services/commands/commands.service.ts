@@ -85,12 +85,12 @@ export class CommandsService {
    * Récupère le panier.
    * @return Observable<CommandInterface>
    */
-  getCart(isLogged: boolean) {
-    let cart: CommandInterface | null;
+  getCart(isLogged: boolean) : CommandInterface | null{
     // si user non logué
     if(!isLogged) {
       // emettre lsCart via behavior
       this.cart$.next(this.getLsCart());
+      return this.getLsCart();
     } else {    //  si user logué
       // Si cart présent en ls
       const cartLS = this.getLsCart();
@@ -103,6 +103,15 @@ export class CommandsService {
           })
         )
       }
+      this.http.get<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart, {headers: this.headers}).pipe(
+        tap(cart => {
+            // emettre panier via behavior
+            this.cart$.next(cart);
+          }
+        )
+      ).subscribe();
+      console.log('ici')
+      return this.cart$.getValue();
 
 
 
