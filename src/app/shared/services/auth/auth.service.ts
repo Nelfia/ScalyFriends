@@ -2,10 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
-import {BehaviorSubject, Observable, shareReplay, tap} from "rxjs";
+import {BehaviorSubject, Observable, shareReplay, take, tap} from "rxjs";
 import {UserInterface} from "../../interfaces/user.interface";
-import {CommandsService} from "../commands/commands.service";
-
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +20,7 @@ export class AuthService {
   });
   public isLogged$ = new BehaviorSubject<boolean>(this.isLoggedIn());
   private loggedUser! : UserInterface | null ;
-  constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   /**
    * Tente de loguer le user.
@@ -34,15 +32,14 @@ export class AuthService {
    */
   login(username:string, pwd: string) : Observable<string> {
     if (this.isLoggedIn()) this.logout();
+    // TODO : cacher les éléments de connexion --> SECURITE USER !
     return this.http.post<any>(API_BASE_URL + 'api/users/login', {username, pwd}, {headers: this.headers})
       .pipe(
         tap((res) => {
           console.log('Logged in')
-          console.log('res')
           this.setSession(res);
-          this.commandeService.agregateCarts(res.cart, res.user);
-          console.log(res.cart.idCommand);
         }),
+        take(1),
         shareReplay(1)
       );
   }
@@ -78,7 +75,6 @@ export class AuthService {
     localStorage.removeItem("expires_at");
     localStorage.removeItem("user");
     localStorage.removeItem("id_cart");
-    localStorage.removeItem('cart_lines');
     this.isLogged$.next(false);
   }
 

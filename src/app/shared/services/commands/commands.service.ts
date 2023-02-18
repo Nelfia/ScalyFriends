@@ -161,30 +161,21 @@ export class CommandsService {
    * @param user
    * @return CommandInterface
    */
-  agregateCarts(cart: CommandInterface, user: UserInterface): CommandInterface {
+  agregateCarts(cart: CommandInterface, user: UserInterface): void {
     let cartLS = this.getLsCart();
     // agreger les deux carts
-    let newCart: CommandInterface;
-    let newLines: LineInterface[] = [];
     if(cartLS) {
       console.log(cartLS.lines)
       cartLS.lines.forEach(line => {
-        this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart + "/lines", line, {headers: this.headers}).pipe(
-          tap(cart => this.cart$.next(cart))
+        this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + (this.idCart ?? user.idCart) + "/lines", line, {headers: this.headers}).pipe(
+          tap(cart => this.cart$.next(cart)),
+          take(1)
         ).subscribe();
       })
     }
-    newCart = {
-      idAgent: 0,
-      idCustomer: cart.idCustomer,
-      idCommand: cart.idCommand,
-      lastChange: String(new Date()),
-      lines: newLines,
-      orderDate: "",
-      ref: "",
-      status: cart?.status ?? 'cart'
+    else {
+      this.cart$.next(cart);
     }
     localStorage.removeItem('cart');
-    return newCart;
   }
 }

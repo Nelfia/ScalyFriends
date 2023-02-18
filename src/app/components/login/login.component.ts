@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthService} from "../../shared/services/auth/auth.service";
-import {tap} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 import {CommandsService} from "../../shared/services/commands/commands.service";
 
 @Component({
@@ -10,8 +10,11 @@ import {CommandsService} from "../../shared/services/commands/commands.service";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnDestroy {
   form:FormGroup;
+
+  destroy$ : Subject<boolean> = new Subject<boolean>()
+
   constructor(private fb:FormBuilder, private authService: AuthService, private router: Router, private commandeService: CommandsService) {
 
     this.form = this.fb.group({
@@ -27,15 +30,17 @@ export class LoginComponent implements OnInit {
 
     if (val.username && val.pwd) {
       this.authService.login(val.username, val.pwd).pipe(
-        tap((res: any) => {
-          this.commandeService.idCart = res.idCart;
-          this.router.navigateByUrl('/');
-          this.commandeService.cart$.next(this.commandeService.getCart(this.authService.isLogged$.getValue()))
-        })
-      ).subscribe()
+        takeUntil(this.destroy$)
+      ).subscribe((res: any) => {
+        this.commandeService.idCart = res.idCart;
+        this.router.navigateByUrl('/');
+        this.commandeService.agregateCarts(res.cart, res.user);
+      })
     }
   }
-  ngOnInit(): void {
+
+  ngOnDestroy() {
+    this.destroy$.next(false);
   }
 
 }
