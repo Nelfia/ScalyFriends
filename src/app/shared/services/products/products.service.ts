@@ -48,7 +48,29 @@ export class ProductsService {
     }
     return observable;
   }
-  public getProductById(id: number): Observable<ProductInterface> {
+  public getProductById(id: number, category?: string): Observable<ProductInterface | undefined> {
+    let product: ProductInterface | undefined;
+
+    if (category) {
+      let productsArray: ProductInterface[] | undefined;
+      switch (category) {
+        case 'animals':
+          productsArray = this.animals;
+          break;
+        case 'materials':
+          productsArray = this.materials;
+          break;
+        case 'feeding':
+          productsArray = this.feeding;
+          break;
+        default:
+          productsArray = undefined;
+          break;
+      }
+      return productsArray ? of(productsArray.find(product => product.idProduct === +id)) : this.http.get<ProductInterface>('http://api-scalyfriends/api/products/' + id)
+    }
+
     return this.http.get<ProductInterface>('http://api-scalyfriends/api/products/' + id)
+
   }
 }

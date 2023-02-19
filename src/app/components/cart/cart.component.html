@@ -1,4 +1,4 @@
-<div class="container" *ngIf="(cart$ | async) as cart">
+<div class="container" *ngIf="cart">
   <h2 class="merienda">Votre panier</h2>
   <table>
     <app-cart-line *ngFor="let line of cart.lines" [line]="line"></app-cart-line>

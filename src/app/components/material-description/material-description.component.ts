@@ -9,13 +9,13 @@ import { Observable, tap} from "rxjs";
   styleUrls: ['./material-description.component.scss']
 })
 export class MaterialDescriptionComponent implements OnInit {
-  product$!: Observable<ProductInterface>;
-  public descriptionTab! : string[];
+  product$!: Observable<ProductInterface | undefined>;
+  public descriptionTab! : string[] | undefined;
   constructor(private parent: ProductsPageComponent) { }
   ngOnInit(): void {
     this.product$ = this.parent.product$.pipe(
       tap(product => {
-        this.descriptionTab = product.description.split('\r\n\r\n')
+        this.descriptionTab = product?.description.split('\r\n\r\n')
       })
     );
   }

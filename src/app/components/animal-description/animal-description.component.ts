@@ -9,7 +9,7 @@ import {Observable} from "rxjs";
   styleUrls: ['./animal-description.component.scss']
 })
 export class AnimalDescriptionComponent implements OnInit {
-  product$!: Observable<ProductInterface>;
+  product$!: Observable<ProductInterface | undefined>;
   constructor(private parent: ProductsPageComponent) {}
   ngOnInit(): void {
     this.product$ = this.parent.product$;

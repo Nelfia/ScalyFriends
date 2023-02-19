@@ -2,10 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
-import {Observable, shareReplay, tap} from "rxjs";
+import {BehaviorSubject, Observable, shareReplay, take, tap} from "rxjs";
 import {UserInterface} from "../../interfaces/user.interface";
 import {CommandsService} from "../commands/commands.service";
-
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +19,8 @@ export class AuthService {
   headers = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
   });
-  private static loggedUser : UserInterface | null;
+  public isLogged$ = new BehaviorSubject<boolean>(this.isLoggedIn());
+  private loggedUser! : UserInterface | null ;
   constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
 
   /**
@@ -33,16 +33,16 @@ export class AuthService {
    */
   login(username:string, pwd: string) : Observable<string> {
     if (this.isLoggedIn()) this.logout();
+    // TODO : cacher les éléments de connexion --> SECURITE USER !
     return this.http.post<any>(API_BASE_URL + 'api/users/login', {username, pwd}, {headers: this.headers})
       .pipe(
         tap((res) => {
           console.log('Logged in')
-          console.log('res')
           this.setSession(res);
-          this.commandeService.agregateCarts(res.cart);
         }),
+        take(1),
         shareReplay(1)
-    );
+      );
   }
 
   /**
@@ -54,6 +54,9 @@ export class AuthService {
     localStorage.setItem('id_token', JSON.parse(res.idToken));
     localStorage.setItem('expires_at', res.expires);
     localStorage.setItem('user', JSON.stringify(res.user));
+    localStorage.setItem('id_cart', JSON.stringify(res.idCart));
+    this.isLogged$.next(true);
+    this.getLoggedUser();
   }
 
   /**
@@ -68,11 +71,13 @@ export class AuthService {
    * Supprime toutes les données de l'utilisateur du LS.
    */
   logout() {
+    this.loggedUser = null;
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
     localStorage.removeItem("user");
     localStorage.removeItem("id_cart");
-    localStorage.removeItem('cart_lines');
+    this.commandeService.idCart = null;
+    this.isLogged$.next(false);
   }
 
   /**
@@ -94,14 +99,14 @@ export class AuthService {
   getLoggedUser() : UserInterface | null {
     if (this.isLoggedIn()) {
       console.log('logged in')
-      if (!AuthService.loggedUser){
+      if (!this.loggedUser){
         let userLS = JSON.parse(localStorage.getItem('user') ?? '');
         if (userLS && userLS !== '')
-          AuthService.loggedUser = userLS ?? null;
+          this.loggedUser = userLS ?? null;
       }
     } else
       console.log('logged out')
 
-    return AuthService.loggedUser;
+    return this.loggedUser;
   }
 }
