@@ -4,6 +4,7 @@ import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
 import {BehaviorSubject, Observable, shareReplay, take, tap} from "rxjs";
 import {UserInterface} from "../../interfaces/user.interface";
+import {CommandsService} from "../commands/commands.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthService {
   });
   public isLogged$ = new BehaviorSubject<boolean>(this.isLoggedIn());
   private loggedUser! : UserInterface | null ;
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
 
   /**
    * Tente de loguer le user.
@@ -75,6 +76,7 @@ export class AuthService {
     localStorage.removeItem("expires_at");
     localStorage.removeItem("user");
     localStorage.removeItem("id_cart");
+    this.commandeService.idCart = null;
     this.isLogged$.next(false);
   }
 

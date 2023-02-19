@@ -11,7 +11,7 @@ import {UserInterface} from "../../interfaces/user.interface";
 })
 export class CommandsService {
 
-  public idCart: number;
+  public idCart: number | null;
   public cart$: BehaviorSubject<CommandInterface | null>;
   private headers = new HttpHeaders({
     'Access-Control-Allow-Origin': '*',
