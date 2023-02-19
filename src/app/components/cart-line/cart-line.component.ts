@@ -32,9 +32,12 @@ export class CartLineComponent implements OnInit, OnDestroy {
       ).subscribe(() => "Delete successful");
     }
   }
-  doThat(){
+  updateLine(line: LineInterface) : void {
+    line.quantity = this.quantity;
+    console.log(line.quantity)
+    this.commandsService.updateLine(line).pipe(takeUntil(this.destroy$)).subscribe();
     console.log('go update line!')
-    console.log(`${this.line.product.name} en ${this.quantity} exemplaires`)
+    console.log(`${this.line.idLine} en ${this.quantity} exemplaires`)
   }
   ngOnDestroy() {
     this.destroy$.next(false)

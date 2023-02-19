@@ -1,23 +1,24 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { HeaderAppComponent } from './components/header-app/header-app.component';
-import { ProductsComponent } from './components/products/products.component';
+import {LOCALE_ID, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {HomeComponent} from './components/home/home.component';
+import {HeaderAppComponent} from './components/header-app/header-app.component';
+import {ProductsComponent} from './components/products/products.component';
 import {SharedModule} from "./shared/shared.module";
 import {HttpClientModule} from '@angular/common/http';
-import { registerLocaleData } from '@angular/common';
+import {registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { ProductsPageComponent } from './components/products-page/products-page.component';
-import { AnimalDescriptionComponent } from './components/animal-description/animal-description.component';
-import { MaterialDescriptionComponent } from './components/material-description/material-description.component';
-import { FeedingDescriptionComponent } from './components/feeding-description/feeding-description.component';
+import {ProductsPageComponent} from './components/products-page/products-page.component';
+import {AnimalDescriptionComponent} from './components/animal-description/animal-description.component';
+import {MaterialDescriptionComponent} from './components/material-description/material-description.component';
+import {FeedingDescriptionComponent} from './components/feeding-description/feeding-description.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { LoginComponent } from './components/login/login.component';
-import { CartComponent } from './components/cart/cart.component';
+import {LoginComponent} from './components/login/login.component';
+import {CartComponent} from './components/cart/cart.component';
 import {httpInterceptorProviders} from "./shared/interceptors";
-import { CartLineComponent } from './components/cart-line/cart-line.component';
+import {CartLineComponent} from './components/cart-line/cart-line.component';
+
 registerLocaleData(localeFr);
 
 @NgModule({
