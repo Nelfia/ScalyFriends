@@ -19,7 +19,7 @@
         <div class="img">
           <img [src]="apiBaseUrl + product.img" alt="" />
         </div>
-        <button class="show-product" (click)="onShowProduct(product?.['idProduct'])"><span>></span></button>
+        <button class="show-product" [routerLink]="[router.url, product?.['idProduct']]"><span>></span></button>
         <p>{{product.name}}</p>
       </li>
     </ul>

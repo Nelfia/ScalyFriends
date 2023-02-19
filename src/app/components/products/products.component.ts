@@ -11,7 +11,4 @@ export class ProductsComponent {
   public apiBaseUrl = API_BASE_URL;
   constructor(protected route: ActivatedRoute, protected router: Router) { }
 
-  onShowProduct(idProduct : number) : void {
-    this.router.navigateByUrl(`/${this.router.url}/${idProduct}`);
-  }
 }

@@ -9,8 +9,8 @@ import {Observable, tap} from "rxjs";
   styleUrls: ['./feeding-description.component.scss']
 })
 export class FeedingDescriptionComponent implements OnInit {
-  product$!: Observable<ProductInterface>;
-  textDescription!: string;
+  product$!: Observable<ProductInterface | undefined>;
+  textDescription!: string | undefined;
   private productDescription!: string;
   isTextTruncated: boolean = false;
 
@@ -19,9 +19,9 @@ export class FeedingDescriptionComponent implements OnInit {
   ngOnInit(): void {
     this.product$ = this.parent.product$.pipe(
       tap(product => {
-        this.productDescription = product.description;
-        if(this.productDescription.length > 200) {
-          this.textDescription = this.productDescription.slice(0, 200) + '...';
+        this.productDescription = product?.description ?? '';
+        if(this.productDescription?.length > 200) {
+          this.textDescription = this.productDescription?.slice(0, 200) + '...';
           this.isTextTruncated = true;
         }
       })
@@ -29,7 +29,7 @@ export class FeedingDescriptionComponent implements OnInit {
   }
 
   displayText(): void {
-    this.textDescription = this.isTextTruncated ? this.productDescription : this.productDescription.slice(0, 200) + '...';
+    this.textDescription = this.isTextTruncated ? this.productDescription : this.productDescription?.slice(0, 200) + '...';
     console.log(this.isTextTruncated)
     this.isTextTruncated = !this.isTextTruncated;
   }

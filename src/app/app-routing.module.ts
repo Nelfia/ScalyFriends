@@ -28,7 +28,10 @@ const routes: Routes = [
   },
   {
     path: 'animal/:id',
-    component: ProductsPageComponent
+    component: ProductsPageComponent,
+    data: {
+      category: 'animals'
+    }
   },
   {
     path: 'material',
@@ -39,7 +42,10 @@ const routes: Routes = [
   },
   {
     path: 'material/:id',
-    component: ProductsPageComponent
+    component: ProductsPageComponent,
+    data: {
+      category: 'materials'
+    }
   },
   {
     path: 'feeding',
@@ -50,7 +56,10 @@ const routes: Routes = [
   },
   {
     path: 'feeding/:id',
-    component: ProductsPageComponent
+    component: ProductsPageComponent,
+    data: {
+      category: 'feeding'
+    }
   },
   {
     path: 'login',
