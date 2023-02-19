@@ -2,10 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {LineInterface} from "../../shared/interfaces/Line.interface";
 import {CommandsService} from "../../shared/services/commands/commands.service";
 import {API_BASE_URL} from "../../shared/constants/constants";
-import {Observable, of, Subject, takeUntil, tap} from "rxjs";
-import {CommandInterface} from "../../shared/interfaces/command.interface";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CartComponent} from "../cart/cart.component";
+import {Subject, takeUntil, tap} from "rxjs";
 
 @Component({
   selector: 'app-cart-line',
@@ -16,7 +13,7 @@ export class CartLineComponent implements OnInit, OnDestroy {
   @Input() line!: LineInterface;
   @Output() removeCartLine: EventEmitter<number> = new EventEmitter<number>();
   apiBaseUrl!: string;
-  constructor(private commandsService: CommandsService, private formBuilder: FormBuilder) { }
+  constructor(private commandsService: CommandsService) { }
   quantity!: number;
   private destroy$ : Subject<boolean> = new Subject<boolean>();
   ngOnInit(): void {

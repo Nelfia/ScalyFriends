@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserInterface} from "../../shared/interfaces/user.interface";
-import {CommandsService} from "../../shared/services/commands/commands.service";
 
 @Component({
   selector: 'app-home',
@@ -11,7 +10,7 @@ export class HomeComponent implements OnInit {
   public loggedUser! : UserInterface | null;
   public idCart!: number;
 
-  constructor(private commandsService : CommandsService) { }
+  constructor() { }
 
   ngOnInit(): void {
 

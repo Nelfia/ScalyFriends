@@ -49,8 +49,6 @@ export class ProductsService {
     return observable;
   }
   public getProductById(id: number, category?: string): Observable<ProductInterface | undefined> {
-    let product: ProductInterface | undefined;
-
     if (category) {
       let productsArray: ProductInterface[] | undefined;
       switch (category) {
