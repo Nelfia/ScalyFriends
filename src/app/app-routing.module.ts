@@ -8,6 +8,8 @@ import {FeedingResolver} from "./shared/resolvers/feeding.resolver";
 import {ProductsPageComponent} from "./components/products-page/products-page.component";
 import {LoginComponent} from "./components/login/login.component";
 import {CartComponent} from "./components/cart/cart.component";
+import {SigninComponent} from "./components/signin/signin.component";
+import {ConnexionPageComponent} from "./components/connexion-page/connexion-page.component";
 
 const routes: Routes = [
   {
@@ -62,12 +64,12 @@ const routes: Routes = [
     }
   },
   {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
     path: 'cart',
     component: CartComponent
+  },
+  {
+    path: 'connexion',
+    component: ConnexionPageComponent
   }
 ];
 

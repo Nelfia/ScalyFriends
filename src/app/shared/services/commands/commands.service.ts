@@ -78,6 +78,7 @@ export class CommandsService {
 
   updateLine(line : LineInterface): Observable<CommandInterface | null> {
     if(line.idLine){
+      // TODO: gérer le clic multiple pour prise en compte de la dernière quantité
       return this.http.put<CommandInterface>(API_BASE_URL + "api/orders/" + (line.idCommand ?? this.idCart) + "/lines", line, {headers: this.headers}).pipe(
         tap(cart => this.cart$.next(cart))
       );

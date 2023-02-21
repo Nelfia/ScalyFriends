@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {LineInterface} from "../../shared/interfaces/Line.interface";
 import {CommandsService} from "../../shared/services/commands/commands.service";
 import {API_BASE_URL} from "../../shared/constants/constants";
-import {Subject, takeUntil, tap} from "rxjs";
+import {Subject, switchScan, takeUntil, tap} from "rxjs";
 
 @Component({
   selector: 'app-cart-line',
@@ -13,9 +13,9 @@ export class CartLineComponent implements OnInit, OnDestroy {
   @Input() line!: LineInterface;
   @Output() removeCartLine: EventEmitter<number> = new EventEmitter<number>();
   apiBaseUrl!: string;
-  constructor(private commandsService: CommandsService) { }
   quantity!: number;
   private destroy$ : Subject<boolean> = new Subject<boolean>();
+  constructor(private commandsService: CommandsService) { }
   ngOnInit(): void {
     this.apiBaseUrl = API_BASE_URL;
     this.quantity = this.line.quantity;
@@ -23,15 +23,15 @@ export class CartLineComponent implements OnInit, OnDestroy {
   removeLine(idLine: number, idProduct: number): void {
     if (confirm("Etes-vous sûr de vouloir retirer cet élément de votre panier?")) {
       this.commandsService.removeLine(idLine, idProduct).pipe(
-        tap(cart => {
-          localStorage.setItem('cart', JSON.stringify(cart))
-          console.log('Ligne supprimée!')
-          this.removeCartLine.emit(idLine);
-        }),
         takeUntil(this.destroy$)
-      ).subscribe(() => "Delete successful");
+      ).subscribe(cart => {
+        localStorage.setItem('cart', JSON.stringify(cart))
+        console.log('Ligne supprimée!')
+        this.removeCartLine.emit(idLine)
+      });
     }
   }
+
   updateLine(line: LineInterface) : void {
     line.quantity = this.quantity;
     console.log(line.quantity)

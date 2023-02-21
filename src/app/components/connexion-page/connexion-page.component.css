@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 4rem;
+}
+.container .component-container {
+  display: flex;
+  flex-direction: column;
+}
+.container h2 {
+  text-align: center;
+}
+
+/*# sourceMappingURL=connexion-page.component.css.map */

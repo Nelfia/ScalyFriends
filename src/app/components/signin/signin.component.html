@@ -1,0 +1,21 @@
+<form [formGroup]="signinForm">
+  <fieldset>
+    <legend>Nouveau Compte</legend>
+    <div class="form-field">
+      <label>Nom d'utilisateur:</label>
+      <input name="username" formControlName="username">
+    </div>
+    <div class="form-field">
+      <label>Mot de passe:</label>
+      <input name="pwd" formControlName="pwd"  type="password">
+    </div>
+    <div class="form-field">
+      <label>Confirmation du mot de passe:</label>
+      <input name="pwdConfirm" formControlName="pwdConfirm"  type="password">
+    </div>
+  </fieldset>
+  <div class="form-buttons">
+    <button class="button button-primary"
+            (click)="signin()">Enregistrer</button>
+  </div>
+</form>

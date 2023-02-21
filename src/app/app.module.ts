@@ -18,6 +18,8 @@ import {LoginComponent} from './components/login/login.component';
 import {CartComponent} from './components/cart/cart.component';
 import {httpInterceptorProviders} from "./shared/interceptors";
 import {CartLineComponent} from './components/cart-line/cart-line.component';
+import { SigninComponent } from './components/signin/signin.component';
+import { ConnexionPageComponent } from './components/connexion-page/connexion-page.component';
 
 registerLocaleData(localeFr);
 
@@ -33,7 +35,9 @@ registerLocaleData(localeFr);
     FeedingDescriptionComponent,
     LoginComponent,
     CartComponent,
-    CartLineComponent
+    CartLineComponent,
+    SigninComponent,
+    ConnexionPageComponent
   ],
   imports: [
     BrowserModule,
