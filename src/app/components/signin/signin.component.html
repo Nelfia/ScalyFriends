@@ -1,0 +1,48 @@
+<form [formGroup]="signinForm" (ngSubmit)="onSignin()">
+  <div class="form-group">
+    <div class="form-field">
+      <label>Nom d'utilisateur</label>
+      <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid' : submitted && f['username'].errors }" formControlName="username">
+    </div>
+    <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+      <div *ngIf="f['username'].errors['required']">Username is required</div>
+      <div *ngIf="f['username'].errors['minlength']">
+        Username must be at least 6 characters
+      </div>
+      <div *ngIf="f['username'].errors['maxlength']">
+        Username must not exceed 20 characters
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-field">
+      <label>Mot de passe:</label>
+      <input type="password" formControlName="pwd" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['pwd'].errors }" required
+      />
+    </div>
+    <div *ngIf="submitted && f['pwd'].errors" class="invalid-feedback">
+      <div *ngIf="f['pwd'].errors['required']">Password is required</div>
+      <div *ngIf="f['pwd'].errors['minlength']">
+        Password must be at least 6 characters
+      </div>
+      <div *ngIf="f['pwd'].errors['maxlength']">
+        Username must not exceed 50 characters
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-field">
+      <label>Confirm Password</label>
+      <input type="password" formControlName="pwdConfirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['pwdConfirm'].errors }" />
+      <div *ngIf="submitted && f['pwdConfirm'].errors" class="invalid-feedback">
+        <div *ngIf="f['pwdConfirm'].errors['required']" >
+          Confirm Password is required
+        </div>
+        <div *ngIf="f['pwdConfirm'].errors['matching']" >
+          Confirm Password does not match
+        </div>
+      </div>
+    </div>
+  </div>
+    <button class="button" type="submit">Enregistrer</button>
+</form>

@@ -1,0 +1,15 @@
+.container{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 4rem;
+  .component-container {
+    display: flex;
+    flex-direction: column;
+
+  }
+  h2 {
+         text-align: center;
+       }
+}

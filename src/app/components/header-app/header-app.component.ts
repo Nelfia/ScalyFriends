@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {UserInterface} from "../../shared/interfaces/user.interface";
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../shared/services/auth/auth.service";
 import {CommandsService} from "../../shared/services/commands/commands.service";
 

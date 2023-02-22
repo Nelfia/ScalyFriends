@@ -43,7 +43,7 @@ export class CommandsService {
     let cartLS = this.getLsCart() ?? this.newCartInterface();
     let cartLines: LineInterface[] = [];
     if (cartLS.lines)
-      cartLines = this.updateLsCartLine(cartLS.lines, line);
+      cartLines = this.addLsCartLine(cartLS.lines, line);
     else cartLines.push(line);
     cartLS.lines = cartLines;
 
@@ -52,7 +52,7 @@ export class CommandsService {
     return this.cart$.asObservable();
   }
 
-  private updateLsCartLine(lines: LineInterface[], newLine: LineInterface): LineInterface[] {
+  private addLsCartLine(lines: LineInterface[], newLine: LineInterface): LineInterface[] {
     // Si aucune ligne dans tableau de lignes, créer tableau vide + insérer nouvelle ligne
     if (lines === null) {
       lines = [];
@@ -76,26 +76,45 @@ export class CommandsService {
     return lines;
   }
 
-  /**
-   * Récupère le panier.
-   * @return Observable<CommandInterface>
-   */
-  getCart(isLogged: boolean) : CommandInterface | null{
-    // si user non logué
-    if(!isLogged) {
-      return this.getLsCart();
+  updateLine(line : LineInterface): Observable<CommandInterface | null> {
+    if(line.idLine){
+      // TODO: gérer le clic multiple pour prise en compte de la dernière quantité
+      return this.http.put<CommandInterface>(API_BASE_URL + "api/orders/" + (line.idCommand ?? this.idCart) + "/lines", line, {headers: this.headers}).pipe(
+        tap(cart => this.cart$.next(cart))
+      );
     } else {
-      this.http.get<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart, {headers: this.headers}).pipe(
-        tap(cart => {
-            // emettre panier via behavior
-            this.cart$.next(cart);
-          }
-        )
-      ).subscribe();
-      console.log('ici')
-      return this.cart$.getValue();
+      console.log("pas d'idLine")
+      let cartLs = this.getLsCart();
+      cartLs.lines.forEach(lsLine => {
+        if(line.idProduct === lsLine.idProduct)
+          lsLine.quantity = line.quantity
+      })
+      localStorage.setItem('cart', JSON.stringify(cartLs));
+      this.cart$.next(cartLs);
+      return this.cart$.asObservable();
     }
   }
+
+  // /**
+  //  * Récupère le panier.
+  //  * @return Observable<CommandInterface>
+  //  */
+  // getCart(isLogged: boolean) : CommandInterface | null{
+  //   // si user non logué
+  //   if(!isLogged) {
+  //     return this.getLsCart();
+  //   } else {
+  //     this.http.get<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart, {headers: this.headers}).pipe(
+  //       tap(cart => {
+  //           // emettre panier via behavior
+  //           this.cart$.next(cart);
+  //         }
+  //       )
+  //     ).subscribe();
+  //     console.log('ici')
+  //     return this.cart$.getValue();
+  //   }
+  // }
 
   /**
    * Supprime une ligne du panier.

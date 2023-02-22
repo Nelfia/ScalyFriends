@@ -1,0 +1,35 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 15vh;
+  justify-content: space-between;
+}
+form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.2rem;
+  justify-content: space-between;
+}
+form .form-field input {
+  border: 1px solid #A57740;
+  height: 1.7rem;
+}
+form .form-field .ng-valid[required], form .form-field .ng-valid.required {
+  border: 1px solid #42A948;
+}
+form .form-field .ng-invalid:not(form) {
+  border: 1px solid #a94442;
+}
+form legend {
+  font-size: 1.5rem;
+}
+
+.invalid-feedback {
+  font-size: small;
+  padding: 0.2rem;
+  color: #a94442;
+}
+
+/*# sourceMappingURL=signin.component.css.map */

@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommandInterface} from "../../shared/interfaces/command.interface";
 import {CommandsService} from "../../shared/services/commands/commands.service";
 import {Subject, takeUntil} from "rxjs";
-import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-cart',
@@ -13,7 +12,7 @@ export class CartComponent implements OnInit, OnDestroy {
   cart!: CommandInterface | null;
   destroy$ : Subject<boolean> = new Subject<boolean>()
 
-  constructor(private commandsService: CommandsService, private fb: FormBuilder) {
+  constructor(private commandsService: CommandsService) {
   }
 
   ngOnInit(): void {
