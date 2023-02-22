@@ -6,11 +6,28 @@ form {
   justify-content: space-between;
   .form-field {
     display: flex;
+    flex-direction: column;
     gap: .5rem;
     padding: 0.2rem;
     justify-content: space-between;
+    input {
+      border: 1px solid #A57740;
+      height: 1.7rem;
+    }
+    .ng-valid[required], .ng-valid.required {
+      border: 1px solid #42A948;
+    }
+    .ng-invalid:not(form)  {
+      border: 1px solid #a94442;
+    }
   }
   legend {
     font-size: 1.5rem;
   }
 }
+.invalid-feedback {
+  font-size: small;
+  padding: .2rem;
+  color: #a94442;
+}
+
