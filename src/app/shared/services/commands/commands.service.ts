@@ -95,27 +95,6 @@ export class CommandsService {
     }
   }
 
-  // /**
-  //  * Récupère le panier.
-  //  * @return Observable<CommandInterface>
-  //  */
-  // getCart(isLogged: boolean) : CommandInterface | null{
-  //   // si user non logué
-  //   if(!isLogged) {
-  //     return this.getLsCart();
-  //   } else {
-  //     this.http.get<CommandInterface>(API_BASE_URL + "api/orders/" + this.idCart, {headers: this.headers}).pipe(
-  //       tap(cart => {
-  //           // emettre panier via behavior
-  //           this.cart$.next(cart);
-  //         }
-  //       )
-  //     ).subscribe();
-  //     console.log('ici')
-  //     return this.cart$.getValue();
-  //   }
-  // }
-
   /**
    * Supprime une ligne du panier.
    * @param idLine
