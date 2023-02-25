@@ -35,6 +35,15 @@ export class CommandsService {
     console.log("dans addLine")
     // Si un utilisateur est logué, ajouter ligne en BD.
     if (loggedUser) {
+      if(!this.idCart)
+        return this.http.get<CommandInterface>(API_BASE_URL + "api/orders/" + loggedUser.idUser).pipe(
+          tap(cart => {
+            this.idCart = cart?.idCommand;
+            this.cart$.next(cart);
+            this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + (cart?.idCommand ?? this.idCart) + "/lines", line, {headers: this.headers}).pipe(
+              tap(cart => this.cart$.next(cart))
+            )
+          }));
       return this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + (loggedUser.idCart ?? this.idCart) + "/lines", line, {headers: this.headers}).pipe(
         tap(cart => this.cart$.next(cart))
       );
@@ -59,14 +68,11 @@ export class CommandsService {
       lines.push(newLine);
     } else { // Si lignes dans tableau de lignes, vérifier si une ligne contient déjà le produit à ajouter.
       let isLineWithProduct: boolean = false;
-      console.log("quantité à ajouter:" + newLine.quantity)
       lines.forEach(line => {
         if (line.idProduct === newLine.idProduct && !isLineWithProduct) {
-          console.log("quantité actuelle:" + line.quantity)
           isLineWithProduct = true;
           line.quantity += newLine.quantity;
           line.quantity = (line.quantity <= newLine.product.stock) ? line.quantity : newLine.product.stock;
-          console.log("quantité après update:" + line.quantity)
         }
       })
       // Si le produit n'exite pas déjà dans les lignes du LS, l'ajouter

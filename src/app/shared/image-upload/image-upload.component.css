@@ -1,0 +1,35 @@
+input {
+  display: none;
+}
+
+.image-upload-container {
+  cursor: pointer;
+}
+
+.btn-bwm {
+  background-color: #db962e;
+  border-color: #db962e;
+  color: white;
+  padding: 8px 30px;
+  font-size: 20px;
+}
+.btn-bwm:hover, .btn-bwm:focus, .btn-bwm:active {
+  border-color: #db962e !important;
+  background-color: #db962e !important;
+}
+
+.img-preview-container {
+  background-color: #f7f7f7;
+  position: relative;
+}
+.img-preview-container .img-preview {
+  background: center center no-repeat;
+  background-size: contain;
+  height: 116px;
+  width: 116px;
+}
+.img-preview-container .img-preview-error {
+  display: none;
+}
+
+/*# sourceMappingURL=image-upload.component.css.map */

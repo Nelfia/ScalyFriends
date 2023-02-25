@@ -4,6 +4,9 @@
       <img src="../../../assets/img/logo3.png" alt="logo scalyfriends"/>
       <p class="logo-name merienda">ScalyFriends</p>
     </div>
+    <div class="admin">
+      <button class="new-product-button" routerLink="/edit-product">+</button>
+    </div>
     <div class="buttons">
       <button class="account-button" *ngIf="!isLoggedIn" ><a routerLink="/connexion" id="account-link"> Mon compte</a></button>
       <button class="account-button" *ngIf="isLoggedIn" (click)="onLogout()"> Déconnexion </button>

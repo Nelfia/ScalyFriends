@@ -1,0 +1,39 @@
+<form [formGroup]="productForm">
+  <div class="form-field">
+    <label for="category">Catégorie</label>
+    <select id="category" formControlName="category">
+      <option *ngFor="let category of categories" [ngValue]="category">
+        {{ category }}
+      </option>
+    </select>
+  </div>
+  <div class="form-field" *ngIf="(category$|async) == 'Animal'">
+    <label for="gender">Sexe</label>
+    <select id="gender" formControlName="gender">
+      <option *ngFor="let gender of genders" [ngValue]="gender">
+        {{ gender.name }}
+      </option>
+    </select>
+  </div>
+  <div class="form-field" *ngIf="(category$|async) == 'Animal'">
+    <label for="birth">Année de naissance</label>
+    <input type="date" name="birth" id="birth">
+  </div>
+  <div class="form-field">
+    <label for="dimensionsMax">Taille maximum</label>
+    <input type="number" name="dimensionsMax" id="dimensionsMax" formControlName="dimensionsMax">
+    <select name="dimensionsUnit" id="dimensionsUnit" formControlName="dimensionsUnit">
+      <option *ngFor="let unit of units" [ngValue]="unit">
+        {{ unit }}
+      </option>
+    </select>
+  </div>
+  <div class="form-field">
+    <label for="description">Description</label>
+    <textarea name="description" id="description" cols="50" rows="5"></textarea>
+  </div>
+  <div class="form-field">
+    <app-image-upload></app-image-upload>
+  </div>
+
+</form>
