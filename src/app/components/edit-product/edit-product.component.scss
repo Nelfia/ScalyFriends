@@ -1,35 +1,65 @@
 form {
   margin: 0 auto;
   padding-top: 2rem;
-  width: 40%;
+  width: 40vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  .edit-product-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    button {
-      cursor: pointer;
-      background-color: #FBCE2E;
-      font-size: 1.2rem;
-      height: fit-content;
-      border: none;
-      margin-top: 2rem;
-      padding: 0.5rem 2rem;
-      color: #181818;
-      width: fit-content;
-      align-self: center;
+
+  table {
+    table-layout: fixed;
+    width: 40vw;
+    .edit-product-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .btn-form-container {
+      width: 40vw;
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      button {
+        display: flex;
+        cursor: pointer;
+        background-color: #FBCE2E;
+        font-size: 1.2rem;
+        height: fit-content;
+        border: none;
+        margin-top: 2rem;
+        padding: 0.5rem 2rem;
+        color: #181818;
+        width: fit-content;
+        align-self: center;
+      }
     }
   }
+
   h2 {
     text-align: center;
   }
-  .form-field {
-    display: flex;
-    gap: 2rem;
-    justify-content: space-between;
-    padding: .5rem;
+
+  .field {
+    text-align: end;
+    input, select, textarea {
+      width: 100%;
+    }
+    textarea {
+      height: 5vh;
+    }
   }
+  td.fields {
+    display: flex;
+    gap: 1vw;
+    width: 100%;
+    text-align: end;
+    justify-content: space-between;
+  }
+  //.form-field {
+  //  display: flex;
+  //  gap: 2rem;
+  //  justify-content: space-between;
+  //  padding: .5rem;
+  //}
 
 }

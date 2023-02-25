@@ -1,5 +1,9 @@
-@import "~src/assets/variables";
-
+/* Error: Can't find stylesheet to import.
+ *   ,
+ * 2 | @import "~src/assets/variables";
+ *   |         ^^^^^^^^^^^^^^^^^^^^^^^
+ *   '
+ *   styles.scss 2:9  root stylesheet */
 
 body::before {
   font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",

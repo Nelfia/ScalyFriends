@@ -1,99 +1,124 @@
-<form [formGroup]="productForm">
+<form [formGroup]="productForm" (ngSubmit)="onSubmitForm()">
   <h2 class="merienda">Éditer un produit</h2>
 
-  <div class="form-field">
-    <label for="category">Catégorie</label>
-    <select id="category" formControlName="category">
-      <option *ngFor="let category of categories" [ngValue]="category">
-        {{ category }}
-      </option>
-    </select>
-  </div>
+  <table>
+    <tbody>
 
-  <div class="edit-product-container" *ngIf="(category$|async) as category">
-
-    <div class="form-field">
-      <label for="type">Type</label>
-      <input type="text" formControlName="type" id="type">
-    </div>
-
-    <div class="form-field">
-      <label for="name">Nom</label>
-      <input type="text" formControlName="name" id="name">
-    </div>
-
-    <div class="form-field" *ngIf="category === 'Animal'">
-      <label for="gender">Sexe</label>
-      <select id="gender" formControlName="gender">
-        <option *ngFor="let gender of genders" [ngValue]="gender">
-          {{ gender.name }}
+    <tr class="form-field">
+      <td><label for="category">Catégorie</label></td>
+      <td class="field"><select id="category" formControlName="category">
+        <option *ngFor="let category of categories" [ngValue]="category.value">
+          {{ category.name }}
         </option>
       </select>
-    </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 
-    <div class="form-field" *ngIf="category === 'Animal'">
-      <label for="birth">Année de naissance</label>
-      <input type="date" name="birth" id="birth">
-    </div>
+  <span class="edit-product-container" *ngIf="(category$|async) as category">
 
-    <div class="form-field">
-      <label for="dimensionsMax">Taille maximum</label>
-      <input type="number" name="dimensionsMax" id="dimensionsMax" formControlName="dimensionsMax">
-      <select name="dimensionsUnit" id="dimensionsUnit" formControlName="dimensionsUnit">
-        <option *ngFor="let unit of units" [ngValue]="unit">
-          {{ unit }}
-        </option>
-      </select>
-    </div>
+  <table>
+    <tbody>
+      <tr class="form-field">
+        <td><label for="type">Type</label></td>
+        <td class="field"><input type="text" formControlName="type" id="type"/></td>
+      </tr>
 
-    <div class="form-field">
-      <label for="description">Description</label>
-      <textarea name="description" id="description" cols="40" rows="1"></textarea>
-    </div>
 
-    <div class="form-field">
-      <label for="species">
-        {{ category === "Animal" ? "Espèce": "Marque"}}
-      </label>
-      <input type="text" formControlName="species" id="species">
-    </div>
+      <tr class="form-field">
+        <td><label for="name">Nom</label></td>
+        <td class="field"><input type="text" formControlName="name" id="name"></td>
+      </tr>
 
-    <div class="form-field" *ngIf="category === 'Animal'">
-      <label for="race">Race</label>
-      <input type="text" formControlName="race" id="race">
-    </div>
+      <tr class="form-field" *ngIf="category === 'Animal'">
+        <td><label for="gender">Sexe</label></td>
+        <td class="field"><select id="gender" formControlName="gender">
+          <option *ngFor="let gender of genders" [ngValue]="gender">
+            {{ gender.name }}
+          </option>
+        </select></td>
+      </tr>
 
-    <div class="form-field">
-      <label for="price">Prix</label>
-      <input type="number" formControlName="price" id="price">
-    </div>
 
-    <div class="form-field" *ngIf="category === 'Animal'">
-      <label for="requiresCertification">Nécessite une certification</label>
-      <input type="checkbox" formControlName="requiresCertification" id="requiresCertification">
-    </div>
+      <tr class="form-field" *ngIf="category === 'Animal'">
+        <td><label for="birth">Année de naissance</label></td>
+        <td class="field"><input type="date" name="birth" id="birth"></td>
+      </tr>
 
-    <div>
-      <fieldset name="specification" *ngIf="category !== 'Animal'">
-        <legend>Caractéristique spécifique</legend>
-        <div class="form-field">
-          <label for="specification">Nom de la caractéristique</label>
-          <input type="text" formControlName="specification" id="specification">
-        </div>
-        <div class="form-field"><label for="specificationValue">Valeur</label>
-          <input type="text" formControlName="specificationValue" id="specificationValue">
-        </div>
-        <div class="form-field"><label for="specificationUnit">Unité</label>
-          <input type="text" formControlName="specificationUnit" id="specificationUnit">
-        </div>
-      </fieldset>
-    </div>
+      <tr class="form-field">
+        <td><label for="dimensionsMax">Taille maximum</label></td>
+        <td class="fields">
+          <input type="number" name="dimensionsMax" id="dimensionsMax" formControlName="dimensionsMax">
+          <select name="dimensionsUnit" id="dimensionsUnit" formControlName="dimensionsUnit">
+            <option *ngFor="let unit of units" [ngValue]="unit">
+              {{ unit }}
+            </option>
+          </select>
+        </td>
+      </tr>
 
-    <div class="form-field">
-      <app-image-upload [imgTitle]="(name$ | async) ?? ''"></app-image-upload>
-    </div>
 
-    <button type="submit">Enregister</button>
-  </div>
+      <tr class="form-field">
+        <td><label for="description">Description</label></td>
+        <td class="field"><textarea name="description" id="description"></textarea></td>
+      </tr>
+
+      <tr class="form-field">
+        <td><label for="species">
+          {{ category === "Animal" ? "Espèce" : "Marque"}}
+        </label></td>
+        <td class="field"><input type="text" formControlName="species" id="species"></td>
+      </tr>
+
+      <tr class="form-field" *ngIf="category === 'Animal'">
+        <td><label for="race">Race</label></td>
+        <td class="field"><input type="text" formControlName="race" id="race"></td>
+      </tr>
+
+      <tr class="form-field">
+        <td><label for="price">Prix</label></td>
+        <td class="field"><input type="number" formControlName="price" id="price"></td>
+      </tr>
+
+      <tr class="form-field">
+        <td><label for="stock">Stock</label></td>
+        <td class="field"><input type="number" formControlName="stock" id="stock"></td>
+      </tr>
+
+      <tr class="form-field" *ngIf="category === 'Animal'">
+        <td><label for="requiresCertification">Nécessite une certification</label></td>
+        <td class="field"><input type="checkbox" formControlName="requiresCertification"
+                                 id="requiresCertification"></td>
+      </tr>
+
+      <div>
+        <fieldset name="specification" *ngIf="category !== 'Animal'">
+          <legend>Caractéristique spécifique</legend>
+          <div class="form-field">
+            <label for="specification">Nom de la caractéristique</label>
+            <input type="text" formControlName="specification" id="specification">
+          </div>
+          <div class="form-field"><label for="specificationValue">Valeur</label>
+            <input type="text" formControlName="specificationValue" id="specificationValue">
+          </div>
+          <div class="form-field"><label for="specificationUnit">Unité</label>
+            <input type="text" formControlName="specificationUnit" id="specificationUnit">
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="form-field" *ngIf="(name$ | async) as name">
+        <app-image-upload (newImageEvent)="setImgBase64($event)"></app-image-upload>
+      </div>
+      <div class="btn-form-container">
+        <button type="submit">Enregister</button>
+      </div>
+
+
+    </tbody>
+  </table>
+  </span>
+
 
 </form>

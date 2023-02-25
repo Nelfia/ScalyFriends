@@ -1,23 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
-import {map, Observable, tap} from "rxjs";
+import {map, Observable, Subject, takeUntil, tap} from "rxjs";
+import {ProductsService} from "../../shared/services/products/products.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
   styleUrls: ['./edit-product.component.scss']
 })
-export class EditProductComponent implements OnInit {
+export class EditProductComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
   productForm!: FormGroup;
   productForm$!: Observable<ProductInterface>;
   category$!: Observable<string>;
   name$!: Observable<string>;
-  img: string = '';
+  imgBase64!: string;
   categories = [
-    "Animal",
-    "Matériel",
-    "Alimentation"
+    {name: "Animal", value: "animal"},
+    {name: "Matériel", value: "material"},
+    {name: "Alimentation", value: "feeding"}
   ]
   units = [
     "mm",
@@ -25,10 +28,10 @@ export class EditProductComponent implements OnInit {
     "m"
   ]
   genders = [
-    {name: 'femelle', abbrev: 'f'},
-    {name: 'mâle', abbrev: 'm'}
+    {name: 'femelle', abbrev: 'F'},
+    {name: 'mâle', abbrev: 'M'}
   ]
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private productsService: ProductsService, private router: Router) { }
 
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
@@ -65,10 +68,35 @@ export class EditProductComponent implements OnInit {
     )
   }
   // TODO : Sécurisation image côté back + envoie uniquement au submit
-  //  + enregistrer l'image aves le nom du produit.
+  //  + enregistrer l'image avec le nom du produit.
   onSubmitForm() : void {
+    const product : ProductInterface = this.productForm.value;
     console.log((this.productForm.value))
+
+    this.productsService.editProduct(product, this.imgBase64).pipe(takeUntil(this.destroy$)).subscribe(
+      () => {
+        switch (product.category) {
+          case "Animal" :
+            this.productsService.getAnimals();
+            break;
+          case "Matériel": this.productsService.getMaterials();
+            break;
+          case "Alimentation": this.productsService.getFeeding();
+            break;
+          default:
+            break;
+        }
+        this.router.navigateByUrl('/' + (product.category.charAt(0).toUpperCase().slice(1)) + 's');
+      }
+    );
   }
 
+  setImgBase64(imgBase64: string) : void {
+    this.imgBase64 = imgBase64;
+    console.log(this.imgBase64)
+  }
 
+  ngOnDestroy() {
+    this.destroy$.next(false);
+  }
 }

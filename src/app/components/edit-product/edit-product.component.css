@@ -1,17 +1,28 @@
 form {
   margin: 0 auto;
   padding-top: 2rem;
-  width: 40%;
+  width: 40vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-form .edit-product-container {
+form table {
+  table-layout: fixed;
+  width: 40vw;
+}
+form table .edit-product-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
-form .edit-product-container button {
+form table .btn-form-container {
+  width: 40vw;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+form table .btn-form-container button {
+  display: flex;
   cursor: pointer;
   background-color: #FBCE2E;
   font-size: 1.2rem;
@@ -26,11 +37,21 @@ form .edit-product-container button {
 form h2 {
   text-align: center;
 }
-form .form-field {
+form .field {
+  text-align: end;
+}
+form .field input, form .field select, form .field textarea {
+  width: 100%;
+}
+form .field textarea {
+  height: 5vh;
+}
+form td.fields {
   display: flex;
-  gap: 2rem;
+  gap: 1vw;
+  width: 100%;
+  text-align: end;
   justify-content: space-between;
-  padding: 0.5rem;
 }
 
 /*# sourceMappingURL=edit-product.component.css.map */
