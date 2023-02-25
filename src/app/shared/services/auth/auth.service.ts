@@ -95,6 +95,19 @@ export class AuthService {
   getExpiration() {
     return localStorage.getItem("expires_at");
   }
+  signin(username: string, pwd: string): Observable<string> {
+    if (this.isLoggedIn()) this.logout();
+    // TODO : cacher les éléments de connexion --> SECURITE USER !
+    return this.http.post<any>(API_BASE_URL + 'api/users', {username, pwd}, {headers: this.headers})
+      .pipe(
+        tap((res) => {
+          console.log('Logged in')
+          this.setSession(res);
+        }),
+        take(1),
+        shareReplay(1)
+      );
+  }
 
   getLoggedUser() : UserInterface | null {
     if (this.isLoggedIn()) {

@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from "../../shared/services/auth/auth.service";
 import {CommandsService} from "../../shared/services/commands/commands.service";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Subject} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 import {Router} from "@angular/router";
-import Validation from "../../utils/validation";
+import Validation from "../../shared/utils/validation";
 
 @Component({
   selector: 'app-signin',
@@ -23,12 +23,12 @@ export class SigninComponent implements OnInit, OnDestroy {
     this.signinForm = this.fb.group({
       username: ['',[
         Validators.required,
-        Validators.minLength(6),
+        Validators.minLength(5),
         Validators.maxLength(20)
       ]],
       pwd: ['',[
         Validators.required,
-        Validators.minLength(6),
+        Validators.minLength(5),
         Validators.maxLength(50)
       ]],
       pwdConfirm: ['', Validators.required]
@@ -44,7 +44,13 @@ export class SigninComponent implements OnInit, OnDestroy {
     const val = this.signinForm.value;
     if(this.signinForm.invalid)
       return;
-    console.log("controles ok")
+    this.authService.signin(val.username, val.pwd).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((res: any) => {
+      this.commandeService.idCart = res.idCart;
+      this.router.navigateByUrl('/');
+      this.commandeService.agregateCarts(res.cart, res.user);
+    });
   }
 
 

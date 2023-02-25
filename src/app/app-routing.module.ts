@@ -6,10 +6,9 @@ import {AnimalsResolver} from "./shared/resolvers/animals.resolver";
 import {StuffResolver} from "./shared/resolvers/stuff.resolver";
 import {FeedingResolver} from "./shared/resolvers/feeding.resolver";
 import {ProductsPageComponent} from "./components/products-page/products-page.component";
-import {LoginComponent} from "./components/login/login.component";
 import {CartComponent} from "./components/cart/cart.component";
-import {SigninComponent} from "./components/signin/signin.component";
 import {ConnexionPageComponent} from "./components/connexion-page/connexion-page.component";
+import {EditProductComponent} from "./components/edit-product/edit-product.component";
 
 const routes: Routes = [
   {
@@ -70,6 +69,10 @@ const routes: Routes = [
   {
     path: 'connexion',
     component: ConnexionPageComponent
+  },
+  {
+    path: 'edit-product',
+    component: EditProductComponent
   }
 ];
 

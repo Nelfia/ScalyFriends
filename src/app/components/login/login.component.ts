@@ -32,8 +32,9 @@ export class LoginComponent implements OnDestroy {
       this.authService.login(val.username, val.pwd).pipe(
         takeUntil(this.destroy$)
       ).subscribe((res: any) => {
-        this.commandeService.idCart = res.idCart;
         this.router.navigateByUrl('/');
+        // Créer un nouveau cart
+        this.commandeService.idCart = res.idCart;
         this.commandeService.agregateCarts(res.cart, res.user);
       })
     }

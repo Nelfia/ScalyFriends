@@ -20,6 +20,8 @@ import {httpInterceptorProviders} from "./shared/interceptors";
 import {CartLineComponent} from './components/cart-line/cart-line.component';
 import { SigninComponent } from './components/signin/signin.component';
 import { ConnexionPageComponent } from './components/connexion-page/connexion-page.component';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
+import {ImageUploadModule} from "./shared/image-upload/image-upload.module";
 
 registerLocaleData(localeFr);
 
@@ -37,7 +39,8 @@ registerLocaleData(localeFr);
     CartComponent,
     CartLineComponent,
     SigninComponent,
-    ConnexionPageComponent
+    ConnexionPageComponent,
+    EditProductComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ registerLocaleData(localeFr);
     SharedModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ImageUploadModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' },

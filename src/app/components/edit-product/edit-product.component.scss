@@ -1,0 +1,11 @@
+form {
+  margin: 0 auto;
+  width: 40%;
+
+  .form-field {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    padding: .5rem;
+  }
+}

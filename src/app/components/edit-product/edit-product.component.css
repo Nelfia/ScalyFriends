@@ -1,0 +1,12 @@
+form {
+  margin: 0 auto;
+  width: 40%;
+}
+form .form-field {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+/*# sourceMappingURL=edit-product.component.css.map */

@@ -5,7 +5,8 @@ import {AnimalsResolver} from "./resolvers/animals.resolver";
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [
     CommonModule,
     HttpClientModule
