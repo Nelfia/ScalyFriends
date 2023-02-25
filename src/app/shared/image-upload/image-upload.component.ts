@@ -1,6 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ImageService} from "./image.service";
-import {take} from "rxjs";
 
 class ImageSnippet {
   constructor(public src: string, public file: File) {}
@@ -11,6 +10,7 @@ class ImageSnippet {
   styleUrls: ['./image-upload.component.scss']
 })
 export class ImageUploadComponent {
+  @Input() imgTitle! : string;
   selectedFile!: ImageSnippet;
   constructor(private imageService: ImageService) {
   }
@@ -19,11 +19,10 @@ export class ImageUploadComponent {
     const reader = new FileReader();
 
     reader.addEventListener('load', (event: any) => {
-
       this.selectedFile = new ImageSnippet(event.target.result, file);
-
-      this.imageService.uploadImage(this.selectedFile.src).subscribe();
-      debugger;
+      console.log('Ajout image dans module')
+      console.log(this.imgTitle)
+      // this.imageService.uploadImage(this.selectedFile.src, this.imgTitle).subscribe();
     });
 
     reader.readAsDataURL(file);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
-import {map, Observable} from "rxjs";
+import {map, Observable, tap} from "rxjs";
 
 @Component({
   selector: 'app-edit-product',
@@ -12,6 +12,7 @@ export class EditProductComponent implements OnInit {
   productForm!: FormGroup;
   productForm$!: Observable<ProductInterface>;
   category$!: Observable<string>;
+  name$!: Observable<string>;
   img: string = '';
   categories = [
     "Animal",
@@ -32,52 +33,39 @@ export class EditProductComponent implements OnInit {
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
       category: ['', Validators.required],
+      type: "",
+      name: "",
       description: "",
       birth: 0,
       dimensionsMax: 0,
       dimensionsUnit: ["", Validators.required],
       gender: "",
-      img: "",
-      isVisible: false,
-      name: "",
-      price: 0,
-      race: "",
-      ref: "",
-      requiresCertification: false,
       species: "",
+      race: "",
+      img: "",
+      price: 0,
+      requiresCertification: false,
       specification: "",
-      specificationUnit: "",
       specificationValue: 0,
-      stock: 0,
-      type: ""
+      specificationUnit: "",
+      stock: 0
     })
     this.productForm$ = this.productForm.valueChanges;
     this.category$ = this.productForm$.pipe(
       map(formValue => {
-        console.log(formValue.category)
-        console.log(this.getBase64(this.productForm.value))
-
+        formValue.category;
         return formValue.category;
       })
     )
+    this.name$ = this.productForm$.pipe(
+      map(formValue => {
+        formValue.name;
+        return formValue.name;
+      })
+    )
   }
-
-  handleImgInput(file: any) {
-    this.getBase64(file[0]).subscribe(str => this.img = str);
-  }
-  getBase64(imgInput: any): Observable<string> {
-    return new Observable<string>(sub => {
-      const reader = new FileReader();
-      reader.readAsDataURL(imgInput);
-      reader.onload = () => {
-        sub.next(reader.result?.toString());
-        sub.complete();
-      };
-      reader.onerror = error => {
-        sub.error(error);
-      };
-    })
-  }
+  // TODO : Sécurisation image côté back + envoie uniquement au submit
+  //  + enregistrer l'image aves le nom du produit.
   onSubmitForm() : void {
     console.log((this.productForm.value))
   }

@@ -15,8 +15,7 @@ export class ImageService {
   });
   constructor(private http: HttpClient) { }
 
-  public uploadImage(image: string): Observable<any>{
-    console.log(image)
-    return this.http.post<any>(API_BASE_URL + 'api/image-upload', {image}, {headers : this.headers});
+  public uploadImage(image: string, imgTitle: string): Observable<any>{
+    return this.http.post<any>(API_BASE_URL + 'api/image-upload', {image, imgTitle}, {headers : this.headers});
   }
 }

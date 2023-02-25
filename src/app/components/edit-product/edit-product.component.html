@@ -1,4 +1,6 @@
 <form [formGroup]="productForm">
+  <h2 class="merienda">Éditer un produit</h2>
+
   <div class="form-field">
     <label for="category">Catégorie</label>
     <select id="category" formControlName="category">
@@ -7,33 +9,91 @@
       </option>
     </select>
   </div>
-  <div class="form-field" *ngIf="(category$|async) == 'Animal'">
-    <label for="gender">Sexe</label>
-    <select id="gender" formControlName="gender">
-      <option *ngFor="let gender of genders" [ngValue]="gender">
-        {{ gender.name }}
-      </option>
-    </select>
-  </div>
-  <div class="form-field" *ngIf="(category$|async) == 'Animal'">
-    <label for="birth">Année de naissance</label>
-    <input type="date" name="birth" id="birth">
-  </div>
-  <div class="form-field">
-    <label for="dimensionsMax">Taille maximum</label>
-    <input type="number" name="dimensionsMax" id="dimensionsMax" formControlName="dimensionsMax">
-    <select name="dimensionsUnit" id="dimensionsUnit" formControlName="dimensionsUnit">
-      <option *ngFor="let unit of units" [ngValue]="unit">
-        {{ unit }}
-      </option>
-    </select>
-  </div>
-  <div class="form-field">
-    <label for="description">Description</label>
-    <textarea name="description" id="description" cols="50" rows="5"></textarea>
-  </div>
-  <div class="form-field">
-    <app-image-upload></app-image-upload>
+
+  <div class="edit-product-container" *ngIf="(category$|async) as category">
+
+    <div class="form-field">
+      <label for="type">Type</label>
+      <input type="text" formControlName="type" id="type">
+    </div>
+
+    <div class="form-field">
+      <label for="name">Nom</label>
+      <input type="text" formControlName="name" id="name">
+    </div>
+
+    <div class="form-field" *ngIf="category === 'Animal'">
+      <label for="gender">Sexe</label>
+      <select id="gender" formControlName="gender">
+        <option *ngFor="let gender of genders" [ngValue]="gender">
+          {{ gender.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-field" *ngIf="category === 'Animal'">
+      <label for="birth">Année de naissance</label>
+      <input type="date" name="birth" id="birth">
+    </div>
+
+    <div class="form-field">
+      <label for="dimensionsMax">Taille maximum</label>
+      <input type="number" name="dimensionsMax" id="dimensionsMax" formControlName="dimensionsMax">
+      <select name="dimensionsUnit" id="dimensionsUnit" formControlName="dimensionsUnit">
+        <option *ngFor="let unit of units" [ngValue]="unit">
+          {{ unit }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="description">Description</label>
+      <textarea name="description" id="description" cols="40" rows="1"></textarea>
+    </div>
+
+    <div class="form-field">
+      <label for="species">
+        {{ category === "Animal" ? "Espèce": "Marque"}}
+      </label>
+      <input type="text" formControlName="species" id="species">
+    </div>
+
+    <div class="form-field" *ngIf="category === 'Animal'">
+      <label for="race">Race</label>
+      <input type="text" formControlName="race" id="race">
+    </div>
+
+    <div class="form-field">
+      <label for="price">Prix</label>
+      <input type="number" formControlName="price" id="price">
+    </div>
+
+    <div class="form-field" *ngIf="category === 'Animal'">
+      <label for="requiresCertification">Nécessite une certification</label>
+      <input type="checkbox" formControlName="requiresCertification" id="requiresCertification">
+    </div>
+
+    <div>
+      <fieldset name="specification" *ngIf="category !== 'Animal'">
+        <legend>Caractéristique spécifique</legend>
+        <div class="form-field">
+          <label for="specification">Nom de la caractéristique</label>
+          <input type="text" formControlName="specification" id="specification">
+        </div>
+        <div class="form-field"><label for="specificationValue">Valeur</label>
+          <input type="text" formControlName="specificationValue" id="specificationValue">
+        </div>
+        <div class="form-field"><label for="specificationUnit">Unité</label>
+          <input type="text" formControlName="specificationUnit" id="specificationUnit">
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="form-field">
+      <app-image-upload [imgTitle]="(name$ | async) ?? ''"></app-image-upload>
+    </div>
+
+    <button type="submit">Enregister</button>
   </div>
 
 </form>
