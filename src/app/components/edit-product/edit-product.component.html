@@ -6,23 +6,44 @@
 
     <tr class="form-field">
       <td><label for="category">Catégorie</label></td>
-      <td class="field"><select id="category" formControlName="category">
-        <option *ngFor="let category of categories" [ngValue]="category.value">
-          {{ category.name }}
-        </option>
-      </select>
+      <td class="field">
+        <select id="category" formControlName="category">
+          <option *ngFor="let category of categories" [ngValue]="category.value" (change)="onCategoryChoice(category.types)">
+            {{ category.name }}
+          </option>
+        </select>
       </td>
     </tr>
     </tbody>
   </table>
 
-  <span class="edit-product-container" *ngIf="(category$|async) as category">
+  <span class="edit-product-container">
 
-  <table>
+  <table *ngIf="(category$|async) as category">
     <tbody>
-      <tr class="form-field">
-        <td><label for="type">Type</label></td>
-        <td class="field"><input type="text" formControlName="type" id="type"/></td>
+      <tr class="form-field" *ngIf="category === 'animal'">
+        <td><label for="typeAnimal">Type</label></td>
+        <td class="field">
+          <select formControlName="type"  id="typeAnimal">
+            <option [ngValue]="type" *ngFor="let type of animalTypes">{{ type }}</option>
+          </select>
+        </td>
+      </tr>
+      <tr class="form-field" *ngIf="category === 'material'">
+        <td><label for="typeMaterial">Type</label></td>
+        <td class="field">
+          <select formControlName="type" id="typeMaterial">
+            <option *ngFor="let type of materialTypes" [ngValue]="type">{{ type }}</option>
+          </select>
+        </td>
+        </tr>
+      <tr class="form-field" *ngIf="category === 'feeding'">
+        <td><label for="typeFeeding">Type</label></td>
+        <td class="field" *ngIf="category === 'feeding'">
+          <select formControlName="type" id="typeFeeding">
+            <option *ngFor="let type of feedingTypes" [ngValue]="type">{{ type }}</option>
+          </select>
+        </td>
       </tr>
 
 
@@ -31,19 +52,19 @@
         <td class="field"><input type="text" formControlName="name" id="name"></td>
       </tr>
 
-      <tr class="form-field" *ngIf="category === 'Animal'">
+      <tr class="form-field" *ngIf="category === 'animal'">
         <td><label for="gender">Sexe</label></td>
         <td class="field"><select id="gender" formControlName="gender">
-          <option *ngFor="let gender of genders" [ngValue]="gender">
+          <option *ngFor="let gender of genders" [ngValue]="gender.abbrev">
             {{ gender.name }}
           </option>
         </select></td>
       </tr>
 
 
-      <tr class="form-field" *ngIf="category === 'Animal'">
+      <tr class="form-field" *ngIf="category === 'animal'">
         <td><label for="birth">Année de naissance</label></td>
-        <td class="field"><input type="date" name="birth" id="birth"></td>
+        <td class="field"><input type="date" formControlName="birth" id="birth"></td>
       </tr>
 
       <tr class="form-field">
@@ -61,17 +82,17 @@
 
       <tr class="form-field">
         <td><label for="description">Description</label></td>
-        <td class="field"><textarea name="description" id="description"></textarea></td>
+        <td class="field"><textarea formControlName="description" id="description"></textarea></td>
       </tr>
 
       <tr class="form-field">
         <td><label for="species">
-          {{ category === "Animal" ? "Espèce" : "Marque"}}
+          {{ category === "animal" ? "Espèce" : "Marque"}}
         </label></td>
         <td class="field"><input type="text" formControlName="species" id="species"></td>
       </tr>
 
-      <tr class="form-field" *ngIf="category === 'Animal'">
+      <tr class="form-field" *ngIf="category === 'animal'">
         <td><label for="race">Race</label></td>
         <td class="field"><input type="text" formControlName="race" id="race"></td>
       </tr>
@@ -86,14 +107,14 @@
         <td class="field"><input type="number" formControlName="stock" id="stock"></td>
       </tr>
 
-      <tr class="form-field" *ngIf="category === 'Animal'">
+      <tr class="form-field" *ngIf="category === 'animal'">
         <td><label for="requiresCertification">Nécessite une certification</label></td>
         <td class="field"><input type="checkbox" formControlName="requiresCertification"
                                  id="requiresCertification"></td>
       </tr>
 
       <div>
-        <fieldset name="specification" *ngIf="category !== 'Animal'">
+        <fieldset name="specification" *ngIf="category !== 'animal'">
           <legend>Caractéristique spécifique</legend>
           <div class="form-field">
             <label for="specification">Nom de la caractéristique</label>

@@ -80,8 +80,6 @@ export class ProductsService {
 
   }
   public editProduct(product: ProductInterface, imageSrc: string): Observable<ProductInterface[]> {
-
-
     return this.http.post<ProductInterface[]>(API_BASE_URL + "api/products", {product, imageSrc}, {headers: this.headers});
 
   }
