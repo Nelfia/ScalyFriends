@@ -1,22 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
-import {map, Observable} from "rxjs";
+import {map, Observable, Subject, takeUntil} from "rxjs";
+import {ProductsService} from "../../shared/services/products/products.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-edit-product',
   templateUrl: './edit-product.component.html',
   styleUrls: ['./edit-product.component.scss']
 })
-export class EditProductComponent implements OnInit {
+export class EditProductComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
   productForm!: FormGroup;
   productForm$!: Observable<ProductInterface>;
   category$!: Observable<string>;
-  img: string = '';
+  name$!: Observable<string>;
+  imgBase64!: string;
+  animalTypes = [
+    "Serpents",
+    "Lézards",
+    "Tortues",
+    "Invertébrés",
+    "Amphibiens"
+  ];
+  materialTypes = [
+    "Chauffage",
+    "Éclairage",
+    "Substrats",
+    "Humidification",
+    "Gammelles/Abreuvoirs",
+    "Soins/Hygiène",
+    "Contention/Transports",
+    "Incubation",
+    "Terrariums",
+    "Aquariums",
+    "Décor"
+  ];
+  feedingTypes = [
+    "Insectes",
+    "Rongeurs",
+    "Aliments préparés",
+    "Compléments"
+  ];
   categories = [
-    "Animal",
-    "Matériel",
-    "Alimentation"
+    {name: "Animal", value: "animal", types: this.animalTypes},
+    {name: "Matériel", value: "material", types: this.materialTypes},
+    {name: "Alimentation", value: "feeding", types: this.feedingTypes}
   ]
   units = [
     "mm",
@@ -24,63 +54,76 @@ export class EditProductComponent implements OnInit {
     "m"
   ]
   genders = [
-    {name: 'femelle', abbrev: 'f'},
-    {name: 'mâle', abbrev: 'm'}
+    {name: 'femelle', abbrev: 'F'},
+    {name: 'mâle', abbrev: 'M'}
   ]
-  constructor(private formBuilder: FormBuilder) { }
+
+  constructor(private formBuilder: FormBuilder, private productsService: ProductsService, private router: Router) {
+  }
 
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
       category: ['', Validators.required],
+      type: "",
+      name: "",
       description: "",
       birth: 0,
       dimensionsMax: 0,
       dimensionsUnit: ["", Validators.required],
       gender: "",
-      img: "",
-      isVisible: false,
-      name: "",
-      price: 0,
-      race: "",
-      ref: "",
-      requiresCertification: false,
       species: "",
+      race: "",
+      img: "",
+      price: 0,
+      requiresCertification: false,
       specification: "",
-      specificationUnit: "",
       specificationValue: 0,
-      stock: 0,
-      type: ""
+      specificationUnit: "",
+      stock: 0
     })
     this.productForm$ = this.productForm.valueChanges;
     this.category$ = this.productForm$.pipe(
       map(formValue => {
-        console.log(formValue.category)
-        console.log(this.getBase64(this.productForm.value))
-
-        return formValue.category;
+          return formValue.category;
+        })
+      );
+    this.name$ = this.productForm$.pipe(
+      map(formValue => {
+        formValue.name;
+        return formValue.name;
       })
     )
   }
 
-  handleImgInput(file: any) {
-    this.getBase64(file[0]).subscribe(str => this.img = str);
-  }
-  getBase64(imgInput: any): Observable<string> {
-    return new Observable<string>(sub => {
-      const reader = new FileReader();
-      reader.readAsDataURL(imgInput);
-      reader.onload = () => {
-        sub.next(reader.result?.toString());
-        sub.complete();
-      };
-      reader.onerror = error => {
-        sub.error(error);
-      };
-    })
-  }
-  onSubmitForm() : void {
-    console.log((this.productForm.value))
+  // TODO : Sécurisation image côté back + envoie uniquement au submit
+  //  + enregistrer l'image avec le nom du produit.
+  onSubmitForm(): void {
+    const product: ProductInterface = this.productForm.value;
+    this.productsService.editProduct(product, this.imgBase64).pipe(takeUntil(this.destroy$)).subscribe(
+      () => {
+        switch (product.category) {
+          case "Animal" :
+            this.productsService.getAnimals();
+            break;
+          case "Matériel":
+            this.productsService.getMaterials();
+            break;
+          case "Alimentation":
+            this.productsService.getFeeding();
+            break;
+          default:
+            break;
+        }
+        this.router.navigateByUrl('/' + product.category);
+      }
+    );
   }
 
+  setImgBase64(imgBase64: string): void {
+    this.imgBase64 = imgBase64;
+  }
 
+  ngOnDestroy() {
+    this.destroy$.next(false);
+  }
 }

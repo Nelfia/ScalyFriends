@@ -5,20 +5,36 @@ tr {
   justify-content: space-between;
 }
 tr .img {
-  width: 7vw;
-  height: 7vw;
+  width: 60px;
+  height: 50px;
+  text-align: center;
+  padding-left: 10px;
 }
 tr .img img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  border: 2px solid #FBCE2E;
+  transform: rotateZ(-6deg);
 }
-tr p {
-  width: 27vw;
+tr .col2 {
+  width: 25vw;
+  padding-left: 0.5rem;
+}
+tr .col3, tr .col4, tr .col5 {
+  width: 10vw;
+  text-align: end;
+}
+tr .col3 input, tr .col4 input, tr .col5 input {
+  width: 5vw;
 }
 tr .supprimer {
+  width: 2vw;
   font-family: "Imprima", sans-serif;
   font-size: 0.75rem;
+}
+tr .supprimer button {
+  border: none;
 }
 
 /*# sourceMappingURL=cart-line.component.css.map */

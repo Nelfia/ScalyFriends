@@ -1,16 +1,16 @@
 <form >
   <tr>
-    <td>
-      <div class="img"><img [src]="apiBaseUrl + line.product.img" alt="image du produit"></div>
+    <td class="img">
+      <img [src]="apiBaseUrl + line.product.img" alt="image du produit">
     </td>
-    <td>
+    <td class="col2">
       <p>{{ line.product.name | titlecase }} <br/>
         <small>{{ line.product.ref }}</small>
       </p>
     </td>
-    <td>{{ line.price | currency : "EUR" }}</td>
-    <td><input type="number" name="quantity" class="quantity" min="1" max="{{ line.product.stock }}" [(ngModel)]="quantity" (change)="updateLine(line)"></td>
-    <td>{{ (line.price * quantity) | currency : "EUR" }}</td>
+    <td class="col3">{{ line.price | currency : "EUR" }}</td>
+    <td class="col4"><input type="number" name="quantity" class="quantity" min="1" max="{{ line.product.stock }}" [(ngModel)]="quantity" (change)="updateLine(line)"></td>
+    <td class="col5">{{ (line.price * quantity) | currency : "EUR" }}</td>
     <td class="supprimer">
       <button (click)="removeLine( line.idLine, line.idProduct )">X</button>
     </td>

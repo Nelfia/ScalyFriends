@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable, of, share, tap } from 'rxjs';
 import { ProductInterface } from "../../interfaces/product.interface";
+import {API_BASE_URL} from "../../constants/constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
+  /**
+   * Headers HTTP envoyés avec la requête.
+   */
+  headers = new HttpHeaders({
+    'Content-Type': 'application/x-www-form-urlencoded'
+  });
+
   private animals!: ProductInterface[];
   private materials!: ProductInterface[];
   private feeding!: ProductInterface[];
@@ -69,6 +77,10 @@ export class ProductsService {
     }
 
     return this.http.get<ProductInterface>('http://api-scalyfriends/api/products/' + id)
+
+  }
+  public editProduct(product: ProductInterface, imageSrc: string): Observable<ProductInterface[]> {
+    return this.http.post<ProductInterface[]>(API_BASE_URL + "api/products", {product, imageSrc}, {headers: this.headers});
 
   }
 }

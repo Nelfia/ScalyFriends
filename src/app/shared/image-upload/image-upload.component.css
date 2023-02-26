@@ -1,21 +1,10 @@
-input {
-  display: none;
-}
-
 .image-upload-container {
+  display: flex;
+  justify-content: space-between;
+  width: 39vw;
+}
+.image-upload-container .image-input {
   cursor: pointer;
-}
-
-.btn-bwm {
-  background-color: #db962e;
-  border-color: #db962e;
-  color: white;
-  padding: 8px 30px;
-  font-size: 20px;
-}
-.btn-bwm:hover, .btn-bwm:focus, .btn-bwm:active {
-  border-color: #db962e !important;
-  background-color: #db962e !important;
 }
 
 .img-preview-container {

@@ -9,6 +9,8 @@ import {ProductsPageComponent} from "./components/products-page/products-page.co
 import {CartComponent} from "./components/cart/cart.component";
 import {ConnexionPageComponent} from "./components/connexion-page/connexion-page.component";
 import {EditProductComponent} from "./components/edit-product/edit-product.component";
+import {AboutUsComponent} from "./components/about-us/about-us.component";
+import {ContactComponent} from "./components/contact/contact.component";
 
 const routes: Routes = [
   {
@@ -73,6 +75,14 @@ const routes: Routes = [
   {
     path: 'edit-product',
     component: EditProductComponent
+  },
+  {
+    path: 'about-us',
+    component: AboutUsComponent
+  },
+  {
+    path: 'contact',
+    component: ContactComponent
   }
 ];
 
