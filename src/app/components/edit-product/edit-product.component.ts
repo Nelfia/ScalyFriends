@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
-import {map, Observable, pipe, Subject, takeUntil, tap} from "rxjs";
+import {map, Observable, Subject, takeUntil} from "rxjs";
 import {ProductsService} from "../../shared/services/products/products.service";
 import {Router} from "@angular/router";
 
@@ -17,7 +17,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
   category$!: Observable<string>;
   name$!: Observable<string>;
   imgBase64!: string;
-  types!: string[];
   animalTypes = [
     "Serpents",
     "Lézards",
@@ -100,8 +99,6 @@ export class EditProductComponent implements OnInit, OnDestroy {
   //  + enregistrer l'image avec le nom du produit.
   onSubmitForm(): void {
     const product: ProductInterface = this.productForm.value;
-    console.log((this.productForm.value))
-
     this.productsService.editProduct(product, this.imgBase64).pipe(takeUntil(this.destroy$)).subscribe(
       () => {
         switch (product.category) {
@@ -128,10 +125,5 @@ export class EditProductComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.destroy$.next(false);
-  }
-
-  onCategoryChoice(categoryTypes: string[]) {
-    console.log(categoryTypes)
-    this.types = categoryTypes;
   }
 }

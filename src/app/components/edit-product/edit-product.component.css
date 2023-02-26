@@ -21,19 +21,6 @@ form table .btn-form-container {
   align-content: center;
   justify-content: center;
 }
-form table .btn-form-container button {
-  display: flex;
-  cursor: pointer;
-  background-color: #FBCE2E;
-  font-size: 1.2rem;
-  height: fit-content;
-  border: none;
-  margin-top: 2rem;
-  padding: 0.5rem 2rem;
-  color: #181818;
-  width: fit-content;
-  align-self: center;
-}
 form h2 {
   text-align: center;
 }

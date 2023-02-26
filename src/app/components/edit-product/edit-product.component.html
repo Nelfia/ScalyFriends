@@ -8,7 +8,7 @@
       <td><label for="category">Catégorie</label></td>
       <td class="field">
         <select id="category" formControlName="category">
-          <option *ngFor="let category of categories" [ngValue]="category.value" (change)="onCategoryChoice(category.types)">
+          <option *ngFor="let category of categories" [ngValue]="category.value">
             {{ category.name }}
           </option>
         </select>
@@ -133,7 +133,7 @@
         <app-image-upload (newImageEvent)="setImgBase64($event)"></app-image-upload>
       </div>
       <div class="btn-form-container">
-        <button type="submit">Enregister</button>
+        <button type="submit" class="btn">Enregister</button>
       </div>
 
 

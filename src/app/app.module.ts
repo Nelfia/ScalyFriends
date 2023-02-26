@@ -22,6 +22,8 @@ import { SigninComponent } from './components/signin/signin.component';
 import { ConnexionPageComponent } from './components/connexion-page/connexion-page.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import {ImageUploadModule} from "./shared/image-upload/image-upload.module";
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 registerLocaleData(localeFr);
 
@@ -40,7 +42,9 @@ registerLocaleData(localeFr);
     CartLineComponent,
     SigninComponent,
     ConnexionPageComponent,
-    EditProductComponent
+    EditProductComponent,
+    AboutUsComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,

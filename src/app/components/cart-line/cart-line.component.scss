@@ -4,19 +4,35 @@ tr {
   align-items: center;
   justify-content: space-between;
   .img {
-    width: 7vw;
-    height: 7vw;
+    width: 60px;
+    height: 50px;
+    text-align: center;
+    padding-left: 10px;
     img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      border: 2px solid #FBCE2E;
+      transform: rotateZ(-6deg);
     }
   }
-  p {
-    width: 27vw;
+  .col2 {
+    width: 25vw;
+    padding-left: .5rem;
+  }
+  .col3, .col4, .col5 {
+    width: 10vw;
+    text-align: end;
+    input {
+      width: 5vw;
+    }
   }
   .supprimer {
+    width: 2vw;
     font-family: "Imprima", sans-serif;
     font-size: 0.75rem;
+    button {
+      border: none;
+    }
   }
 }

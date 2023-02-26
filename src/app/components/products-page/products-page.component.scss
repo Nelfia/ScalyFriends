@@ -16,12 +16,12 @@
       width: 220px;
       height: 220px;
       transform: rotateZ(-9.96deg);
-      box-shadow: -2px 2px 5px $shadows;
+      box-shadow: -2px 2px 5px #8E8E8BFF;
       margin: 3rem 0 0 2rem;
 
       img {
-        width: 220px;
-        height: 220px;
+        width: 100%;
+        height: 100%;
         object-fit: contain;
       }
 
