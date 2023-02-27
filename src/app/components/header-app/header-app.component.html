@@ -11,7 +11,7 @@
       <button class="account-button" *ngIf="!isLoggedIn" ><a routerLink="/connexion" id="account-link"> Mon compte</a></button>
       <button class="account-button" *ngIf="isLoggedIn" (click)="onLogout()"> Déconnexion </button>
       <!-- TODO: Ajouter l'affichage du nombre d'articles dans le panier + style -->
-      <button class="cart-button">
+      <button class="cart-button" *ngIf="!isAdminIn">
         <a routerLink="/cart">
           <img src="../../../assets/img/sac.png" alt="logo panier" />
         </a>
