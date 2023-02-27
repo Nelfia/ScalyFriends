@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {LineInterface} from "../../shared/interfaces/Line.interface";
 import {CommandsService} from "../../shared/services/commands/commands.service";
 import {API_BASE_URL} from "../../shared/constants/constants";
-import {Subject, switchScan, takeUntil, tap} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-cart-line',
