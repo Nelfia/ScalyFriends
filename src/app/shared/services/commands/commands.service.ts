@@ -169,7 +169,6 @@ export class CommandsService {
     let cartLS = this.getLsCart();
     // agreger les deux carts
     if(cartLS) {
-      console.log(cartLS.lines)
       cartLS.lines.forEach(line => {
         this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + (this.idCart ?? user.idCart) + "/lines", line, {headers: this.headers}).pipe(
           tap(cart => this.cart$.next(cart)),

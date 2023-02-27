@@ -1,5 +1,5 @@
 <div class="container">
-  <aside class="products-filters">Products filters</aside>
+  <!-- <aside class="products-filters">Products filters</aside> -->
 
   <div class="products-container">
     <div *ngIf="router.url === '/animal'" class="products-introduction">
@@ -20,7 +20,7 @@
           <img [src]="apiBaseUrl + product.img" alt="" />
         </div>
         <button class="show-product" [routerLink]="[router.url, product?.['idProduct']]"><span>></span></button>
-        <p>{{product.name}}</p>
+        <p>{{ product.name | titlecase }}</p>
       </li>
     </ul>
   </div>

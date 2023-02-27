@@ -11,6 +11,7 @@ import {ConnexionPageComponent} from "./components/connexion-page/connexion-page
 import {EditProductComponent} from "./components/edit-product/edit-product.component";
 import {AboutUsComponent} from "./components/about-us/about-us.component";
 import {ContactComponent} from "./components/contact/contact.component";
+import {IsAdminGuard} from "./shared/guards/is-admin-guard";
 
 const routes: Routes = [
   {
@@ -74,7 +75,10 @@ const routes: Routes = [
   },
   {
     path: 'edit-product',
-    component: EditProductComponent
+    component: EditProductComponent,
+    canActivate: [
+      IsAdminGuard
+    ]
   },
   {
     path: 'about-us',

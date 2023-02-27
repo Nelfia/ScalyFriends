@@ -1,3 +1,28 @@
-
+.container {
+  width: 70vw;
+  margin: 0 auto;
+}
+.container h2 {
+  text-align: center;
+  color: #181818;
+}
+.container .author-container {
+  display: flex;
+  gap: 3vw;
+  align-content: center;
+  justify-content: start;
+  padding-left: 2rem;
+}
+.container .author-container h3 {
+  color: #DB962E;
+  font-size: 1.4rem;
+  margin: 0;
+}
+.container .author-container .ap {
+  font-weight: 600;
+}
+.container .author-container p {
+  margin: 0;
+}
 
 /*# sourceMappingURL=about-us.component.css.map */

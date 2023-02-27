@@ -10,17 +10,17 @@ import {CommandsService} from "../commands/commands.service";
   providedIn: 'root'
 })
 /**
- * Classe d'Authetification d'un utilisateur
+ * Service d'Authetification d'un utilisateur
  */
 export class AuthService {
-  /**
-   * Headers HTTP envoyés avec la requête.
-   */
   headers = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
   });
+
   public isLogged$ = new BehaviorSubject<boolean>(this.isLoggedIn());
+  public isAdmin$ = new BehaviorSubject<boolean>(this.isAdmin());
   private loggedUser! : UserInterface | null ;
+  private role!: string;
   constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
 
   /**
@@ -33,11 +33,10 @@ export class AuthService {
    */
   login(username:string, pwd: string) : Observable<string> {
     if (this.isLoggedIn()) this.logout();
-    // TODO : cacher les éléments de connexion --> SECURITE USER !
+    // TODO : ajouter l'option withCredentials et gérer côté back !
     return this.http.post<any>(API_BASE_URL + 'api/users/login', {username, pwd}, {headers: this.headers})
       .pipe(
         tap((res) => {
-          console.log('Logged in')
           this.setSession(res);
         }),
         take(1),
@@ -56,6 +55,10 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(res.user));
     localStorage.setItem('id_cart', JSON.stringify(res.idCart));
     this.isLogged$.next(true);
+    this.role = JSON.parse(res.role)[0];
+    console.log(this.role)
+    if((JSON.parse(res.role)[0]) === "ROLE_ADMIN")
+      this.isAdmin$.next(true);
     this.getLoggedUser();
   }
 
@@ -68,15 +71,19 @@ export class AuthService {
   }
 
   /**
-   * Supprime toutes les données de l'utilisateur du LS.
+   * Délogue un utilisateur:
+   *   - supprime toutes les données de l'utilisateur du LS
+   *   - le délogue en back
    */
   logout() {
+    this.http.delete(API_BASE_URL + "users/logout", {headers: this.headers});
     this.loggedUser = null;
+    this.commandeService.idCart = null;
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
     localStorage.removeItem("user");
     localStorage.removeItem("id_cart");
-    this.commandeService.idCart = null;
+    this.isAdmin$.next(false);
     this.isLogged$.next(false);
   }
 
@@ -90,14 +97,30 @@ export class AuthService {
   }
 
   /**
+   * Vérifie si un utilisateur est admin.
+   * @return TRUE si admin, sinon FALSE.
+   */
+  isAdmin() : boolean {
+    return this.role === "ROLE_ADMIN";
+  }
+
+  /**
    * Récupère la date d'expiration dans le LS.
    */
   getExpiration() {
     return localStorage.getItem("expires_at");
   }
+
+  /**
+   * Enregistre un nouvel utilisateur en BDD.
+   * Par défaut, sera un simple utilisateur.
+   *
+   * @param username
+   * @param pwd
+   */
   signin(username: string, pwd: string): Observable<string> {
     if (this.isLoggedIn()) this.logout();
-    // TODO : cacher les éléments de connexion --> SECURITE USER !
+    // TODO : ajouter l'option withCredentials et gérer côté back !
     return this.http.post<any>(API_BASE_URL + 'api/users', {username, pwd}, {headers: this.headers})
       .pipe(
         tap((res) => {
@@ -109,6 +132,9 @@ export class AuthService {
       );
   }
 
+  /**
+   * Retourne l'instance de l'utilisateur logué.
+   */
   getLoggedUser() : UserInterface | null {
     if (this.isLoggedIn()) {
       console.log('logged in')
