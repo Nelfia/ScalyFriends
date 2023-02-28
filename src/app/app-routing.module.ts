@@ -74,7 +74,7 @@ const routes: Routes = [
     component: ConnexionPageComponent
   },
   {
-    path: 'edit-product',
+    path: 'admin/edit-product',
     component: EditProductComponent,
     canActivate: [
       IsAdminGuard

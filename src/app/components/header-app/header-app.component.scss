@@ -34,6 +34,15 @@
       }
     }
 
+    .new-product-button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+
+      .ico {
+        width: 32px;
+      }
+    }
     .buttons {
       display: flex;
       justify-content: flex-end;

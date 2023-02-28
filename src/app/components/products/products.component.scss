@@ -6,11 +6,17 @@
   width: 80vw;
   margin: 0 auto;
 
-  aside.products-filters {
-    width: 25%;
-    height: 70vh;
-    padding: 2rem 0 0 4rem;
+  h1 {
+    .new-product-button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      .ico {
+        width: 32px;
+      }
+    }
   }
+
   .products-container {
     text-align: center;
   }

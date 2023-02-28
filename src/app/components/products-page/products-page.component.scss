@@ -40,8 +40,17 @@
 
     .infos {
       width: 50vw;
-      h2 {
-        margin-bottom: 0;
+      .product-name {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+        img {
+          width: 32px;
+        }
+        h2 {
+          margin-bottom: 0;
+          margin-right: 20%;
+        }
       }
       p.ref{
         margin-top: 0;

@@ -4,7 +4,11 @@
       <img [src]="apiBaseUrl + product.img" alt="image du produit">
     </div>
     <div class="infos">
-      <h2 class="merienda">{{ product.name | titlecase }}</h2>
+      <div class="product-name">
+        <h2 class="merienda">{{ product.name | titlecase }}</h2>
+        <img src="assets/img/icons/update.svg">
+        <img src="assets/img/icons/delete.svg">
+      </div>
       <p class="ref"><small>{{ product.ref | uppercase }}</small></p>
       <form class="price-container" (ngSubmit)="onSubmitForm(product)">
         <div class="price">{{ product.price | currency: 'EUR'}}</div>

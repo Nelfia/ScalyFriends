@@ -5,7 +5,9 @@
       <p class="logo-name merienda">ScalyFriends</p>
     </div>
     <div class="admin">
-      <button class="new-product-button" routerLink="/edit-product" *ngIf="isAdminIn">+</button>
+      <button class="new-product-button" routerLink="/admin/edit-product">
+        <img class="ico" src="/assets/img/icons/create.svg" alt="Ajouter un produit dans cette catégorie" />
+      </button>
     </div>
     <div class="buttons">
       <button class="account-button" *ngIf="!isLoggedIn" ><a routerLink="/connexion" id="account-link"> Mon compte</a></button>
