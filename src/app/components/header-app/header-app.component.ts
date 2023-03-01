@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../shared/services/auth/auth.service";
 import {CommandsService} from "../../shared/services/commands/commands.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header-app',
@@ -32,20 +33,27 @@ export class HeaderAppComponent implements OnInit {
   ]
 
   private isLogged!: boolean;
+  private isAdmin!: boolean;
 
-  constructor(public authService: AuthService, private commandeService: CommandsService) {
+  constructor(public authService: AuthService, private commandeService: CommandsService, private router: Router) {
   }
   ngOnInit(): void {
     this.authService.isLogged$.subscribe(isLogged => this.isLogged = isLogged);
+    this.authService.isAdmin$.subscribe(isAdmin => this.isAdmin = isAdmin);
   }
 
   get isLoggedIn() {
     return this.isLogged;
   }
 
+  get isAdminIn() {
+    return this.isAdmin;
+  }
+
   onLogout(): void {
     this.authService.logout();
     this.commandeService.cart$.next(this.commandeService.getLsCart());
+    this.router.navigateByUrl('/connexion');
   }
 
 }

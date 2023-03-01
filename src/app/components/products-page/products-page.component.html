@@ -4,7 +4,11 @@
       <img [src]="apiBaseUrl + product.img" alt="image du produit">
     </div>
     <div class="infos">
-      <h2 class="merienda">{{ product.name | titlecase }}</h2>
+      <div class="product-name">
+        <h2 class="merienda">{{ product.name | titlecase }}</h2>
+        <img src="assets/img/icons/update.svg">
+        <img src="assets/img/icons/delete.svg">
+      </div>
       <p class="ref"><small>{{ product.ref | uppercase }}</small></p>
       <form class="price-container" (ngSubmit)="onSubmitForm(product)">
         <div class="price">{{ product.price | currency: 'EUR'}}</div>
@@ -31,18 +35,5 @@
         <app-feeding-description *ngIf="product.category === 'feeding'"></app-feeding-description>
       </div>
     </div>
-  </div>
-  <div class="recommendations">
-    <!--    <ul class="products-list">-->
-    <!--      <li class="product-card">-->
-    <!--        <div class="img">-->
-    <!--          <img [src]="recommendation.img" alt="" />-->
-    <!--        </div>-->
-    <!--        <button class="show-product">-->
-    <!--          <a [routerLink]="apiBaseUrl + '/' + recommendation.idProduct"> > </a>-->
-    <!--        </button>-->
-    <!--        <p>{{product.name}}</p>-->
-    <!--      </li>-->
-    <!--    </ul>-->
   </div>
 </div>

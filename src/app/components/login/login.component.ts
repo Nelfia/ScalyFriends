@@ -25,8 +25,6 @@ export class LoginComponent implements OnDestroy {
   login() {
     const val = this.form.value;
     // TODO: Hacher le pwd & corriger le pendant côté serveur
-    console.log(val.username)
-    console.log(val.pwd)
 
     if (val.username && val.pwd) {
       this.authService.login(val.username, val.pwd).pipe(
@@ -35,7 +33,7 @@ export class LoginComponent implements OnDestroy {
         this.router.navigateByUrl('/');
         // Créer un nouveau cart
         this.commandeService.idCart = res.idCart;
-        this.commandeService.agregateCarts(res.cart, res.user);
+        this.commandeService.agregateCarts(res.cart, res.user, this.authService.isAdmin$.value);
       })
     }
   }

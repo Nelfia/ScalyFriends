@@ -1,14 +1,22 @@
-@import "~src/assets/variables";
+@import "variables";
 
 .container {
   display: flex;
   padding: 2rem 2rem 0 2rem;
+  width: 80vw;
+  margin: 0 auto;
 
-  aside.products-filters {
-    width: 25%;
-    height: 70vh;
-    padding: 2rem 0 0 4rem;
+  h1 {
+    .new-product-button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      .ico {
+        width: 32px;
+      }
+    }
   }
+
   .products-container {
     text-align: center;
   }
@@ -17,7 +25,7 @@
     position: relative;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-wrap: wrap;
     list-style-type: none;
     padding: 1rem 0;
@@ -35,8 +43,8 @@
         margin: 1rem 0;
 
         img {
-          width: 200px;
-          height: 200px;
+          width: 150px;
+          height: 150px;
           object-fit: contain;
         }
         &:before {
@@ -70,6 +78,10 @@
           color: $secondary;
           text-decoration: none;
         }
+      }
+      p {
+        font-weight: 600;
+        color: #181818;
       }
     }
   }

@@ -1,17 +1,32 @@
 <div class="container">
-  <aside class="products-filters">Products filters</aside>
+  <!-- <aside class="products-filters">Products filters</aside> -->
 
   <div class="products-container">
     <div *ngIf="router.url === '/animal'" class="products-introduction">
-      <h1 class="products-title merienda">Nos animaux</h1>
+      <h1 class="products-title merienda">
+        Nos animaux
+        <button class="new-product-button" routerLink="/admin/edit-product" *ngIf="isAdminIn">
+          <img class="ico" src="/assets/img/icons/create.svg" alt="Ajouter un produit dans cette catégorie" />
+        </button></h1>
+
       <p class="products-introduction-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, possimus, ullam! Adipisci asperiores blanditiis cum deserunt esse ipsa laboriosam, magnam minus, necessitatibus quibusdam quisquam repudiandae totam voluptates. Perspiciatis quaerat, vitae.</p>
     </div>
     <div *ngIf="router.url === '/material'" class="products-introduction">
-      <h1 class="products-title merienda">Le matériel</h1>
+      <h1 class="products-title merienda">
+        Le matériel
+        <button class="new-product-button" routerLink="/admin/edit-product" *ngIf="isAdminIn">
+          <img class="ico" src="/assets/img/icons/create.svg" alt="Ajouter un produit dans cette catégorie" />
+        </button>
+      </h1>
+
       <p class="products-introduction-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, possimus, ullam! Adipisci asperiores blanditiis cum deserunt esse ipsa laboriosam, magnam minus, necessitatibus quibusdam quisquam repudiandae totam voluptates. Perspiciatis quaerat, vitae.</p>
     </div>
     <div *ngIf="router.url === '/feeding'" class="products-introduction">
-      <h1 class="products-title merienda">L'alimentation</h1>
+      <h1 class="products-title merienda">
+        L'alimentation
+        <button class="new-product-button" routerLink="/admin/edit-product" *ngIf="isAdminIn">
+          <img class="ico" src="/assets/img/icons/create.svg" alt="Ajouter un produit dans cette catégorie" />
+        </button></h1>
       <p class="products-introduction-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, possimus, ullam! Adipisci asperiores blanditiis cum deserunt esse ipsa laboriosam, magnam minus, necessitatibus quibusdam quisquam repudiandae totam voluptates. Perspiciatis quaerat, vitae.</p>
     </div>
     <ul class="products-list">
@@ -20,7 +35,7 @@
           <img [src]="apiBaseUrl + product.img" alt="" />
         </div>
         <button class="show-product" [routerLink]="[router.url, product?.['idProduct']]"><span>></span></button>
-        <p>{{product.name}}</p>
+        <p>{{ product.name | titlecase }}</p>
       </li>
     </ul>
   </div>

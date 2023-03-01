@@ -163,23 +163,25 @@ export class CommandsService {
    * Fusionne les 2 paniers pour n'en retourner qu'un.
    * @param cart
    * @param user
+   * @param isAdmin
    * @return CommandInterface
    */
-  agregateCarts(cart: CommandInterface, user: UserInterface): void {
-    let cartLS = this.getLsCart();
-    // agreger les deux carts
-    if(cartLS) {
-      console.log(cartLS.lines)
-      cartLS.lines.forEach(line => {
-        this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + (this.idCart ?? user.idCart) + "/lines", line, {headers: this.headers}).pipe(
-          tap(cart => this.cart$.next(cart)),
-          take(1)
-        ).subscribe();
-      })
+  agregateCarts(cart: CommandInterface, user: UserInterface, isAdmin: boolean): void {
+    if(!isAdmin) {
+      let cartLS = this.getLsCart();
+      // agreger les deux carts
+      if (cartLS) {
+        console.log(cartLS.lines)
+        cartLS.lines.forEach(line => {
+          this.http.post<CommandInterface>(API_BASE_URL + "api/orders/" + (this.idCart ?? user.idCart) + "/lines", line, {headers: this.headers}).pipe(
+            tap(cart => this.cart$.next(cart)),
+            take(1)
+          ).subscribe();
+        })
+      } else {
+        this.cart$.next(cart);
+      }
+      localStorage.removeItem('cart');
     }
-    else {
-      this.cart$.next(cart);
-    }
-    localStorage.removeItem('cart');
   }
 }
