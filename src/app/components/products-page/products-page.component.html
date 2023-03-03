@@ -13,7 +13,7 @@
       <form class="price-container" (ngSubmit)="onSubmitForm(product)">
         <div class="price">{{ product.price | currency: 'EUR'}}</div>
         <input [max]="product.stock" class="price quantity" [(ngModel)]="quantity" type="number" min="1" name="quantity"/>
-        <button type="submit">Ajoutez-le à votre panier</button>
+        <button type="submit" *ngIf="!(isAdminIn | async)">Ajoutez-le à votre panier</button>
       </form>
       <div class="stock"><small>{{ product.stock <= 10 ? "Plus que " : "" }}{{ product.stock }} en stock</small></div>
       <div class="conditions">
