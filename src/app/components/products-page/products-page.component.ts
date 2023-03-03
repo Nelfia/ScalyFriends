@@ -22,7 +22,7 @@ export class ProductsPageComponent implements OnInit, OnDestroy{
   idCart!: number;
   destroy$ : Subject<boolean> = new Subject<boolean>()
   category!: string;
-
+   private isAdmin$!: Observable<boolean>;
   constructor(
     private productsService: ProductsService,
     private route: ActivatedRoute,
@@ -36,11 +36,13 @@ export class ProductsPageComponent implements OnInit, OnDestroy{
     this.route.data.pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.category = data?.['category'];
     })
-
+    this.isAdmin$ = this.authService.isAdmin$;
     this.product$ = this.productsService.getProductById(this.idProduct, this.category);
     this.idCart = Number(localStorage.getItem('id_cart'));
   }
-
+  get isAdminIn() {
+    return this.isAdmin$;
+  }
   ngOnDestroy() {
     this.destroy$.next(false);
   }
@@ -54,6 +56,15 @@ export class ProductsPageComponent implements OnInit, OnDestroy{
     ).subscribe();
   }
 
+  onDeleteProduct(product: ProductInterface) {
+    if(this.authService.isAdmin()) {
+      if(confirm("Êtes-vous sûr de vouloir supprimer ce produit définitivement?")){
+        let success = this.productsService.removeProduct(product).pipe(take(1)).subscribe();
+        if(success)
+          this.router.navigateByUrl('/');
+      }
+    }
+  }
   private createLine(product : ProductInterface): LineInterface {
     return {
       idCommand: (this.idCart && this.idCart !== 0) ? this.idCart : 0,

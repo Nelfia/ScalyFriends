@@ -1,7 +1,10 @@
 .container {
   width: 40vw;
+  max-width: 850px;
 
   .description {
+    max-width: 850px;
+
     ul {
       margin-top: 0;
 
@@ -12,6 +15,7 @@
   }
 
   table {
+    max-width: 650px;
     table-layout: fixed;
     width: 100%;
     text-align: left;

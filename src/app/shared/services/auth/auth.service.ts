@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
@@ -12,16 +12,23 @@ import {CommandsService} from "../commands/commands.service";
 /**
  * Service d'Authetification d'un utilisateur
  */
-export class AuthService {
+export class AuthService implements OnInit{
   headers = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
   });
 
   public isLogged$ = new BehaviorSubject<boolean>(this.isLoggedIn());
-  public isAdmin$ = new BehaviorSubject<boolean>(this.isAdmin());
-  private loggedUser! : UserInterface | null ;
+
+  private isAdminSubject$ = new BehaviorSubject<boolean>(false);
+  public isAdmin$ : Observable<boolean> = this.isAdminSubject$.asObservable();
   private role!: string;
+
+  private loggedUser! : UserInterface | null ;
   constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
+
+  ngOnInit() {
+    this.isAdmin$.subscribe(isAdmin => this.role = isAdmin ? "ROLE_ADMIN" : "ROLE_USER")
+  }
 
   /**
    * Tente de loguer le user.
@@ -58,7 +65,7 @@ export class AuthService {
     this.role = JSON.parse(res.role)[0];
     console.log(this.role)
     if((JSON.parse(res.role)[0]) === "ROLE_ADMIN")
-      this.isAdmin$.next(true);
+      this.isAdminSubject$.next(true);
     this.getLoggedUser();
   }
 
@@ -83,7 +90,7 @@ export class AuthService {
     localStorage.removeItem("expires_at");
     localStorage.removeItem("user");
     localStorage.removeItem("id_cart");
-    this.isAdmin$.next(false);
+    this.isAdminSubject$.next(false);
     this.isLogged$.next(false);
   }
 

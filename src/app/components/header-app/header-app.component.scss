@@ -6,6 +6,12 @@
   width: 100%;
   margin: 0;
 
+  .iconLink {
+    text-decoration: none;
+    color: #fffffb;
+    cursor: default;
+  }
+
   header {
     width: 100%;
     display: flex;

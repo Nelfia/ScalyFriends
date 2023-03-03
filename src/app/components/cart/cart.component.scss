@@ -1,5 +1,6 @@
 .container {
   width: 70%;
+  max-width: 850px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -11,14 +12,15 @@
   }
 
   table {
-    table-layout: fixed;
     text-align: left;
     width: 70vw;
   }
 
   .totaux {
+    max-width: 850px;
     border-top: 2px solid rgba(170, 125, 75, 0.45);
     font-weight: 600;
+    text-align: end;
   }
 
 }

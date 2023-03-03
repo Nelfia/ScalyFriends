@@ -81,6 +81,13 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'admin/edit-product/:category',
+    component: EditProductComponent,
+    canActivate: [
+      IsAdminGuard
+    ]
+  },
+  {
     path: 'about-us',
     component: AboutUsComponent
   },

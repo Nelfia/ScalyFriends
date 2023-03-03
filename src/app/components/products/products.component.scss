@@ -4,7 +4,14 @@
   display: flex;
   padding: 2rem 2rem 0 2rem;
   width: 80vw;
+  max-width: 850px;
   margin: 0 auto;
+
+  .iconLink {
+    text-decoration: none;
+    color: #fffffb;
+    cursor: default;
+  }
 
   h1 {
     .new-product-button {

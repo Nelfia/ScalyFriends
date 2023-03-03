@@ -1,9 +1,11 @@
 .container {
   display: flex;
   width: 100%;
+  max-width: 850px;
   justify-content: center;
-  margin-top: 2rem;
-  gap: 4rem;
+  margin: 0 auto;
+  padding-top: 2rem;
+  gap: 8vw;
 }
 .container .component-container {
   display: flex;

@@ -1,3 +1,31 @@
-
+.container {
+  width: 70vw;
+  max-width: 850px;
+  margin: 0 auto;
+  padding-top: 5rem;
+  text-align: center;
+  height: 100%;
+}
+.container span {
+  font-weight: 600;
+}
+.container .author-container {
+  display: flex;
+  gap: 3vw;
+  align-content: center;
+  justify-content: center;
+  padding-top: 3rem;
+}
+.container .author-container h3 {
+  color: #DB962E;
+  font-size: 1.4rem;
+  margin: 0;
+}
+.container .author-container .ap {
+  font-weight: 600;
+}
+.container .author-container p {
+  margin: 0;
+}
 
 /*# sourceMappingURL=contact.component.css.map */

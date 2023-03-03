@@ -6,8 +6,8 @@
     <div class="infos">
       <div class="product-name">
         <h2 class="merienda">{{ product.name | titlecase }}</h2>
-        <img src="assets/img/icons/update.svg">
-        <img src="assets/img/icons/delete.svg">
+        <!-- <img src="assets/img/icons/update.svg" alt="icône modifier" class="icon" routerLink="/admin/edit-product"> -->
+        <img src="assets/img/icons/delete.svg" alt="icône supprimer" class="icon" (click)="onDeleteProduct(product)" *ngIf="isAdminIn | async">
       </div>
       <p class="ref"><small>{{ product.ref | uppercase }}</small></p>
       <form class="price-container" (ngSubmit)="onSubmitForm(product)">

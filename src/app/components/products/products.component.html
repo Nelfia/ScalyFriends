@@ -1,11 +1,12 @@
 <div class="container">
   <!-- <aside class="products-filters">Products filters</aside> -->
+  <a class="iconLink" target="_blank" href="https://icons8.com">Icons8</a>
 
   <div class="products-container">
     <div *ngIf="router.url === '/animal'" class="products-introduction">
       <h1 class="products-title merienda">
         Nos animaux
-        <button class="new-product-button" routerLink="/admin/edit-product" *ngIf="isAdminIn">
+        <button class="new-product-button" routerLink="/admin/edit-product/animal" *ngIf="isAdminIn">
           <img class="ico" src="/assets/img/icons/create.svg" alt="Ajouter un produit dans cette catégorie" />
         </button></h1>
 
@@ -14,7 +15,7 @@
     <div *ngIf="router.url === '/material'" class="products-introduction">
       <h1 class="products-title merienda">
         Le matériel
-        <button class="new-product-button" routerLink="/admin/edit-product" *ngIf="isAdminIn">
+        <button class="new-product-button" routerLink="/admin/edit-product/material" *ngIf="isAdminIn">
           <img class="ico" src="/assets/img/icons/create.svg" alt="Ajouter un produit dans cette catégorie" />
         </button>
       </h1>
@@ -24,7 +25,7 @@
     <div *ngIf="router.url === '/feeding'" class="products-introduction">
       <h1 class="products-title merienda">
         L'alimentation
-        <button class="new-product-button" routerLink="/admin/edit-product" *ngIf="isAdminIn">
+        <button class="new-product-button" routerLink="/admin/edit-product/feeding" *ngIf="isAdminIn">
           <img class="ico" src="/assets/img/icons/create.svg" alt="Ajouter un produit dans cette catégorie" />
         </button></h1>
       <p class="products-introduction-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, possimus, ullam! Adipisci asperiores blanditiis cum deserunt esse ipsa laboriosam, magnam minus, necessitatibus quibusdam quisquam repudiandae totam voluptates. Perspiciatis quaerat, vitae.</p>

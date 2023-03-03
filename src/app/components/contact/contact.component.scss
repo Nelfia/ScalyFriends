@@ -1,0 +1,33 @@
+.container {
+  width: 70vw;
+  max-width: 850px;
+  margin: 0 auto;
+  padding-top: 5rem;
+  text-align: center;
+  height: 100%;
+
+  span {
+    font-weight: 600;
+  }
+
+  .author-container {
+    display: flex;
+    gap: 3vw;
+    align-content: center;
+    justify-content: center;
+    padding-top: 3rem;
+
+    h3 {
+      color: #DB962E;
+      font-size: 1.4rem;
+      margin: 0;
+    }
+    .ap {
+      font-weight: 600;
+    }
+    p {
+      margin: 0;
+    }
+  }
+}
+

@@ -33,7 +33,7 @@ export class LoginComponent implements OnDestroy {
         this.router.navigateByUrl('/');
         // Créer un nouveau cart
         this.commandeService.idCart = res.idCart;
-        this.commandeService.agregateCarts(res.cart, res.user, this.authService.isAdmin$.value);
+        this.commandeService.agregateCarts(res.cart, res.user, this.authService.isAdmin());
       })
     }
   }

@@ -1,35 +1,11 @@
 .container {
   width: 70vw;
   margin: 0 auto;
+  max-width: 850px;
+  padding-top: 3rem;
 
   h2 {
     text-align: center;
     color: #181818;
-  }
-  .author-container {
-    display: flex;
-    gap: 3vw;
-    align-content: center;
-    justify-content: start;
-    padding-left: 2rem;
-    //.img {
-    //  width: 8vw;
-    //  height: 8vw;
-    //  align-self: center;
-    //  justify-self: center;
-    //  border: 2px solid #A57740;
-    //  border-radius: 50%;
-    //}
-    h3 {
-      color: #DB962E;
-      font-size: 1.4rem;
-      margin: 0;
-    }
-    .ap {
-      font-weight: 600;
-    }
-    p {
-      margin: 0;
-    }
   }
 }

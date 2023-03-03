@@ -1,5 +1,9 @@
 .container {
   width: 40vw;
+  max-width: 850px;
+}
+.container .description {
+  max-width: 850px;
 }
 .container .description ul {
   margin-top: 0;
@@ -8,6 +12,7 @@
   list-style-type: none;
 }
 .container table {
+  max-width: 650px;
   table-layout: fixed;
   width: 100%;
   text-align: left;

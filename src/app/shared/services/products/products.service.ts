@@ -8,9 +8,6 @@ import {API_BASE_URL} from "../../constants/constants";
   providedIn: 'root'
 })
 export class ProductsService {
-  /**
-   * Headers HTTP envoyés avec la requête.
-   */
   headers = new HttpHeaders({
     'Content-Type': 'application/x-www-form-urlencoded'
   });
@@ -25,7 +22,7 @@ export class ProductsService {
     if(this.animals)
       observable = of(this.animals);
     else {
-      observable = this.http.get<ProductInterface[]>('http://api-scalyfriends/api/products/animal').pipe(
+      observable = this.http.get<ProductInterface[]>(API_BASE_URL + 'api/products/animal').pipe(
         tap((res: ProductInterface[]) => this.animals = res ),
         share()
       )
@@ -37,7 +34,7 @@ export class ProductsService {
     if(this.materials)
       observable = of(this.materials);
     else {
-      observable = this.http.get<ProductInterface[]>('http://api-scalyfriends/api/products/material').pipe(
+      observable = this.http.get<ProductInterface[]>(API_BASE_URL + 'api/products/material').pipe(
         tap((res: ProductInterface[]) => this.materials = res ),
         share()
       )
@@ -49,7 +46,7 @@ export class ProductsService {
     if(this.feeding)
       observable = of(this.feeding);
     else {
-      observable = this.http.get<ProductInterface[]>('http://api-scalyfriends/api/products/feeding').pipe(
+      observable = this.http.get<ProductInterface[]>(API_BASE_URL + 'api/products/feeding').pipe(
         tap((res: ProductInterface[]) => this.feeding = res ),
         share()
       )
@@ -73,14 +70,46 @@ export class ProductsService {
           productsArray = undefined;
           break;
       }
-      return productsArray ? of(productsArray.find(product => product.idProduct === +id)) : this.http.get<ProductInterface>('http://api-scalyfriends/api/products/' + id)
+      return productsArray ? of(productsArray.find(product => product.idProduct === +id)) : this.http.get<ProductInterface>(API_BASE_URL + 'api/products/' + id)
     }
 
-    return this.http.get<ProductInterface>('http://api-scalyfriends/api/products/' + id)
+    return this.http.get<ProductInterface>(API_BASE_URL + 'api/products/' + id)
 
   }
-  public editProduct(product: ProductInterface, imageSrc: string): Observable<ProductInterface[]> {
-    return this.http.post<ProductInterface[]>(API_BASE_URL + "api/products", {product, imageSrc}, {headers: this.headers});
+  public editProduct(product: ProductInterface, imageSrc: string) : Observable<ProductInterface[]>{
+     return this.http.post<ProductInterface[]>(API_BASE_URL + "api/products", {product, imageSrc}, {headers: this.headers}).pipe(
+      tap(products => {
+        switch (product.category){
+          case 'animal':
+            this.animals = products;
+            break;
+          case 'material':
+            this.materials = products;
+            break;
+          case 'feeding':
+            this.feeding = products;
+            break;
+        }
+      })
+    );
 
+  }
+
+  public removeProduct(product: ProductInterface) : Observable<ProductInterface[]> {
+    return this.http.delete<ProductInterface[]>(API_BASE_URL + 'api/products/' + product.idProduct, {headers: this.headers}).pipe(
+      tap(products => {
+        switch (product.category){
+          case 'animal':
+            this.animals = products;
+            break;
+          case 'material':
+            this.materials = products;
+            break;
+          case 'feeding':
+            this.feeding = products;
+            break;
+        }
+      })
+    );
   }
 }
