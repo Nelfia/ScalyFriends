@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
 import {map, Observable, Subject, takeUntil} from "rxjs";
 import {ProductsService} from "../../shared/services/products/products.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-edit-product',
@@ -58,12 +58,12 @@ export class EditProductComponent implements OnInit, OnDestroy {
     {name: 'mâle', abbrev: 'M'}
   ]
 
-  constructor(private formBuilder: FormBuilder, private productsService: ProductsService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private productsService: ProductsService, private router: Router, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
-      category: ['', Validators.required],
+      category: ["", Validators.required],
       type: "",
       name: "",
       description: "",
@@ -95,20 +95,18 @@ export class EditProductComponent implements OnInit, OnDestroy {
     )
   }
 
-  // TODO : Sécurisation image côté back + envoie uniquement au submit
-  //  + enregistrer l'image avec le nom du produit.
   onSubmitForm(): void {
     const product: ProductInterface = this.productForm.value;
     this.productsService.editProduct(product, this.imgBase64).pipe(takeUntil(this.destroy$)).subscribe(
       () => {
         switch (product.category) {
-          case "Animal" :
+          case "animal" :
             this.productsService.getAnimals();
             break;
-          case "Matériel":
+          case "material":
             this.productsService.getMaterials();
             break;
-          case "Alimentation":
+          case "feeding":
             this.productsService.getFeeding();
             break;
           default:

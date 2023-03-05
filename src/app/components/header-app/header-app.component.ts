@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../shared/services/auth/auth.service";
 import {CommandsService} from "../../shared/services/commands/commands.service";
 import {Router} from "@angular/router";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-header-app',
@@ -33,13 +34,13 @@ export class HeaderAppComponent implements OnInit {
   ]
 
   private isLogged!: boolean;
-  private isAdmin!: boolean;
+  private isAdmin$!: Observable<boolean>;
 
   constructor(public authService: AuthService, private commandeService: CommandsService, private router: Router) {
   }
   ngOnInit(): void {
     this.authService.isLogged$.subscribe(isLogged => this.isLogged = isLogged);
-    this.authService.isAdmin$.subscribe(isAdmin => this.isAdmin = isAdmin);
+    this.isAdmin$ = this.authService.isAdmin$;
   }
 
   get isLoggedIn() {
@@ -47,7 +48,7 @@ export class HeaderAppComponent implements OnInit {
   }
 
   get isAdminIn() {
-    return this.isAdmin;
+    return this.isAdmin$;
   }
 
   onLogout(): void {

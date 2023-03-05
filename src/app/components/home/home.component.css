@@ -1,12 +1,11 @@
 .container {
   width: 70vw;
-  margin: 0 auto;
   max-width: 850px;
+  margin: 0 auto;
   padding-top: 3rem;
 }
 .container h2 {
   text-align: center;
-  color: #181818;
 }
 
-/*# sourceMappingURL=about-us.component.css.map */
+/*# sourceMappingURL=home.component.css.map */

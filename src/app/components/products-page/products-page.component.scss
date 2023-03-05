@@ -3,7 +3,9 @@
 .container {
   display: flex;
   justify-content: center;
+  max-width: 850px;
   padding-top: 2rem;
+  margin: 0 auto;
 
   .details-product {
     display: flex;
@@ -42,10 +44,11 @@
       width: 50vw;
       .product-name {
         display: flex;
-        gap: 15px;
+        gap: 30px;
         width: 100%;
-        img {
+        .icon {
           width: 32px;
+          cursor: pointer;
         }
         h2 {
           margin-bottom: 0;

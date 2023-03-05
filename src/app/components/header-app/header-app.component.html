@@ -1,19 +1,23 @@
 <div class="container">
+
   <header>
     <div class="logo">
-      <img src="../../../assets/img/logo3.png" alt="logo scalyfriends"/>
+      <a routerLink="/">
+        <img src="../../../assets/img/logo3.png" alt="logo scalyfriends"/>
+      </a>
       <p class="logo-name merienda">ScalyFriends</p>
     </div>
     <div class="admin">
-      <button class="new-product-button" routerLink="/admin/edit-product">
-        <img class="ico" src="/assets/img/icons/create.svg" alt="Ajouter un produit dans cette catégorie" />
+      <a class="iconLink" target="_blank" href="https://icons8.com">Icons8</a>
+      <button class="new-product-button" routerLink="/admin/edit-product" *ngIf="isAdminIn | async">
+        <img class="ico" src="/assets/img/icons/create.svg" alt="icone ajouter produit" />
       </button>
     </div>
     <div class="buttons">
       <button class="account-button" *ngIf="!isLoggedIn" ><a routerLink="/connexion" id="account-link"> Mon compte</a></button>
       <button class="account-button" *ngIf="isLoggedIn" (click)="onLogout()"> Déconnexion </button>
       <!-- TODO: Ajouter l'affichage du nombre d'articles dans le panier + style -->
-      <button class="cart-button" *ngIf="!isAdminIn">
+      <button class="cart-button" *ngIf="!(isAdminIn | async)">
         <a routerLink="/cart">
           <img src="../../../assets/img/sac.png" alt="logo panier" />
         </a>
