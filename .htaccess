@@ -1,0 +1,8 @@
+# Ensure that MutliViews is disabled
+    Options -MultiViews
+# Démarrer le moteur de ré-écriture d'URL.
+    RewriteEngine on
+# Rediriger toutes les requêtes vers le contrôleur frontal.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /index.php [QSA,L]

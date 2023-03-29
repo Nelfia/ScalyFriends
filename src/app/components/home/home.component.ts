@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {UserInterface} from "../../shared/interfaces/user.interface";
+import { Component, OnInit } from '@angular/core';
+import { UserInterface } from "../../shared/interfaces/user.interface";
 
 @Component({
   selector: 'app-home',
@@ -9,7 +9,6 @@ import {UserInterface} from "../../shared/interfaces/user.interface";
 export class HomeComponent implements OnInit {
   public loggedUser! : UserInterface | null;
   public idCart!: number;
-
   constructor() { }
 
   ngOnInit(): void {

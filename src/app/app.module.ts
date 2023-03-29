@@ -24,6 +24,7 @@ import { EditProductComponent } from './components/edit-product/edit-product.com
 import {ImageUploadModule} from "./shared/image-upload/image-upload.module";
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeFr);
 
@@ -53,7 +54,8 @@ registerLocaleData(localeFr);
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    ImageUploadModule
+    ImageUploadModule,
+    NoopAnimationsModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' },

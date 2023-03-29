@@ -32,3 +32,13 @@ body {
   width: fit-content;
   align-self: center;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+@media (max-width: 792px) {
+  .merienda {
+    font-size: 1.5rem;
+  }
+}

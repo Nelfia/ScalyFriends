@@ -9,7 +9,7 @@ import {Subject, takeUntil} from "rxjs";
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit, OnDestroy{
+export class ProductsComponent implements OnInit, OnDestroy {
   public apiBaseUrl = API_BASE_URL;
   isAdminIn!: boolean;
   private destroy$ : Subject<boolean> = new Subject<boolean>()

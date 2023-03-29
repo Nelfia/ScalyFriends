@@ -32,7 +32,7 @@
     </div>
     <ul class="products-list">
       <li class="product-card" *ngFor="let product of (route.data | async )?.['products']" >
-        <div class="img">
+        <div class="img" [routerLink]="[router.url, product?.['idProduct']]" >
           <img [src]="apiBaseUrl + product.img" alt="" />
         </div>
         <button class="show-product" [routerLink]="[router.url, product?.['idProduct']]"><span>></span></button>

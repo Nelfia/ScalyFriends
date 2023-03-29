@@ -38,7 +38,7 @@
     padding: 1rem 0;
 
     li {
-      width: 30%;
+      width: 200px;
       margin: 5px;
       position: relative;
 
@@ -48,6 +48,7 @@
         transform: rotateZ(-9.92deg);
         box-shadow: -2px 2px 5px grey;
         margin: 1rem 0;
+        cursor: pointer;
 
         img {
           width: 150px;
@@ -90,6 +91,36 @@
         font-weight: 600;
         color: #181818;
       }
+    }
+  }
+}
+
+@media (max-width: 970px){
+  .container {
+    width: 90vw !important;
+    padding: 0 2rem 0 0 !important;
+    li{
+      width: 170px;
+      .img>img {
+        width: 120px !important;
+        height: 120px !important;
+      }
+    }
+    p {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media (max-width: 715px) {
+  li {
+    width: 130px !important;
+
+    .img>img{
+      object-fit: cover !important;
+    }
+    .show-product {
+      display: none;
     }
   }
 }
