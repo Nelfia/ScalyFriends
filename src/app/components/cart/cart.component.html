@@ -1,8 +1,10 @@
 <div class="container" *ngIf="cart">
   <h2 class="merienda">Mon panier</h2>
-  <table>
-    <app-cart-line *ngFor="let line of cart.lines" [line]="line"></app-cart-line>
-  </table>
+  <div class="table-lines">
+    <table>
+      <app-cart-line *ngFor="let line of cart.lines" [line]="line"></app-cart-line>
+    </table>
+  </div>
   <!-- TODO: éditer le style du cart + simuler paiement commande -->
   <table class="totaux">
     <tr>

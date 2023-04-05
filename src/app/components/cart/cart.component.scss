@@ -23,4 +23,9 @@
     text-align: end;
   }
 
+  .table-lines {
+    max-height: 55vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }

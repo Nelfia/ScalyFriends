@@ -20,5 +20,10 @@
   font-weight: 600;
   text-align: end;
 }
+.container .table-lines {
+  max-height: 55vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
 /*# sourceMappingURL=cart.component.css.map */
