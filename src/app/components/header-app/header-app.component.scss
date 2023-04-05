@@ -86,7 +86,7 @@
     display: flex;
     justify-content: space-around;
     list-style-type: none;
-    padding-top: 2rem;
+    padding-top: 1rem;
     padding-left: 0;
 
     li {
@@ -145,7 +145,7 @@
     padding: 0 .2rem !important;
   }
   .buttons{
-    gap: unset !important;;
+    gap: unset !important;
   }
 }
 
@@ -164,7 +164,7 @@
       }
     }
     ul.menu {
-      padding-top: 1rem;
+      padding-top: 0;
     }
   }
 }

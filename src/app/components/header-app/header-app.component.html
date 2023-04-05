@@ -25,10 +25,11 @@
     </div>
   </header>
 
-
-  <ul class="menu">
+  <ul class="menu" *ngIf="windowSize > 700">
     <li *ngFor="let item of menuItems">
       <a [routerLink]="item.path" routerLinkActive="active-link">{{ item.label }}</a>
     </li>
   </ul>
+
+  <p>Window width: {{windowSize}}</p>
 </div>

@@ -35,12 +35,16 @@ export class HeaderAppComponent implements OnInit {
 
   private isLogged!: boolean;
   private isAdmin$!: Observable<boolean>;
+  public windowSize: number = window.innerWidth;
 
   constructor(public authService: AuthService, private commandeService: CommandsService, private router: Router) {
   }
   ngOnInit(): void {
     this.authService.isLogged$.subscribe(isLogged => this.isLogged = isLogged);
     this.isAdmin$ = this.authService.isAdmin$;
+    window.addEventListener('resize',(event) => {
+      this.windowSize = window.innerWidth;
+    })
   }
 
   get isLoggedIn() {
