@@ -1,1 +1,3 @@
-<p>description-table-sm works!</p>
+<div *ngFor="let field of productFields | keyvalue:onCompare">
+  Key: {{field.key}} and Value: {{field.value}}
+</div>

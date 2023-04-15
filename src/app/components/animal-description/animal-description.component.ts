@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ProductsPageComponent } from "../products-page/products-page.component";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
 import {Observable} from "rxjs";
@@ -9,10 +9,8 @@ import {Observable} from "rxjs";
   styleUrls: ['./animal-description.component.scss']
 })
 export class AnimalDescriptionComponent implements OnInit {
-  product$!: Observable<ProductInterface | undefined>;
-  constructor(private parent: ProductsPageComponent) {}
-  ngOnInit(): void {
-    this.product$ = this.parent.product$;
-  }
+  @Input() product!: ProductInterface;
+  constructor() { }
+  ngOnInit(): void {}
 
 }

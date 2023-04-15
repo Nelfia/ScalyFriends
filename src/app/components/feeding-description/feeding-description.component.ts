@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductsPageComponent } from "../products-page/products-page.component";
+import {Component, Input, OnInit} from '@angular/core';
 import {ProductInterface} from "../../shared/interfaces/product.interface";
-import {Observable, tap} from "rxjs";
 
 @Component({
   selector: 'app-feeding-description',
@@ -9,23 +7,18 @@ import {Observable, tap} from "rxjs";
   styleUrls: ['./feeding-description.component.scss']
 })
 export class FeedingDescriptionComponent implements OnInit {
-  product$!: Observable<ProductInterface | undefined>;
+  @Input() product!: ProductInterface;
   textDescription!: string | undefined;
   private productDescription!: string;
   isTextTruncated: boolean = false;
-
-  constructor(private parent: ProductsPageComponent) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.product$ = this.parent.product$.pipe(
-      tap(product => {
-        this.productDescription = product?.description ?? '';
-        if(this.productDescription?.length > 200) {
-          this.textDescription = this.productDescription?.slice(0, 200) + '...';
-          this.isTextTruncated = true;
-        }
-      })
-    );
+    this.productDescription = this.product.description ?? '';
+    if (this.productDescription?.length > 200) {
+      this.textDescription = this.productDescription?.slice(0, 200) + '...';
+      this.isTextTruncated = true;
+    }
   }
 
   displayText(): void {

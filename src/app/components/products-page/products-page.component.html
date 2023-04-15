@@ -1,8 +1,8 @@
-  <button class="btn back" (click)="goBack()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
-      <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
-    </svg>
-  </button>
+<button class="btn back" (click)="goBack()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+    <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
+  </svg>
+</button>
 <div class="container" *ngIf="product$ | async as product">
   <div class="details-product">
     <div class="img">
@@ -27,8 +27,11 @@
     </div>
   </div>
   <div class="description">
-    <app-material-description *ngIf="product.category === 'material'"></app-material-description>
-    <app-animal-description *ngIf="product.category === 'animal'"></app-animal-description>
-    <app-feeding-description *ngIf="product.category === 'feeding'"></app-feeding-description>
+    <app-material-description [product]="product" *ngIf="product.category === 'material'"></app-material-description>
+    <app-animal-description [product]="product" *ngIf="product.category === 'animal'"></app-animal-description>
+    <app-feeding-description [product]="product" *ngIf="product.category === 'feeding'"></app-feeding-description>
+  </div>
+  <div class="description">
+    <app-description-table-sm [product]="product"></app-description-table-sm>
   </div>
 </div>

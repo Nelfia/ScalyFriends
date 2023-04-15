@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ProductsPageComponent } from "../products-page/products-page.component";
 import {ProductInterface} from "../../shared/interfaces/product.interface";
 import { Observable, tap} from "rxjs";
@@ -9,15 +9,12 @@ import { Observable, tap} from "rxjs";
   styleUrls: ['./material-description.component.scss']
 })
 export class MaterialDescriptionComponent implements OnInit {
-  product$!: Observable<ProductInterface | undefined>;
+  @Input() product!: ProductInterface;
+
   public descriptionTab! : string[] | undefined;
-  constructor(private parent: ProductsPageComponent) { }
+  constructor() { }
   ngOnInit(): void {
-    this.product$ = this.parent.product$.pipe(
-      tap(product => {
-        this.descriptionTab = product?.description.split('\r\n\r\n')
-      })
-    );
+    this.descriptionTab = this.product.description.split('\r\n\r\n')
   }
 
 }
