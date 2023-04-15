@@ -1,4 +1,5 @@
-<div class="container" *ngIf="product$ | async as product">
+<div class="container p-3" *ngIf="product$ | async as product">
+  <h3>Description</h3>
   <p class="description">{{ product.description }}</p>
   <table>
     <thead>

@@ -1,16 +1,28 @@
 @import "variables";
 
+.back {
+  margin-top: 0;
+  svg{
+    color: $primary;
+    width: 30px;
+    height: 30px;
+    margin-left: 2rem;
+  }
+}
+
 .container {
   display: flex;
   justify-content: center;
   max-width: 850px;
-  padding-top: 2rem;
   margin: 0 auto;
+  flex-direction: column;
 
   .details-product {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 4rem;
+    max-width: 850px;
 
     .img {
       position: relative;
@@ -19,7 +31,7 @@
       height: 220px;
       transform: rotateZ(-9.96deg);
       box-shadow: -2px 2px 5px #8E8E8BFF;
-      margin: 3rem 0 0 2rem;
+      margin: 1rem 0 1rem 1rem;
 
       img {
         width: 100%;
@@ -39,60 +51,116 @@
         box-shadow: -3px 4px 4px $shadows, inset -4px 4px 4px $shadows;
       }
     }
+  }
+  .infos {
+     max-width: 650px;
+     width: fit-content;
+     .product-name {
+       .icon {
+         width: 32px;
+         cursor: pointer;
+       }
+       h2 {
+         margin-bottom: 0;
+       }
+     }
+     p.ref{
+       margin-top: 0;
+       padding-left: .5rem;
+     }
+     .price-container {
+       display: flex;
+       flex-wrap: wrap;
+       gap: 1rem;
+       padding: 1rem 0;
+       .price {
+         text-align: center;
+         padding: 0.5rem 1rem;
+         background-color: $lightGrey;
+         box-shadow: -3px 4px 5px $shadows;
+         font-size: 1.2rem;
+         color: rgba(0, 0, 0, 0.85);
+         user-select: none;
+       }
+       .quantity{
+         cursor: pointer;
+         width: 70px;
+         padding: 0.5rem;
+         border: none;
+       }
+       button{
+         cursor: pointer;
+         text-align: center;
+         padding: 0.5rem 1rem;
+         background-color: $yellow;
+         box-shadow: -3px 4px 5px $shadows;
+         font-size: 1.2rem;
+         color: rgba(0, 0, 0, 0.85);
+         border: none;
 
-    .infos {
-      width: 50vw;
-      .product-name {
-        display: flex;
-        gap: 30px;
-        width: 100%;
-        .icon {
-          width: 32px;
-          cursor: pointer;
-        }
-        h2 {
-          margin-bottom: 0;
-          margin-right: 20%;
-        }
-      }
-      p.ref{
-        margin-top: 0;
-        padding-left: .5rem;
-      }
-      .price-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        padding: 1rem 0;
-        .price {
-          text-align: center;
-          padding: 0.75rem 2rem;
-          background-color: $lightGrey;
-          box-shadow: -3px 4px 5px $shadows;
-          font-size: 1.5rem;
-          color: rgba(0, 0, 0, 0.85);
-          user-select: none;
-        }
-        .quantity{
-          cursor: pointer;
-          width: 70px;
-          padding: 0.5rem;
-          border: none;
-        }
-        button{
-          cursor: pointer;
-          text-align: center;
-          padding: 0.75rem 2rem;
-          background-color: $yellow;
-          box-shadow: -3px 4px 5px $shadows;
-          font-size: 1.5rem;
-          color: rgba(0, 0, 0, 0.85);
-          border: none;
-        }
+         #plus-one-into-cart {
+           display: none;
+         }
+       }
+     }
+   }
+  .conditions{
+    text-align: center;
+    margin-top: 1rem;
+  }
+}
+
+
+@media (max-width: 762px) {
+  button {
+    #add-into-cart {
+      display: none;
+    }
+    #plus-one-into-cart {
+      display: block !important;
+    }
+  }
+}
+
+
+@media (max-width: 615px) {
+  .container {
+    .details-product {
+      gap: 3rem;
+      .img {
+        width: 180px !important;
+        height: 180px !important;
       }
 
     }
   }
 }
 
+@media (max-width: 580px) {
+  .container {
+    .infos {
+      .ref {
+        text-align: center !important;
+      }
+      .price-container{
+        justify-content: center;
+      }
+      .stock {
+        text-align: center;
+      }
+    }
+    h2 {
+      text-align: center;
+    }
+    .details-product {
+      gap: 2rem;
+      flex-direction: column;
+      align-content: center;
+      .img {
+        width: 180px !important;
+        height: 180px !important;
+      }
 
+    }
+  }
+}

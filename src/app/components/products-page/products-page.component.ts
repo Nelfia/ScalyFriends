@@ -75,6 +75,10 @@ export class ProductsPageComponent implements OnInit, OnDestroy{
       product: product
     }
   }
+
+  goBack(): void {
+    history.back();
+  }
 }
 
 
