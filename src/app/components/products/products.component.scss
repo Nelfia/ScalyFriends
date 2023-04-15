@@ -3,7 +3,6 @@
 .container {
   display: flex;
   padding: 2rem 2rem 0 2rem;
-  width: 80vw;
   max-width: 850px;
   margin: 0 auto;
 
@@ -75,8 +74,8 @@
         background-color: #FBCE2E;
         width: 50px;
         height: 50px;
-        top: -4.5rem;
-        left: -0.5rem;;
+        top: 0.5rem;
+        left: -0.5rem;
         span {
           position: absolute;
           top: -1.5rem;
@@ -97,8 +96,6 @@
 
 @media (max-width: 970px){
   .container {
-    width: 90vw !important;
-    padding: 0 2rem 0 0 !important;
     li{
       width: 170px;
       .img>img {
@@ -121,6 +118,15 @@
     }
     .show-product {
       display: none;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    .products-list{
+      justify-content: center !important;
+
     }
   }
 }

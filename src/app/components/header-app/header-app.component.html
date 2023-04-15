@@ -5,7 +5,7 @@
       <a routerLink="/">
         <img src="../../../assets/img/logo3.png" alt="logo scalyfriends"/>
       </a>
-      <p class="logo-name merienda">ScalyFriends</p>
+      <p class="logo-name merienda" *ngIf="windowSize > 420">ScalyFriends</p>
     </div>
     <div class="admin" *ngIf="isAdminIn | async">
       <button class="new-product-button" routerLink="/admin/edit-product">
@@ -15,11 +15,18 @@
 
 
     <div class="buttons">
-      <svg *ngIf="windowSize < 700" xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="currentColor" class="bi bi-person-fill account-button"
+      <a routerLink="/connexion" *ngIf="!isLoggedIn && windowSize < 700">
+        <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="currentColor" class="bi bi-person-fill account-button"
            viewBox="0 0 16 16">
-        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-      </svg>
-
+          <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+        </svg>
+      </a>
+      <a role="button" id="logout-sm" *ngIf="isLoggedIn && windowSize < 700" (click)="onLogout()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+          <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+        </svg>
+      </a>
       <button class="account-button" *ngIf="!isLoggedIn && windowSize > 700"><a routerLink="/connexion" id="account-link">
         Mon compte</a></button>
       <button class="account-button" *ngIf="isLoggedIn && windowSize > 700" (click)="onLogout()"> Déconnexion</button>
@@ -53,5 +60,5 @@
   </ul>
   <a class="iconLink" target="_blank" href="https://icons8.com">Icons8</a>
 
-  <!-- <p>Window width: {{windowSize}}</p> -->
+  <p>Window width: {{windowSize}}</p>
 </div>
