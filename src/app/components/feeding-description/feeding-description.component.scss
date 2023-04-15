@@ -1,13 +1,28 @@
 .container {
-  width: 50vw;
-  max-width: 850px;
+  margin-top: 1rem !important;
+  max-width: 750px;
 
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
   .description {
+    padding-left: 2rem;
+    margin-bottom: 2rem !important;
+
     button.display-text{
       cursor: pointer;
       font-style: italic;
       border: none;
       background-color: transparent;
+      color: #9b7036;
+    }
+  }
+  ul {
+    margin-top: 1rem !important;
+
+    li {
+      list-style-type: none;
     }
   }
 
@@ -15,5 +30,13 @@
     table-layout: fixed;
     width: 100%;
     text-align: left;
+  }
+}
+
+@media (max-width: 580px) {
+  .container {
+    .description {
+      padding-left: 1rem !important;
+    }
   }
 }

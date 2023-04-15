@@ -1,24 +1,34 @@
-
 .container {
-  max-width: 850px;
+  margin-top: 1rem !important;
+  max-width: 750px;
 
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
   .description {
-  width: 40vw;
-    ul {
-      margin-top: 0;
+    padding-left: 2rem;
+    margin-bottom: 2rem !important;
+  }
+  ul {
+    margin-top: 1rem !important;
 
-      li {
-        list-style-type: none;
-      }
+    li {
+      list-style-type: none;
     }
   }
+
   table {
     table-layout: fixed;
     width: 100%;
     text-align: left;
   }
-
-
-
 }
 
+@media (max-width: 580px) {
+  .container {
+    .description {
+      padding-left: 1rem !important;
+    }
+  }
+}

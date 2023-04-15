@@ -26,6 +26,7 @@ import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DescriptionTableSmComponent } from './components/description-table-sm/description-table-sm.component';
 
 registerLocaleData(localeFr);
 
@@ -46,7 +47,8 @@ registerLocaleData(localeFr);
     ConnexionPageComponent,
     EditProductComponent,
     AboutUsComponent,
-    ContactComponent
+    ContactComponent,
+    DescriptionTableSmComponent
   ],
   imports: [
     BrowserModule,

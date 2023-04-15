@@ -54,7 +54,7 @@
   }
   .infos {
      max-width: 650px;
-     width: fit-content;
+     width: 60%;
      .product-name {
        .icon {
          width: 32px;
@@ -122,6 +122,11 @@
   }
 }
 
+@media (max-width: 850px) {
+  .infos {
+    width: 50% !important;
+  }
+}
 
 @media (max-width: 615px) {
   .container {
@@ -137,6 +142,14 @@
 }
 
 @media (max-width: 580px) {
+  .infos {
+    width: 90% !important;
+  }
+  .back {
+    svg {
+      margin-left: 1rem !important;
+    }
+  }
   .container {
     .infos {
       .ref {
@@ -151,10 +164,11 @@
     }
     h2 {
       text-align: center;
+      padding-top: 0.5rem;
     }
     .details-product {
       gap: 2rem;
-      flex-direction: column;
+      flex-direction: column-reverse;
       align-content: center;
       .img {
         width: 180px !important;
