@@ -36,6 +36,7 @@ export class HeaderAppComponent implements OnInit {
   private isLogged!: boolean;
   private isAdmin$!: Observable<boolean>;
   public windowSize: number = window.innerWidth;
+  public isMenuVisible: boolean = false;
 
   constructor(public authService: AuthService, private commandeService: CommandsService, private router: Router) {
   }
@@ -53,6 +54,16 @@ export class HeaderAppComponent implements OnInit {
 
   get isAdminIn() {
     return this.isAdmin$;
+  }
+
+  toggleMenu() {
+    const displayedMenuElt = document.getElementById('displayedMenu');
+    if(displayedMenuElt)
+      if(!this.isMenuVisible)
+        displayedMenuElt.style.display = "block";
+      else
+        displayedMenuElt.style.display = 'none';
+      this.isMenuVisible = !this.isMenuVisible;
   }
 
   onLogout(): void {

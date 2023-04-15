@@ -1,4 +1,4 @@
-<div class="container">
+<div class="navbar-container">
 
   <header>
     <div class="logo">
@@ -7,21 +7,42 @@
       </a>
       <p class="logo-name merienda">ScalyFriends</p>
     </div>
-    <div class="admin">
-      <a class="iconLink" target="_blank" href="https://icons8.com">Icons8</a>
-      <button class="new-product-button" routerLink="/admin/edit-product" *ngIf="isAdminIn | async">
-        <img class="ico" src="/assets/img/icons/create.svg" alt="icone ajouter produit" />
+    <div class="admin" *ngIf="isAdminIn | async">
+      <button class="new-product-button" routerLink="/admin/edit-product">
+        <img class="ico" src="/assets/img/icons/create.svg" alt="icone ajouter produit"/>
       </button>
     </div>
+
+
     <div class="buttons">
-      <button class="account-button" *ngIf="!isLoggedIn" ><a routerLink="/connexion" id="account-link"> Mon compte</a></button>
-      <button class="account-button" *ngIf="isLoggedIn" (click)="onLogout()"> Déconnexion </button>
+      <svg *ngIf="windowSize < 700" xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="currentColor" class="bi bi-person-fill account-button"
+           viewBox="0 0 16 16">
+        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+      </svg>
+
+      <button class="account-button" *ngIf="!isLoggedIn && windowSize > 700"><a routerLink="/connexion" id="account-link">
+        Mon compte</a></button>
+      <button class="account-button" *ngIf="isLoggedIn && windowSize > 700" (click)="onLogout()"> Déconnexion</button>
       <!-- TODO: Ajouter l'affichage du nombre d'articles dans le panier + style -->
+
       <button class="cart-button" *ngIf="!(isAdminIn | async)">
         <a routerLink="/cart">
-          <img src="../../../assets/img/sac.png" alt="logo panier" />
+          <img src="../../../assets/img/sac.png" alt="logo panier"/>
         </a>
       </button>
+
+      <div class="dropdown" *ngIf="windowSize < 700">
+        <button class="btn toggle-menu" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="toggleMenu()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list"
+               viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                  d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </button>
+        <ul class="dropdown-menu" id="displayedMenu">
+          <li *ngFor="let item of menuItems"><a class="dropdown-item" [routerLink]="item.path" routerLinkActive="active-link">{{ item.label }}</a></li>
+        </ul>
+      </div>
     </div>
   </header>
 
@@ -30,6 +51,7 @@
       <a [routerLink]="item.path" routerLinkActive="active-link">{{ item.label }}</a>
     </li>
   </ul>
+  <a class="iconLink" target="_blank" href="https://icons8.com">Icons8</a>
 
-  <p>Window width: {{windowSize}}</p>
+  <!-- <p>Window width: {{windowSize}}</p> -->
 </div>

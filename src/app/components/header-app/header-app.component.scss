@@ -1,12 +1,13 @@
 @import "variables";
 
-.container{
+.navbar-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: 0;
 
   .iconLink {
+    height: 0;
     text-decoration: none;
     color: #fffffb;
     cursor: default;
@@ -38,6 +39,7 @@
         font-size: 2rem;
         color: #DB962E;
         text-shadow: -2px 2px 5px #c68039;
+        margin: 0;
       }
     }
 
@@ -50,11 +52,18 @@
         width: 32px;
       }
     }
+
     .buttons {
       display: flex;
       justify-content: flex-end;
       align-items: center;
       gap: 1.2rem;
+
+      .dropdown {
+        .btn {
+          margin: 0 !important;
+        }
+      }
 
       .account-button {
         cursor: pointer;
@@ -69,8 +78,7 @@
           text-decoration: none;
         }
       }
-      .account-button:hover {
-      }
+
       .cart-button {
         border: none;
         background-color: transparent;
@@ -80,13 +88,19 @@
           height: 50px;
         }
       }
+
+      .toggle-menu {
+        color: #D98A14;
+        margin-right: 2rem;
+        padding-left: .6rem;
+      }
     }
   }
   ul.menu {
     display: flex;
     justify-content: space-around;
     list-style-type: none;
-    padding-top: 1rem;
+    padding-top: 1.5rem;
     padding-left: 0;
 
     li {
@@ -143,6 +157,7 @@
   header {
     justify-content: space-between !important;
     padding: 0 .2rem !important;
+
   }
   .buttons{
     gap: unset !important;
@@ -150,7 +165,7 @@
 }
 
 @media (max-width: 700px) {
-  .container {
+  .navbar-container {
     header {
       height: 75px;
       .logo{
@@ -165,6 +180,28 @@
     }
     ul.menu {
       padding-top: 0;
+    }
+    .account-button {
+      background-color: unset !important;
+      color: #D98A14 !important;
+    }
+    #displayedMenu{
+      right: 0 !important;
+    }
+    .cart-button {
+      color: #DB962E !important;
+      padding: 0;
+
+      a {
+        padding: 0.4rem 0.4rem !important;
+      }
+
+      img {
+        padding: 0;
+        margin: 0.4rem 0;
+        width: 35px !important;
+        height: 35px !important;
+      }
     }
   }
 }

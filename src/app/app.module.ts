@@ -25,6 +25,7 @@ import {ImageUploadModule} from "./shared/image-upload/image-upload.module";
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 registerLocaleData(localeFr);
 
@@ -55,7 +56,8 @@ registerLocaleData(localeFr);
     FormsModule,
     ReactiveFormsModule,
     ImageUploadModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    NgbModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' },
