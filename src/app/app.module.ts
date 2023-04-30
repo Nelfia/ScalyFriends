@@ -10,9 +10,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import {ProductsPageComponent} from './components/products-page/products-page.component';
-import {AnimalDescriptionComponent} from './components/animal-description/animal-description.component';
-import {MaterialDescriptionComponent} from './components/material-description/material-description.component';
-import {FeedingDescriptionComponent} from './components/feeding-description/feeding-description.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginComponent} from './components/login/login.component';
 import {CartComponent} from './components/cart/cart.component';
@@ -37,9 +34,6 @@ registerLocaleData(localeFr);
     HeaderAppComponent,
     ProductsComponent,
     ProductsPageComponent,
-    AnimalDescriptionComponent,
-    MaterialDescriptionComponent,
-    FeedingDescriptionComponent,
     LoginComponent,
     CartComponent,
     CartLineComponent,

@@ -3,35 +3,33 @@
     <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
   </svg>
 </button>
+
 <div class="container" *ngIf="product$ | async as product">
-  <div class="details-product">
-    <div class="img">
-      <img [src]="apiBaseUrl + product.img" alt="image du produit">
-    </div>
-    <div class="infos">
-      <div class="product-name">
-        <h2 class="merienda">{{ product.name | titlecase }}</h2>
-        <!-- <img src="assets/img/icons/update.svg" alt="icône modifier" class="icon" routerLink="/admin/edit-product"> -->
-        <img src="assets/img/icons/delete.svg" alt="icône supprimer" class="icon" (click)="onDeleteProduct(product)" *ngIf="isAdminIn | async">
+  <div class="product-container">
+    <div class="details-product">
+      <div class="img">
+        <img [src]="apiBaseUrl + product.img" alt="image du produit">
       </div>
-      <p class="ref"><small>{{ product.ref | uppercase }}</small></p>
-      <form class="price-container" (ngSubmit)="onSubmitForm(product)">
-        <div class="price">{{ product.price | currency: 'EUR'}}</div>
-        <input [max]="product.stock" class="price quantity" [(ngModel)]="quantity" type="number" min="1" name="quantity"/>
-        <button type="submit" *ngIf="!(isAdminIn | async)" title="Ajouter au panier">
-          <span id="add-into-cart">Ajoutez-le à votre panier</span>
-          <span id="plus-one-into-cart">+</span>
-        </button>
-      </form>
-      <div class="stock"><small>{{ product.stock <= 10 ? "Plus que " : "" }}{{ product.stock }} en stock</small></div>
+      <div class="infos">
+        <div class="product-name">
+          <h2 class="merienda">{{ product.name | titlecase }}</h2>
+        </div>
+        <p class="ref"><small>{{ product.ref | uppercase }}</small></p>
+        <form class="price-container" (ngSubmit)="onSubmitForm(product)">
+          <div class="price">{{ product.price | currency: 'EUR'}}</div>
+          <input [max]="product.stock" class="price quantity" [(ngModel)]="quantity" type="number" min="1" name="quantity"/>
+          <button type="submit" *ngIf="!(isAdminIn | async)" title="Ajouter au panier">
+            <span id="add-into-cart">Ajoutez-le à votre panier</span>
+            <span id="plus-one-into-cart">+</span>
+          </button>
+        </form>
+        <div class="stock"><small>{{ product.stock <= 10 ? "Plus que " : "" }}{{ product.stock }} en stock</small></div>
+      </div>
+    </div>
+    <div class="description">
+      <app-description-table-sm [product]="product"></app-description-table-sm>
     </div>
   </div>
-  <div class="description">
-    <app-material-description [product]="product" *ngIf="product.category === 'material'"></app-material-description>
-    <app-animal-description [product]="product" *ngIf="product.category === 'animal'"></app-animal-description>
-    <app-feeding-description [product]="product" *ngIf="product.category === 'feeding'"></app-feeding-description>
-  </div>
-  <div class="description">
-    <app-description-table-sm [product]="product"></app-description-table-sm>
-  </div>
+  <img src="assets/img/icons/delete.svg" alt="icône supprimer" class="icon" (click)="onDeleteProduct(product)" *ngIf="isAdminIn | async">
+  <!-- <img src="assets/img/icons/update.svg" alt="icône modifier" class="icon" routerLink="/admin/edit-product"> -->
 </div>

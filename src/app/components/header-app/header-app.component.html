@@ -57,5 +57,13 @@
       <a [routerLink]="item.path" routerLinkActive="active-link">{{ item.label }}</a>
     </li>
   </ul>
+  <!-- TODO: faire les links pour le breadcrum + style -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#">Home</a></li>
+      <li class="breadcrumb-item"><a href="#">Library</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Data</li>
+    </ol>
+  </nav>
   <a class="iconLink" target="_blank" href="https://icons8.com" hidden="hidden">Icons8</a>
 </div>

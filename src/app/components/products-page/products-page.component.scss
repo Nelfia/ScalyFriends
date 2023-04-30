@@ -12,10 +12,14 @@
 
 .container {
   display: flex;
-  justify-content: center;
+  align-items: flex-start;
   max-width: 850px;
   margin: 0 auto;
-  flex-direction: column;
+
+  .icon {
+    width: 32px;
+    cursor: pointer;
+  }
 
   .details-product {
     display: flex;
@@ -56,10 +60,6 @@
      max-width: 650px;
      width: 60%;
      .product-name {
-       .icon {
-         width: 32px;
-         cursor: pointer;
-       }
        h2 {
          margin-bottom: 0;
        }

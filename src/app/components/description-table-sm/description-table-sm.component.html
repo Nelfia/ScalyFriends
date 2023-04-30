@@ -1,3 +1,24 @@
-<div *ngFor="let field of productFields | keyvalue:onCompare">
-  Key: {{field.key}} and Value: {{field.value}}
+<div class="container">
+  <h3>Description</h3>
+  <p class="description">
+    <button class="display-text" *ngIf="isTooLongText && !isTextTruncated" (click)="displayText()">
+      <small>Résumer</small>
+    </button><br *ngIf="isTooLongText && !isTextTruncated" />
+    {{ isTooLongText ? textDescription : product.description }}
+    <button class="display-text" *ngIf="isTextTruncated" (click)="displayText()">
+      <small>Tout lire</small>
+    </button></p>
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let field of productFields | keyvalue:onCompare">{{field.key | titlecase}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td *ngFor="let field of productFields | keyvalue:onCompare">{{ field.value }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+

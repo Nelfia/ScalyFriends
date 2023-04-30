@@ -9,11 +9,28 @@ import {KeyValue} from "@angular/common";
 })
 export class DescriptionTableSmComponent implements OnInit {
   @Input() product!: ProductInterface;
+  textDescription!: string | undefined;
+  private productDescription!: string;
+  isTextTruncated: boolean = false;
+  isTooLongText: boolean = false;
   public productFields!: any;
+
   constructor() { }
 
   ngOnInit(): void {
     this.productFields = this.getFields();
+    this.productDescription = this.product.description ?? '';
+    if (this.productDescription?.length > 200) {
+      this.isTooLongText = true;
+      this.textDescription = this.productDescription?.slice(0, 200) + '...';
+      this.isTextTruncated = true;
+    }
+  }
+
+  displayText(): void {
+    this.textDescription = this.isTextTruncated ? this.productDescription : this.productDescription?.slice(0, 200) + '...';
+    console.log(this.isTextTruncated)
+    this.isTextTruncated = !this.isTextTruncated;
   }
 
   getFields(): any {
