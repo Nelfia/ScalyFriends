@@ -7,12 +7,11 @@
       </a>
       <p class="logo-name merienda" *ngIf="windowSize > 420">ScalyFriends</p>
     </div>
-    <div class="admin" *ngIf="isAdminIn | async">
+    <div class="admin" *ngIf="isAdminIn">
       <button class="new-product-button" routerLink="/admin/edit-product">
         <img class="ico" src="/assets/img/icons/create.svg" alt="icone ajouter produit"/>
       </button>
     </div>
-
 
     <div class="buttons">
       <a id="login-sm" routerLink="/connexion" *ngIf="!isLoggedIn && windowSize < 700">
@@ -32,7 +31,7 @@
       <button class="account-button" *ngIf="isLoggedIn && windowSize > 700" (click)="onLogout()"> Déconnexion</button>
       <!-- TODO: Ajouter l'affichage du nombre d'articles dans le panier + style -->
 
-      <button class="cart-button" *ngIf="!(isAdminIn | async)">
+      <button class="cart-button" *ngIf="!(isAdminIn)">
         <a routerLink="/cart">
           <img src="../../../assets/img/sac.png" alt="logo panier"/>
         </a>

@@ -2,7 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {API_BASE_URL} from "../../constants/constants";
 import {Router} from "@angular/router";
-import {BehaviorSubject, Observable, shareReplay, take, tap} from "rxjs";
+import {BehaviorSubject, map, Observable, shareReplay, take, tap} from "rxjs";
 import {UserInterface} from "../../interfaces/user.interface";
 import {CommandsService} from "../commands/commands.service";
 
@@ -18,13 +18,13 @@ export class AuthService implements OnInit{
   });
 
   public isLogged$ = new BehaviorSubject<boolean>(this.isLoggedIn());
-
-  private isAdminSubject$ = new BehaviorSubject<boolean>(false);
-  public isAdmin$ : Observable<boolean> = this.isAdminSubject$.asObservable();
+  public isAdmin$ = new BehaviorSubject<boolean>(this.isAdmin());
   private role!: string;
-
   private loggedUser! : UserInterface | null ;
-  constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) { }
+
+  constructor(private http: HttpClient, private router: Router, private commandeService: CommandsService) {
+
+  }
 
   ngOnInit() {
     this.isAdmin$.subscribe(isAdmin => this.role = isAdmin ? "ROLE_ADMIN" : "ROLE_USER")
@@ -65,7 +65,7 @@ export class AuthService implements OnInit{
     this.role = JSON.parse(res.role)[0];
     console.log(this.role)
     if((JSON.parse(res.role)[0]) === "ROLE_ADMIN")
-      this.isAdminSubject$.next(true);
+      this.isAdmin$.next(true);
     this.getLoggedUser();
   }
 
@@ -82,7 +82,7 @@ export class AuthService implements OnInit{
    *   - supprime toutes les données de l'utilisateur du LS
    *   - le délogue en back
    */
-  logout() {
+  logout(): void {
     this.http.delete(API_BASE_URL + "users/logout", {headers: this.headers});
     this.loggedUser = null;
     this.commandeService.idCart = null;
@@ -90,8 +90,19 @@ export class AuthService implements OnInit{
     localStorage.removeItem("expires_at");
     localStorage.removeItem("user");
     localStorage.removeItem("id_cart");
-    this.isAdminSubject$.next(false);
+    this.isAdmin$.next(false);
     this.isLogged$.next(false);
+  }
+
+  checkAdminStatus(): void {
+    this.http.post<string[]>(API_BASE_URL + ('api/users/isAdmin'), {}, {headers: this.headers}).pipe(
+      take(1),
+      shareReplay(1)
+    ).subscribe(roles => {
+      this.role = roles[0];
+      this.isAdmin$.next(this.isAdmin());
+      console.log(roles[0]);
+    })
   }
 
   /**
@@ -114,7 +125,7 @@ export class AuthService implements OnInit{
   /**
    * Récupère la date d'expiration dans le LS.
    */
-  getExpiration() {
+  getExpiration(): string|null {
     return localStorage.getItem("expires_at");
   }
 

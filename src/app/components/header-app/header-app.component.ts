@@ -34,7 +34,7 @@ export class HeaderAppComponent implements OnInit {
   ]
 
   private isLogged!: boolean;
-  private isAdmin$!: Observable<boolean>;
+  private isAdmin!: boolean;
   public windowSize: number = window.innerWidth;
   public isMenuVisible: boolean = false;
 
@@ -42,8 +42,9 @@ export class HeaderAppComponent implements OnInit {
   }
   ngOnInit(): void {
     this.authService.isLogged$.subscribe(isLogged => this.isLogged = isLogged);
-    this.isAdmin$ = this.authService.isAdmin$;
-    window.addEventListener('resize',(event) => {
+    this.authService.checkAdminStatus();
+    this.authService.isAdmin$.subscribe(isAdmin => this.isAdmin = isAdmin);
+    window.addEventListener('resize',() => {
       this.windowSize = window.innerWidth;
     })
   }
@@ -53,7 +54,7 @@ export class HeaderAppComponent implements OnInit {
   }
 
   get isAdminIn() {
-    return this.isAdmin$;
+    return this.isAdmin;
   }
 
   toggleMenu() {
@@ -71,5 +72,4 @@ export class HeaderAppComponent implements OnInit {
     this.commandeService.cart$.next(this.commandeService.getLsCart());
     this.router.navigateByUrl('/connexion');
   }
-
 }

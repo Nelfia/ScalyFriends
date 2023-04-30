@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ProductInterface} from "../../shared/interfaces/product.interface";
-import {Key} from "@ng-bootstrap/ng-bootstrap/util/key";
 import {KeyValue} from "@angular/common";
 
 @Component({
@@ -25,7 +24,7 @@ export class DescriptionTableSmComponent implements OnInit {
           type: this.product.type,
           "espèce": this.product.species,
           race: this.product.race,
-          sexe: this.product.gender === "M" ? "Mâle" :"Femelle",
+          sexe: this.product.gender === "M" ? "Mâle" : "Femelle",
           naissance: this.product.birth,
           "taille adulte": `${this.product.dimensionsMax} ${this.product.dimensionsUnit}`
         }
